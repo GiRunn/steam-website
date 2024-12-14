@@ -1,0 +1,1 @@
+SELECT * FROM review_system.review_summary;

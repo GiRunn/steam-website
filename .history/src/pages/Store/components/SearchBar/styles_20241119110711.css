@@ -1,0 +1,105 @@
+/* src/pages/store/components/SearchBar/SearchBar.module.css */
+
+.searchBarContainer {
+  @apply relative flex items-center w-full max-w-[400px] bg-[#0a0f16];
+}
+
+.searchInputWrapper {
+  @apply relative flex items-center w-full;
+}
+
+.searchIcon {
+  @apply pointer-events-none;
+}
+
+.searchIconButton {
+  @apply absolute left-3 
+    w-6 h-6 
+    flex items-center justify-center 
+    text-gray-400 
+    hover:text-gray-300 
+    transition-colors duration-200;
+}
+
+.searchInput {
+  @apply w-full h-10 
+    pl-10 pr-8 
+    bg-[#1a1f2e] 
+    border border-[#2a3441]
+    rounded-lg
+    text-sm text-white
+    placeholder:text-gray-400
+    focus:outline-none 
+    focus:border-blue-500 
+    focus:ring-1 
+    focus:ring-blue-500/50
+    transition-all duration-200;
+}
+
+.clearButton {
+  @apply absolute right-2 
+    p-1.5 
+    text-gray-400 
+    hover:text-gray-300
+    rounded-full 
+    hover:bg-[#2a3441]/50
+    transition-all duration-200;
+}
+
+.searchHistory {
+  @apply absolute top-full left-0 
+    w-full mt-2 
+    bg-[#1a1f2e] 
+    border border-[#2a3441]
+    rounded-lg
+    shadow-lg
+    shadow-black/20
+    overflow-hidden
+    z-50;
+}
+
+.historyHeader {
+  @apply flex items-center justify-between 
+    px-4 py-2 
+    border-b border-[#2a3441];
+}
+
+.historyTitle {
+  @apply text-sm text-gray-400;
+}
+
+.clearHistory {
+  @apply text-xs text-gray-400 
+    hover:text-gray-300 
+    cursor-pointer;
+}
+
+.historyItem {
+  @apply flex items-center gap-3 
+    w-full px-4 py-2.5
+    text-sm text-gray-300
+    hover:bg-[#2a3441]
+    cursor-pointer
+    transition-colors duration-200;
+}
+
+.historyIcon {
+  @apply text-gray-400;
+}
+
+/* Dark mode styles */
+:global(.dark) .searchInput {
+  @apply bg-[#1a1f2e] border-[#2a3441];
+}
+
+:global(.dark) .searchHistory {
+  @apply bg-[#1a1f2e] border-[#2a3441];
+}
+
+:global(.dark) .historyHeader {
+  @apply border-[#2a3441];
+}
+
+:global(.dark) .historyItem:hover {
+  @apply bg-[#2a3441];
+}

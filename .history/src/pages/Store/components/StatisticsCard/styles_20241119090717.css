@@ -1,0 +1,61 @@
+.stats-grid {
+  @apply grid grid-cols-4 mt-4 mb-8;
+  margin-left: calc(1.5rem - 1px);
+  margin-right: calc(1.5rem - 1px);
+  gap: 1.25rem; /* 或者使用 Tailwind 的 gap-5 */
+}
+.stat-card {
+  @apply bg-[#151c28] rounded-xl overflow-hidden 
+    transition-all duration-300
+    hover:bg-[#1a2435];
+}
+
+.stat-content {
+  @apply flex items-center justify-between p-4;
+}
+
+.icon-container {
+  @apply p-2 rounded-lg bg-[#1e2738];
+}
+
+.stat-icon {
+  @apply w-5 h-5 text-blue-400;
+}
+
+.stat-info {
+  @apply ml-3;
+}
+
+.stat-label {
+  @apply text-sm text-gray-400;
+}
+
+.stat-value {
+  @apply text-lg font-semibold text-white;
+}
+
+.stat-change {
+  @apply text-sm font-medium px-2 py-1 rounded-full;
+}
+
+.stat-change.positive {
+  @apply text-green-400;
+}
+
+.stat-change.negative {
+  @apply text-red-400;
+}
+
+@media (max-width: 1024px) {
+  .stats-grid {
+    @apply grid-cols-2;
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    @apply grid-cols-1;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}

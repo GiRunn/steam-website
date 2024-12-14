@@ -1,0 +1,198 @@
+/* src/pages/store/components/SearchBar/styles.css */
+
+/* 主容器布局 */
+.search-bar-outer-container {
+  @apply relative flex flex-col sm:flex-row gap-4 w-full mb-6;
+  z-index: 10;
+}
+
+/* 搜索区域容器 */
+.search-bar-container {
+  @apply relative w-full sm:max-w-xl;
+  z-index: 30;
+}
+
+/* 搜索输入框包装器 */
+.search-input-wrapper {
+  @apply relative w-full flex items-center;
+}
+
+/* 搜索图标按钮 */
+.search-icon-button {
+  @apply absolute left-3 
+    flex items-center justify-center 
+    text-gray-400 
+    hover:text-blue-500 
+    transition-colors;
+}
+
+.search-icon {
+  @apply w-4 h-4;
+}
+
+/* 搜索输入框 */
+.search-input {
+  @apply w-full h-10 
+    pl-10 pr-10
+    bg-[#1a1f2e] 
+    border border-[#2a3441]
+    rounded-lg
+    text-sm text-white
+    placeholder:text-gray-400
+    focus:outline-none 
+    focus:ring-1
+    focus:border-blue-500 
+    focus:ring-blue-500/50
+    transition-colors;
+}
+
+/* 清除按钮 */
+.clear-button {
+  @apply absolute right-3
+    p-1
+    text-gray-400 
+    hover:text-gray-300
+    rounded-full 
+    hover:bg-[#2a3441]
+    transition-colors;
+}
+
+/* 搜索历史下拉框 */
+.search-history {
+  @apply absolute top-[calc(100%+0.5rem)] left-0
+    w-full
+    bg-[#1a1f2e] 
+    border border-[#2a3441]
+    rounded-lg
+    shadow-lg;
+  z-index: 40;
+}
+
+/* 历史记录头部 */
+.history-header {
+  @apply flex items-center justify-between
+    px-4 py-2
+    border-b border-[#2a3441];
+}
+
+.history-title {
+  @apply flex items-center gap-2
+    text-sm text-gray-400;
+}
+
+.history-title-icon {
+  @apply w-4 h-4;
+}
+
+.clear-history {
+  @apply px-2 py-1
+    text-xs text-gray-400
+    hover:text-gray-300
+    rounded
+    hover:bg-[#2a3441]
+    transition-colors;
+}
+
+/* 历史记录项 */
+.history-item {
+  @apply flex items-center gap-3
+    w-full px-4 py-2
+    text-sm text-gray-300
+    hover:bg-[#2a3441]
+    transition-colors;
+}
+
+.history-icon {
+  @apply w-4 h-4 text-gray-400;
+}
+
+.history-term {
+  @apply truncate;
+}
+
+/* 操作区域 */
+.search-actions {
+  @apply relative flex items-center gap-3 sm:ml-auto;
+  z-index: 20;
+}
+
+/* 排序选择器容器 */
+.sort-select-container {
+  @apply relative;
+  z-index: 50;
+}
+
+/* 选择器包装器 */
+.sort-select-wrapper {
+  @apply relative inline-block w-[160px];
+}
+
+/* 排序图标 */
+.sort-select-icon {
+  @apply absolute left-3 top-1/2 -translate-y-1/2
+    w-4 h-4
+    text-gray-400
+    pointer-events-none;
+}
+
+/* 选择器本身 */
+.sort-select {
+  @apply w-full h-10
+    pl-9 pr-8
+    bg-[#1a1f2e] 
+    border border-[#2a3441]
+    rounded-lg
+    text-sm text-gray-300
+    appearance-none
+    cursor-pointer
+    focus:outline-none 
+    focus:ring-1
+    focus:border-blue-500 
+    focus:ring-blue-500/50
+    transition-all duration-200;
+  
+  /* 自定义下拉箭头 */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.25em 1.25em;
+}
+
+/* 选择器悬停状态 */
+.sort-select:hover {
+  @apply bg-[#2a3441]
+    border-[#3a4451]
+    text-white;
+}
+
+/* 选择器选项样式 */
+.sort-select option {
+  @apply bg-[#1a1f2e] 
+    text-gray-300
+    py-2
+    px-4;
+  min-height: 2rem;
+  line-height: 2rem;
+}
+
+/* 清除筛选按钮 */
+.clear-filters-button {
+  @apply h-10 px-4
+    flex items-center justify-center gap-2
+    min-w-[120px]
+    bg-[#1a1f2e] 
+    border border-[#2a3441]
+    rounded-lg
+    text-sm text-gray-300
+    hover:text-white hover:bg-[#2a3441]
+    transition-colors;
+}
+
+/* 响应式处理 */
+@media (max-width: 640px) {
+  .search-bar-outer-container {
+    @apply flex-col gap-4;
+  }
+
+  .search-actions {
+    @apply flex-

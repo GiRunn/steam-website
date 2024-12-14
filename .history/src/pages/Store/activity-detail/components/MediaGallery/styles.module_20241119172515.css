@@ -1,0 +1,52 @@
+/* src/pages/store/activity-detail/components/MediaGallery/styles.module.css */
+.imageContainer {
+    position: relative;
+    aspect-ratio: 16/9;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .imageContainer:hover {
+    transform: scale(1.02);
+  }
+  
+  .imageContainer:hover .imageOverlay {
+    opacity: 1;
+  }
+  
+  .imageOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 2rem;
+  }
+  
+  .modalContent {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    background: transparent;
+  }
+  
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }

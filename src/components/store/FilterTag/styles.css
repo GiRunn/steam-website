@@ -1,0 +1,37 @@
+.filter-tag {
+    @apply px-3 py-1.5 rounded-full text-sm flex items-center gap-2 
+      transition-all duration-300;
+  }
+  
+  .filter-tag:not(.active) {
+    @apply text-gray-300 bg-[#2a475e]/50 hover:bg-[#2a475e] hover:text-white;
+  }
+  
+  .filter-tag.active {
+    @apply bg-blue-500 text-white;
+  }
+  
+  .tag-label {
+    @apply truncate;
+  }
+  
+  .remove-icon {
+    @apply w-4 h-4;
+  }
+  
+  /* 动画效果 */
+  .filter-tag {
+    @apply transform transition-transform duration-300;
+  }
+  
+  .filter-tag:hover {
+    @apply -translate-y-0.5;
+  }
+  
+  .remove-icon {
+    @apply transition-transform duration-300;
+  }
+  
+  .filter-tag:hover .remove-icon {
+    @apply rotate-90;
+  }

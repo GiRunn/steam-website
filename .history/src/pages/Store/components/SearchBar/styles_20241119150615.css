@@ -1,0 +1,227 @@
+/* 主容器样式 */
+.search-bar-outer-container {
+  @apply flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full mb-6;
+}
+
+/* 搜索栏容器 */
+.search-bar-container {
+  @apply relative flex items-center w-full max-w-[500px] bg-transparent;
+}
+
+/* 搜索输入包装器 */
+.search-input-wrapper {
+  @apply relative flex items-center w-full rounded-xl overflow-hidden
+    shadow-[0_0_15px_rgba(0,0,0,0.1)] 
+    transition-shadow duration-300
+    hover:shadow-[0_0_20px_rgba(0,0,0,0.15)];
+}
+
+/* 搜索图标 */
+.search-icon {
+  @apply w-4 h-4 text-gray-400;
+}
+
+/* 搜索按钮 */
+.search-icon-button {
+  @apply absolute left-4 
+    w-6 h-6 
+    flex items-center justify-center 
+    text-gray-400
+    hover:text-blue-500
+    transition-all duration-200 ease-in-out;
+}
+
+/* 搜索输入框 */
+.search-input {
+  @apply w-full h-12
+    pl-12 pr-10
+    bg-[#1a1f2e]
+    border border-[#2a3441]
+    rounded-xl
+    text-base text-white
+    placeholder:text-gray-400
+    focus:outline-none 
+    focus:border-blue-500
+    focus:ring-2
+    focus:ring-blue-500/20
+    transition-all duration-300
+    shadow-inner;
+}
+
+/* 清除按钮 */
+.clear-button {
+  @apply absolute right-3
+    p-1.5
+    text-gray-400
+    hover:text-gray-200
+    rounded-full
+    hover:bg-[#2a3441]/70
+    transition-all duration-200
+    backdrop-blur-sm;
+}
+
+/* 搜索历史下拉框 */
+.search-history {
+  @apply absolute top-full left-0
+    w-full mt-2
+    bg-[#1a1f2e]/95
+    backdrop-blur-md
+    border border-[#2a3441]
+    rounded-xl
+    shadow-xl
+    shadow-black/30
+    overflow-hidden
+    z-50;
+}
+
+/* 历史记录头部 */
+.history-header {
+  @apply flex items-center justify-between
+    px-4 py-3
+    border-b border-[#2a3441]
+    bg-[#1a1f2e]/50;
+}
+
+/* 历史记录标题 */
+.history-title {
+  @apply flex items-center gap-2 
+    text-sm font-medium text-gray-300;
+}
+
+.history-title-icon {
+  @apply text-gray-400;
+}
+
+/* 清除历史按钮 */
+.clear-history {
+  @apply text-xs text-gray-400
+    hover:text-gray-200
+    px-2 py-1
+    rounded-md
+    hover:bg-[#2a3441]/50
+    transition-all duration-200;
+}
+
+/* 历史记录项 */
+.history-item {
+  @apply flex items-center gap-3
+    w-full px-4 py-3
+    text-sm text-gray-300
+    hover:bg-[#2a3441]/70
+    cursor-pointer
+    transition-all duration-200;
+}
+
+.history-icon {
+  @apply text-gray-400;
+}
+
+.history-term {
+  @apply text-gray-300 truncate;
+}
+
+/* 搜索操作区 */
+.search-actions {
+  @apply flex items-center gap-4 w-full sm:w-auto;
+}
+
+/* 排序选择器 */
+.sort-select {
+  @apply h-12 px-4 pr-12
+    bg-[#1a1f2e]
+    border border-[#2a3441]
+    rounded-xl
+    text-sm text-gray-300
+    cursor-pointer
+    appearance-none
+    focus:outline-none
+    focus:border-blue-500
+    focus:ring-2
+    focus:ring-blue-500/20
+    transition-all duration-200
+    min-w-[160px];
+
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+}
+
+.sort-select:hover {
+  @apply border-[#3a4555] bg-[#2a3441];
+}
+
+/* 清除筛选按钮 */
+.clear-filters-button {
+  @apply h-12 px-6
+    flex items-center gap-2
+    bg-[#1a1f2e]
+    border border-[#2a3441]
+    rounded-xl
+    text-sm text-gray-300
+    hover:text-white
+    hover:border-[#3a4555]
+    hover:bg-[#2a3441]
+    transition-all duration-300
+    shadow-sm hover:shadow-md;
+}
+
+/* 暗色模式覆盖 */
+.dark .search-input,
+.dark .search-history,
+.dark .sort-select,
+.dark .clear-filters-button {
+  @apply bg-[#1a1f2e]/95 border-[#2a3441];
+}
+
+.dark .history-header {
+  @apply border-[#2a3441] bg-[#151a25];
+}
+
+.dark .history-item:hover {
+  @apply bg-[#2a3441]/70 backdrop-blur-sm;
+}
+
+/* 动画工具类 */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* 响应式调整 */
+@media (max-width: 640px) {
+  .search-bar-outer-container {
+    @apply gap-3;
+  }
+  
+  .search-actions {
+    @apply flex-col gap-3 w-full;
+  }
+  
+  .sort-select,
+  .clear-filters-button {
+    @apply w-full;
+  }
+}
+
+/* 焦点状态增强 */
+.search-input:focus,
+.sort-select:focus,
+.clear-filters-button:focus {
+  @apply ring-offset-1 ring-offset-[#1a1f2e];
+}
+
+/* 悬浮效果增强 */
+.search-input:hover,
+.sort-select:hover,
+.clear-filters-button:hover {
+  @apply shadow-lg shadow-black/10;
+}

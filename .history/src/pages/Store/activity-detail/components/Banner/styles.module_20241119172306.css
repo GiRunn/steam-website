@@ -1,0 +1,21 @@
+/* src/pages/store/activity-detail/components/Banner/styles.module.css */
+.banner {
+    margin-bottom: 2rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .banner img {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .banner:hover img {
+    transform: scale(1.05);
+  }
+  
+  @media (max-width: 768px) {
+    .banner {
+      margin-bottom: 1rem;
+    }
+  }

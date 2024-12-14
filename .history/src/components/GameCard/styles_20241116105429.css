@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-steam-dark: #171A21;
+    --color-steam-darker: #1B2838;
+    --color-steam-blue: #66c0f4;
+    --color-steam-blue-dark: #316282;
+    --color-steam-text: #8ba5be;
+  }
+
+  body {
+    @apply bg-[var(--color-steam-dark)] text-white antialiased;
+  }
+}
+
+@layer components {
+  /* 游戏卡片基础样式 */
+  .game-card {
+    @apply relative bg-[var(--color-steam-darker)] rounded-lg overflow-hidden 
+           transform transition-all duration-500 
+           hover:shadow-[0_0_30px_rgba(102,192,244,0.15)] 
+           hover:scale-[1.02] hover:z-10;
+  }
+  
+  /* 卡片图片容器 */
+  .card-image-container {
+    @apply relative aspect-[16/9] overflow-hidden bg-[var(--color-steam-darker)];
+  }
+  
+  /* 卡片图片 */
+  .card-image {
+    @apply w-full h-full object-cover transition-all duration-500
+           opacity-0; /* 默认隐藏，等待加载 */
+  }
+  
+  .card-image.loaded {
+    @apply opacity-100;
+  }
+  
+  .card-image.hovered {
+    @apply scale-110 brightness-[0.3] blur-[2px];
+  }
+  
+  /* 加载占位 */
+  .image-placeholder {
+    @apply absolute inset-0 bg-[var(--color-steam-blue-dark)] animate-pulse;
+  }
+  
+  .image-placeholder::after {
+    @apply content-[''] absolute inset-0 
+           bg-gradient-to-r from-transparent via-white/5 to-transparent
+           animate-shimmer;
+  }
+  
+  /* 标签样式 */
+  .tag-base {
+    @apply absolute top-4 px-3 py-1.5 rounded-lg font-medium
+           transition-all duration-300 backdrop-blur-sm;
+  }
+  
+  .discount-tag {
+    @apply tag-base right-4 bg-green-500 text-white 
+           hover:scale-105 hover:shadow-lg hover:shadow-green-500/20;
+  }
+  
+  .rating-tag {
+    @apply tag-base left-4 bg-black/50 flex items-center gap-1.5
+           hover:bg-black/60;
+  }
+  
+  /* 悬浮内容 */
+  .hover-overlay {
+    @apply absolute inset-0 opacity-0 group-hover:opacity-100
+           bg-gradient-to-t from-[var(--color-steam-darker)] to-transparent 
+           flex flex-col justify-end p-6 transition-opacity duration-300;
+  }
+  
+  /* 游戏信息区 */
+  .game-info {
+    @apply p-6 space-y-4 border-t border-[var(--color-steam-blue-dark)]/20;
+  }
+  
+  /* 价格标签 */
+  .price-tag {
+    @apply text-2xl font-bold text-[var(--color-steam-blue)]
+           transition-all duration-300 group-hover:scale-105;
+  }
+  
+  /* 按钮样式 */
+  .steam-button {
+    @apply relative overflow-hidden rounded-lg font-medium
+           transition-all duration-300 active:scale-95;
+  }
+  
+  .buy-button {
+    @apply steam-button w-full py-3 text-lg
+           bg-gradient-to-r from-[var(--color-steam-blue)] to-[var(--color-steam-blue-dark)]
+           hover:from-[var(--color-steam-blue-dark)] hover:to-[var(--color-steam-blue)]
+           shadow-lg shadow-[var(--color-steam-blue)]/10
+           hover:shadow-[var(--color-steam-blue)]/20;
+  }
+
+  /* 游戏标签 */
+  .game-tag {
+    @apply px-2.5 py-1 text-sm font-medium rounded-md
+           bg-[var(--color-steam-blue-dark)]/20 text-[var(--color-steam-text)]
+           transition-all duration-300 hover:bg-[var(--color-steam-blue-dark)]/40;
+  }
+  
+  /* 搜索框 */
+  .search-input {
+    @apply w-full px-4 py-2 bg-[var(--color-steam-blue-dark)]/20
+           rounded-lg border border-transparent
+           focus:border-[var(--color-steam-blue)]/50
+           text-white placeholder-[var(--color-steam-text)]
+           transition-all duration-300;
+  }
+}
+
+@layer utilities {
+  /* 自定义模糊效果 */
+  .backdrop-blur-steam {
+    backdrop-filter: blur(8px);
+  }
+  
+  /* 渐变文本 */
+  .text-gradient {
+    @apply bg-gradient-to-r from-[var(--color-steam-blue)] to-[var(--color-steam-text)]
+           bg-clip-text text-transparent;
+  }
+  
+  /* 发光效果 */
+  .glow {
+    @apply relative;
+  }
+  
+  .glow::after {
+    @apply content-[''] absolute inset-0 
+           rounded-lg opacity-0 transition-opacity duration-300
+           bg-[var(--color-steam-blue)]/10 blur-lg;
+  }
+  
+  .glow:hover::after {
+    @apply opacity-100;
+  }
+}
+
+/* 动画 */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s infinite linear;
+}
+
+/* 滚动条样式 */
+.showcase-grid {
+  @apply scrollbar-thin scrollbar-track-[var(--color-steam-darker)]
+         scrollbar-thumb-[var(--color-steam-blue-dark)]
+         hover:scrollbar-thumb-[var(--color-steam-blue)];
+}
+
+/* 自定义滚动条 */
+.scrollbar-thin::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  @apply bg-[var(--color-steam-darker)];
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  @apply bg-[var(--color-steam-blue-dark)] rounded-full
+         transition-colors duration-300;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  @apply bg-[var(--color-steam-blue)];
+}
+
+/* 动画类 */
+@layer utilities {
+  .animate-fade {
+    @apply transition-opacity duration-300;
+  }
+  
+  .animate-scale {
+    @apply transition-transform duration-300;
+  }
+  
+  .animate-all {
+    @apply transition-all duration-300;
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "steam-website-server",
+  "version": "1.0.0",
+  "description": "Steam website backend server",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1",
+    "pg-pool": "^3.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }

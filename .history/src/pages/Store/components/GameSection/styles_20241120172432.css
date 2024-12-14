@@ -1,0 +1,280 @@
+/* src/pages/store/components/GameSection/styles.css */
+
+.game-section {
+  width: 100%;
+  padding: 1rem;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.game-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.game-card {
+  background: rgba(17, 25, 40, 0.75);
+  border-radius: 12px;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  transition: transform 0.2s;
+}
+
+.card-image-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 比例 */
+  overflow: hidden;
+}
+
+.card-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  background: rgba(16, 185, 129, 0.9);
+  color: white;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+.activity-badges {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 10;
+}
+
+.activity-badge-container {
+  position: relative;
+}
+
+.activity-badge {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.activity-tooltip {
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 0;
+  width: 200px;
+  background: rgba(17, 25, 40, 0.95);
+  border-radius: 8px;
+  padding: 12px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 20;
+  pointer-events: none;
+}
+
+.tooltip-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.tooltip-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.activity-badge.blue {
+  background-color: rgba(59, 130, 246, 0.75);
+}
+
+.activity-badge.purple {
+  background-color: rgba(147, 51, 234, 0.75);
+}
+
+.activity-badge.green {
+  background-color: rgba(16, 185, 129, 0.75);
+}
+
+.card-content {
+  padding: 1rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.game-title {
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dlc-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  background: rgba(147, 51, 234, 0.2);
+  color: rgb(167, 139, 250);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #FFB800;
+}
+
+.star-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tag {
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+
+.tag:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-container {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.original-price {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: line-through;
+  font-size: 0.875rem;
+}
+
+.discounted-price {
+  color: rgb(16, 185, 129);
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.regular-price {
+  color: white;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wishlist-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.wishlist-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.heart-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.buy-btn {
+  padding: 0.5rem 1rem;
+  background: rgb(16, 185, 129);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.buy-btn:hover {
+  background: rgb(5, 150, 105);
+}
+
+/*

@@ -1,0 +1,46 @@
+.pagination-container {
+    @apply mt-12 flex flex-col items-center gap-8;
+  }
+  
+  .pagination-info {
+    @apply text-gray-400 text-sm;
+  }
+  
+  .pagination-controls {
+    @apply flex items-center gap-2;
+  }
+  
+  .page-btn {
+    @apply p-2 rounded-lg bg-[#1a1f2e] text-gray-400 hover:text-white
+      disabled:opacity-50 disabled:cursor-not-allowed transition-colors;
+  }
+  
+  .btn-icon {
+    @apply w-5 h-5;
+  }
+  
+  .page-numbers {
+    @apply flex gap-1;
+  }
+  
+  .page-number {
+    @apply w-10 h-10 rounded-lg font-medium transition-colors flex 
+      items-center justify-center;
+  }
+  
+  .page-number:not(.active) {
+    @apply bg-[#1a1f2e] text-gray-400 hover:text-white;
+  }
+  
+  .page-number.active {
+    @apply bg-gradient-to-r from-blue-500 to-purple-500 text-white;
+  }
+  
+  .items-per-page {
+    @apply flex items-center gap-3 text-sm text-gray-400;
+  }
+  
+  .items-select {
+    @apply bg-[#1a1f2e] text-white px-3 py-1.5 rounded-lg border border-white/10
+      focus:outline-none focus:border-blue-500;
+  }

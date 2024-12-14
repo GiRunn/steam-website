@@ -1,0 +1,21 @@
+/* src/pages/store/activity-detail/components/ActivityInfo/styles.module.css */
+.priceTag {
+    background: linear-gradient(45deg, #1a1f26, #252a31);
+    transition: transform 0.3s ease;
+  }
+  
+  .priceTag:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* 添加卡片阴影效果 */
+  .cardShadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  /* 响应式调整 */
+  @media (max-width: 768px) {
+    .grid {
+      gap: 1rem;
+    }
+  }

@@ -1,0 +1,169 @@
+/* 全局样式 */
+.store-container {
+    @apply min-h-screen bg-[#0a0f16];
+  }
+  
+  /* 页面内容容器 */
+  .store-content {
+    @apply container mx-auto px-4 py-8;
+  }
+  
+  /* 渐变文本 */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400;
+  }
+  
+  /* 卡片基础样式 */
+  .card-base {
+    @apply bg-[#1a1f2e] rounded-xl overflow-hidden transition-all duration-300;
+  }
+  
+  /* 卡片悬停效果 */
+  .card-hover {
+    @apply hover:shadow-xl hover:shadow-blue-500/10 transform hover:scale-[1.02] transition-all duration-300;
+  }
+  
+  /* 按钮基础样式 */
+  .btn-base {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-300;
+  }
+  
+  /* 主要按钮样式 */
+  .btn-primary {
+    @apply btn-base bg-gradient-to-r from-blue-500 to-purple-500 
+      hover:from-blue-600 hover:to-purple-600 text-white;
+  }
+  
+  /* 次要按钮样式 */
+  .btn-secondary {
+    @apply btn-base bg-[#1e2837] text-gray-300 hover:text-white hover:bg-[#2a3749];
+  }
+  
+  /* 标签样式 */
+  .tag {
+    @apply px-2 py-1 text-sm rounded-full bg-[#2a475e]/50 text-gray-300;
+  }
+  
+  /* 图片容器样式 */
+  .img-container {
+    @apply relative overflow-hidden;
+  }
+  
+  /* 图片悬停效果 */
+  .img-hover {
+    @apply transform transition-transform duration-700 hover:scale-110;
+  }
+  
+  /* 渐变遮罩 */
+  .gradient-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-[#0a0f16] via-[#0a0f16]/50 to-transparent 
+      opacity-60 group-hover:opacity-40 transition-opacity;
+  }
+  
+  /* 动画类 */
+  .fade-in {
+    @apply animate-[fadeIn_0.3s_ease-in-out];
+  }
+  
+  .slide-up {
+    @apply animate-[slideUp_0.3s_ease-in-out];
+  }
+  
+  /* 自定义动画 */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* 骨架屏动画 */
+  .skeleton {
+    @apply animate-pulse bg-[#1e2837] rounded;
+  }
+  
+  /* 响应式布局类 */
+  .responsive-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+  }
+  
+  /* 滚动条样式 */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #1e2837 #0a0f16;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    @apply w-2;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-[#0a0f16];
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-[#1e2837] rounded-full hover:bg-[#2a3749];
+  }
+  
+  /* 无障碍焦点样式 */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-[#0a0f16];
+  }
+  .search-sort-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* 搜索框样式 */
+  .search-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    background-color: #1e2837;
+    border: 1px solid #2a3441;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.875rem;
+    min-width: 240px;
+    transition: all 0.2s ease;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+  
+  .search-input::placeholder {
+    color: #9ca3af;
+  }
+  
+
+  
+  .sort-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+  
+  /* 悬停效果 */
+  .search-input:hover,
+  .sort-select:hover {
+    border-color: #3b82f6;
+  }
+
+  

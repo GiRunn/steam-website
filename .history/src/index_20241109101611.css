@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 特性动画关键帧 */
+@keyframes feature-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes feature-fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes feature-fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 特性动画类 */
+.feature-animate {
+  opacity: 0;
+  animation: none;
+}
+
+.feature-animate.visible {
+  animation: feature-fade-in 0.8s ease-out forwards;
+  animation-play-state: paused;
+}
+
+.feature-animate.visible.running {
+  animation-play-state: running;
+}
+
+.feature-animate-left {
+  opacity: 0;
+  animation: none;
+}
+
+.feature-animate-left.visible {
+  animation: feature-fade-in-left 0.8s ease-out forwards;
+  animation-play-state: paused;
+}
+
+.feature-animate-left.visible.running {
+  animation-play-state: running;
+}
+
+.feature-animate-right {
+  opacity: 0;
+  animation: none;
+}
+
+.feature-animate-right.visible {
+  animation: feature-fade-in-right 0.8s ease-out forwards;
+  animation-play-state: paused;
+}
+
+.feature-animate-right.visible.running {
+  animation-play-state: running;
+}
+
+/* 保持最终状态 */
+.feature-visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* 其他已有的动画保持不变 */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down 0.6s ease-out forwards;
+}
+
+.animate-scale-x {
+  animation: scale-x 0.6s ease-out forwards;
+}
+
+/* Base styles */
+body {
+  @apply bg-[#1b2838] text-white;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-[#171a21];
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-[#66c0f4] rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-[#417a9b];
+}
+
+/* Steam-specific styles */
+.steam-button {
+  @apply bg-gradient-to-r from-[#75b022] to-[#588a1b] 
+    hover:from-[#8ed629] hover:to-[#6aa621]
+    text-white font-medium px-4 py-2 rounded
+    transition-all duration-300;
+}
+
+.steam-card {
+  @apply bg-[#16202d] rounded-lg overflow-hidden
+    hover:transform hover:scale-105 
+    transition-all duration-300;
+}
+
+.steam-input {
+  @apply bg-[#316282] text-white placeholder-gray-400
+    focus:outline-none focus:ring-1 focus:ring-[#66c0f4]
+    rounded px-4 py-2;
+}
+
+/* 在 index.css 中添加 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 对于不支持平滑滚动的浏览器，添加备用方案 */
+@media screen and (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* 优化动画性能 */
+.animate-on-scroll {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+

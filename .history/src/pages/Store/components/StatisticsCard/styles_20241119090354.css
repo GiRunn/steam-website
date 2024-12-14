@@ -1,0 +1,106 @@
+// src/components/StatisticsSection/statistics.css
+.statistics-section {
+  @apply mb-8 sm:mb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto;
+}
+
+.stats-grid {
+  @apply grid gap-4 sm:gap-6;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.stat-card {
+  @apply bg-[#1a1f2e] rounded-xl p-4 sm:p-6
+    hover:shadow-lg hover:shadow-blue-500/10
+    transition-all duration-300 border border-white/5
+    backdrop-filter backdrop-blur-sm
+    transform hover:-translate-y-1;
+}
+
+.stat-content {
+  @apply flex items-center gap-3 sm:gap-4;
+}
+
+.icon-container {
+  @apply p-2 sm:p-3 rounded-lg bg-white/5
+    transition-transform duration-300 ease-out;
+}
+
+.stat-icon {
+  @apply w-5 h-5 sm:w-6 sm:h-6 text-blue-400;
+}
+
+.stat-info {
+  @apply flex-1 min-w-0;
+}
+
+.stat-label {
+  @apply text-gray-400 text-xs sm:text-sm truncate;
+}
+
+.stat-values {
+  @apply flex items-baseline gap-2 flex-wrap;
+}
+
+.stat-value {
+  @apply text-xl sm:text-2xl font-bold text-white;
+}
+
+.stat-change {
+  @apply text-xs sm:text-sm font-medium;
+}
+
+.stat-change.positive {
+  @apply text-green-400;
+}
+
+.stat-change.negative {
+  @apply text-red-400;
+}
+
+/* 响应式布局 */
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  
+  .stat-card {
+    @apply p-4;
+  }
+  
+  .stat-value {
+    @apply text-lg;
+  }
+  
+  .stat-label,
+  .stat-change {
+    @apply text-xs;
+  }
+}
+
+/* Dark Mode 优化 */
+@media (prefers-color-scheme: dark) {
+  .stat-card {
+    @apply bg-opacity-95;
+  }
+}
+
+/* Print 样式 */
+@media print {
+  .statistics-section {
+    @apply m-0;
+  }
+  
+  .stats-grid {
+    @apply grid-cols-2 gap-4;
+  }
+  
+  .stat-card {
+    @apply shadow-none print:break-inside-avoid;
+  }
+}

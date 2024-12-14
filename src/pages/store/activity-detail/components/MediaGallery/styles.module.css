@@ -1,0 +1,123 @@
+/* src/pages/store/activity-detail/components/MediaGallery/styles.module.css */
+
+.container {
+  @apply mb-12;
+}
+
+.title {
+  @apply text-3xl font-bold mb-6;
+}
+
+.tabContainer {
+  @apply flex space-x-4 mb-6 overflow-x-auto pb-2;
+}
+
+.tabButton {
+  @apply flex items-center px-6 py-2 rounded-full transition-all duration-300
+         text-sm font-medium min-w-max;
+  background: rgba(26, 31, 38, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.tabButton:hover {
+  @apply bg-[#252a31];
+  transform: translateY(-1px);
+}
+
+.activeTab {
+  @apply bg-blue-600 text-white;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.gridContainer {
+  @apply grid gap-6;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.card {
+  @apply relative overflow-hidden rounded-lg cursor-pointer
+         transition-transform duration-300 bg-[#1a1f26];
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.imageWrapper {
+  @apply relative aspect-[4/3] overflow-hidden;
+}
+
+.image {
+  @apply w-full h-full object-cover transition-transform duration-300;
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+}
+
+.overlay {
+  @apply absolute bottom-0 left-0 right-0 p-4 
+         bg-gradient-to-t from-black/80 to-transparent
+         text-white opacity-0 transition-opacity duration-300;
+}
+
+.card:hover .overlay {
+  @apply opacity-100;
+}
+
+.modal {
+  @apply fixed inset-0 z-50 flex items-center justify-center
+         bg-black/80 backdrop-blur-sm p-4;
+}
+
+.modalContent {
+  @apply relative bg-[#1a1f26] rounded-lg max-w-4xl w-full
+         overflow-hidden shadow-xl;
+}
+
+.modalImage {
+  @apply w-full max-h-[70vh] object-contain;
+}
+
+.modalInfo {
+  @apply p-6 bg-[#1a1f26];
+}
+
+.closeButton {
+  @apply absolute top-4 right-4 p-2 rounded-full
+         bg-black/50 text-white hover:bg-black/70
+         transition-colors;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .title {
+    @apply text-2xl;
+  }
+
+  .gridContainer {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+/* 加载动画 */
+.shimmer {
+  @apply relative overflow-hidden;
+}
+
+.shimmer::after {
+  content: '';
+  @apply absolute inset-0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}

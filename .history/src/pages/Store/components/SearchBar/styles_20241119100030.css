@@ -1,0 +1,126 @@
+/* src/components/SearchBar/styles.css */
+.search-bar-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.2s ease;
+  }
+  
+  .search-input-wrapper:hover {
+    border-color: #d1d5db;
+  }
+  
+  .search-icon {
+    color: #9ca3af;
+    margin-right: 0.5rem;
+  }
+  
+  .search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.875rem;
+    color: #1f2937;
+  }
+  
+  .clear-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    color: #9ca3af;
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+  }
+  
+  .clear-button:hover {
+    background-color: #f3f4f6;
+    color: #4b5563;
+  }
+  
+  .search-history {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 0.5rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    z-index: 50;
+  }
+  
+  .history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .history-title {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .clear-history-button {
+    font-size: 0.75rem;
+    color: #6b7280;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+  }
+  
+  .clear-history-button:hover {
+    background-color: #f3f4f6;
+    color: #4b5563;
+  }
+  
+  .history-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: #1f2937;
+    transition: all 0.2s ease;
+  }
+  
+  .history-icon {
+    color: #9ca3af;
+    margin-right: 0.75rem;
+  }
+  
+  /* Dark mode styles */
+  .dark .search-input-wrapper {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+  
+  .dark .search-input {
+    color: #f3f4f6;
+  }
+  
+  .dark .search-history {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+  
+  .dark .history-header {
+    border-color: #374151;
+  }
+  
+  .dark .history-item:hover {
+    background-color: #374151;
+  }

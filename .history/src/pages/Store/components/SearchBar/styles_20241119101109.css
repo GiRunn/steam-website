@@ -1,0 +1,104 @@
+.search-bar-container {
+  @apply relative flex items-center w-full max-w-[400px] bg-[#0a0f16];
+}
+
+.search-input-wrapper {
+  @apply relative flex items-center w-full;
+}
+
+.search-icon {
+  @apply absolute left-3 text-gray-400 pointer-events-none;
+}
+
+.search-icon-button {
+  @apply absolute left-3 
+    w-6 h-6 
+    flex items-center justify-center 
+    text-gray-400 
+    hover:text-gray-300 
+    transition-colors duration-200;
+}
+
+.search-input {
+  @apply w-full h-10 pl-10 pr-8 
+    bg-[#1a1f2e] 
+    border border-[#2a3441]
+    rounded-lg
+    text-sm text-white
+    placeholder:text-gray-400
+    focus:outline-none 
+    focus:border-blue-500 
+    focus:ring-1 
+    focus:ring-blue-500/50
+    transition-all duration-200;
+}
+
+.clear-button {
+  @apply absolute right-2 
+    p-1.5 
+    text-gray-400 
+    hover:text-gray-300
+    rounded-full 
+    hover:bg-[#2a3441]/50
+    transition-all duration-200;
+}
+
+.search-history {
+  @apply absolute top-full left-0 
+    w-full mt-2 
+    bg-[#1a1f2e] 
+    border border-[#2a3441]
+    rounded-lg
+    shadow-lg
+    shadow-black/20
+    overflow-hidden
+    z-50;
+}
+
+.history-header {
+  @apply flex items-center justify-between 
+    px-4 py-2 
+    border-b border-[#2a3441];
+}
+
+.history-title {
+  @apply text-sm text-gray-400;
+}
+
+.clear-history {
+  @apply text-xs text-gray-400 
+    hover:text-gray-300 
+    cursor-pointer;
+}
+
+.history-item {
+  @apply flex items-center gap-3 
+    w-full px-4 py-2.5
+    text-sm text-gray-300
+    hover:bg-[#2a3441]
+    cursor-pointer
+    transition-colors duration-200;
+}
+
+.history-icon {
+  @apply text-gray-400;
+}
+
+/* Dark mode styles */
+.dark {
+  .search-input {
+    @apply bg-[#1a1f2e] border-[#2a3441];
+  }
+
+  .search-history {
+    @apply bg-[#1a1f2e] border-[#2a3441];
+  }
+
+  .history-header {
+    @apply border-[#2a3441];
+  }
+
+  .history-item:hover {
+    @apply bg-[#2a3441];
+  }
+}

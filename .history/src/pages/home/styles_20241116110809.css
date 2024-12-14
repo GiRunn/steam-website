@@ -1,0 +1,23 @@
+.homepage {
+  @apply min-h-screen text-white;
+  background: linear-gradient(180deg, 
+    #0a0f16 0%,
+    #141c28 100%
+  );
+}
+  
+  .background-gradient {
+    @apply fixed inset-0 bg-gradient-to-b from-[#1b2838] via-[#1b2838]/50 to-transparent;
+  }
+  
+  .main-content {
+    @apply relative z-10;
+  }
+  
+  .games-showcase {
+    @apply py-20 bg-[#1b2838];
+  }
+  
+  .game-section {
+    @apply container mx-auto px-4 space-y-20;
+  }

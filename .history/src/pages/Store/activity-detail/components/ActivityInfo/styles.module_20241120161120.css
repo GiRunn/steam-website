@@ -1,0 +1,21 @@
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.upcoming {
+  background: rgba(79, 144, 255, 0.1);
+  color: #4f90ff;
+}
+
+.active {
+  background: rgba(52, 211, 153, 0.1);
+  color: #34d399;
+}
+
+.ended {
+  background: rgba(156, 163, 175, 0.1);
+  color: #9ca3af;
+}

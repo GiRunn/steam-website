@@ -1,0 +1,42 @@
+/* 修复背景色差问题的样式 */
+
+.homepage {
+  @apply min-h-screen text-white;
+  background: linear-gradient(180deg, 
+    #0a0f16 0%,
+    #141c28 100%
+  );
+}
+
+.background-gradient {
+  @apply fixed inset-0;
+  background: linear-gradient(180deg,
+    rgba(10, 15, 22, 0.95) 0%,
+    rgba(20, 28, 40, 0.85) 50%,
+    rgba(27, 40, 56, 0.75) 100%
+  );
+}
+
+.main-content {
+  @apply relative z-10;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(10, 15, 22, 0.3) 50%,
+    rgba(20, 28, 40, 0.5) 100%
+  );
+}
+
+.games-showcase {
+  @apply py-20;
+  background: linear-gradient(180deg,
+    rgba(27, 40, 56, 0.8) 0%,
+    rgba(20, 28, 40, 0.9) 50%,
+    rgba(10, 15, 22, 1) 100%
+  );
+}
+
+.game-section {
+  @apply container mx-auto px-4 space-y-20;
+  position: relative;
+}
+

@@ -1,0 +1,53 @@
+/* src/pages/store/activity-detail/components/Schedule/styles.module.css */
+.scheduleItem {
+    width: 100%;
+    max-width: calc(50% + 1rem);
+  }
+  
+  .scheduleCard {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
+  
+  .scheduleCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* 添加箭头指示 */
+  .scheduleCard::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+  
+  @media (min-width: 768px) {
+    .scheduleItem:nth-child(odd) .scheduleCard::before {
+      right: -8px;
+      top: 20px;
+      border-width: 8px 0 8px 8px;
+      border-color: transparent transparent transparent #1a1f26;
+    }
+  
+    .scheduleItem:nth-child(even) .scheduleCard::before {
+      left: -8px;
+      top: 20px;
+      border-width: 8px 8px 8px 0;
+      border-color: transparent #1a1f26 transparent transparent;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .scheduleItem {
+      max-width: calc(100% - 2rem);
+    }
+    
+    .scheduleCard::before {
+      left: -8px;
+      top: 20px;
+      border-width: 8px 8px 8px 0;
+      border-color: transparent #1a1f26 transparent transparent;
+    }
+  }

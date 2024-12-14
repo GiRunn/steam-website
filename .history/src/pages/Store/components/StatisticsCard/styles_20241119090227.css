@@ -1,0 +1,97 @@
+/* statistics.css */
+.statistics-section {
+  @apply mb-8 sm:mb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto;
+}
+
+.stats-grid {
+  @apply grid gap-4 sm:gap-6;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  
+  @screen md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @screen lg {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stat-card {
+  @apply bg-[#1a1f2e] rounded-xl p-4 sm:p-6
+    hover:shadow-lg hover:shadow-blue-500/10
+    transition-all duration-300 border border-white/5
+    backdrop-filter backdrop-blur-sm;
+}
+
+.stat-content {
+  @apply flex items-center gap-3 sm:gap-4;
+}
+
+.icon-container {
+  @apply p-2 sm:p-3 rounded-lg bg-white/5
+    transition-transform duration-300 ease-out;
+}
+
+.stat-icon {
+  @apply w-5 h-5 sm:w-6 sm:h-6 text-blue-400;
+}
+
+.stat-info {
+  @apply flex-1 min-w-0;
+}
+
+.stat-label {
+  @apply text-gray-400 text-xs sm:text-sm truncate;
+}
+
+.stat-values {
+  @apply flex items-baseline gap-2 flex-wrap;
+}
+
+.stat-value {
+  @apply text-xl sm:text-2xl font-bold text-white;
+}
+
+.stat-change {
+  @apply text-xs sm:text-sm font-medium;
+}
+
+.stat-change.positive {
+  @apply text-green-400;
+}
+
+.stat-change.negative {
+  @apply text-red-400;
+}
+
+/* Hover Animations */
+.stat-card {
+  @apply transform hover:-translate-y-1 
+    transition-all duration-300 ease-out;
+}
+
+.stat-card:hover .icon-container {
+  @apply scale-110;
+}
+
+/* Dark Mode Optimization */
+@media (prefers-color-scheme: dark) {
+  .stat-card {
+    @apply bg-opacity-95;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .statistics-section {
+    @apply m-0;
+  }
+  
+  .stats-grid {
+    @apply grid-cols-2 gap-4;
+  }
+  
+  .stat-card {
+    @apply shadow-none print:break-inside-avoid;
+  }
+}

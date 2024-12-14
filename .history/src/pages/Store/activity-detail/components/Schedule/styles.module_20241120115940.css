@@ -1,0 +1,206 @@
+/* src/pages/store/activity-detail/components/Schedule/styles.module.css */
+
+.container {
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.timeline {
+  position: relative;
+  min-height: 400px;
+}
+
+.timelineBar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, #2563eb, #9333ea);
+}
+
+.phaseContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.phaseItem {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+.timePoint {
+  position: absolute;
+  left: -12px;
+  top: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #1a1f26;
+  border-radius: 50%;
+  border: 2px solid #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s;
+  color: #2563eb;
+}
+
+.activePoint {
+  background: #2563eb;
+  color: white;
+  border-color: white;
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+  animation: pulse 2s infinite;
+}
+
+.phaseCard {
+  background: #1a1f26;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-left: 2rem;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+
+.phaseCard:hover {
+  transform: translateY(-2px);
+}
+
+.activeCard {
+  border-color: rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.phaseHeader {
+  margin-bottom: 1rem;
+}
+
+.phaseTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.phaseTime {
+  font-size: 0.875rem;
+  color: #60a5fa;
+  font-family: monospace;
+}
+
+.benefitsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: #252a31;
+  transition: background-color 0.3s;
+}
+
+.benefitItem:hover {
+  background: #2a3038;
+}
+
+.benefitValue {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #fbbf24;
+}
+
+.benefitDesc {
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+
+.noticeBox {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+
+.noticeText {
+  font-size: 0.875rem;
+  color: #60a5fa;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+  }
+}
+
+/* 响应式布局 */
+@media (min-width: 768px) {
+  .timelineBar {
+    left: 50%;
+  }
+
+  .phaseItem {
+    width: 50%;
+  }
+
+  .phaseItem:nth-child(even) {
+    margin-left: 50%;
+  }
+
+  .timePoint {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .phaseItem:nth-child(odd) .phaseCard {
+    margin-right: 2rem;
+    margin-left: 0;
+  }
+
+  .phaseItem:nth-child(even) .phaseCard {
+    margin-left: 2rem;
+  }
+
+  .phaseHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .phaseTime {
+    margin-left: 1rem;
+  }
+}
+
+/* 暗色主题优化 */
+@media (prefers-color-scheme: dark) {
+  .benefitItem {
+    background: #252a31;
+  }
+
+  .benefitItem:hover {
+    background: #2a3038;
+  }
+}

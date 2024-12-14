@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 基础样式 */
+@layer base {
+  body {
+    @apply bg-[#0a0f16] text-white antialiased;
+  }
+}
+
+/* 自定义类 */
+@layer components {
+  .page-transition {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-r from-blue-500 to-purple-500;
+  }
+
+  .card-hover {
+    @apply hover:shadow-xl hover:shadow-blue-500/10 transform hover:scale-[1.02] 
+      transition-all duration-300;
+  }
+}
+
+/* 暗色模式 */
+.dark {
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+}
+
+/* 过渡动画 */
+.fade-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-[#0a0f16];
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-[#1e2837] rounded-full hover:bg-[#2a3749];
+}
+
+/* 无障碍焦点样式 */
+:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-[#0a0f16];
+}
+
+/* 加载动画 */
+.loading-spinner {
+  @apply animate-spin rounded-full border-4 border-blue-500 
+    border-t-transparent h-8 w-8;
+}
+
+/* 响应式工具类 */
+@responsive {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+}

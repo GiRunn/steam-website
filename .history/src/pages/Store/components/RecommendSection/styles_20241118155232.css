@@ -1,0 +1,71 @@
+.recommend-section {
+    @apply mt-16;
+  }
+  
+  .section-header {
+    @apply flex items-center justify-between mb-6;
+  }
+  
+  .section-header h2 {
+    @apply text-2xl font-bold;
+  }
+  
+  .view-all {
+    @apply text-blue-400 hover:text-white transition-colors 
+      flex items-center gap-2;
+  }
+  
+  .recommendations-grid {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+  }
+  
+  .recommend-card {
+    @apply bg-[#1a1f2e] rounded-xl overflow-hidden;
+  }
+  
+  .card-image-container {
+    @apply relative aspect-video overflow-hidden;
+  }
+  
+  .card-image {
+    @apply w-full h-full object-cover transform 
+      transition-transform duration-700 group-hover:scale-110;
+  }
+  
+  .image-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-black/60 
+      to-transparent opacity-0 group-hover:opacity-100 transition-opacity;
+  }
+  
+  .overlay-content {
+    @apply absolute bottom-4 left-4 right-4;
+  }
+  
+  .game-title {
+    @apply text-white font-bold truncate mb-2;
+  }
+  
+  .game-description {
+    @apply text-gray-300 text-sm line-clamp-2 mb-4;
+  }
+  
+  .rating {
+    @apply flex items-center gap-2;
+  }
+  
+  .rating-value {
+    @apply text-2xl font-bold text-white;
+  }
+  
+  .rating-label {
+    @apply text-sm text-gray-300;
+  }
+  
+  /* 动画效果 */
+  .recommend-card {
+    @apply transition-transform duration-300;
+  }
+  
+  .recommend-card:hover {
+    @apply transform -translate-y-1;
+  }

@@ -1,0 +1,103 @@
+.game-section {
+    @apply w-full;
+  }
+  
+  .games-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6;
+  }
+  
+  .game-card-link {
+    @apply block;
+  }
+  
+  .game-card {
+    @apply bg-[#1a1f2e] rounded-xl overflow-hidden hover:shadow-xl 
+      hover:shadow-blue-500/10 transition-all duration-500;
+  }
+  
+  .card-image-container {
+    @apply relative aspect-[16/9] overflow-hidden;
+  }
+  
+  .card-image {
+    @apply w-full h-full object-cover transform transition-transform 
+      duration-700 group-hover:scale-110;
+  }
+  
+  .discount-badge {
+    @apply absolute top-4 right-4 bg-green-500 text-white 
+      px-3 py-1 rounded-full font-bold transform rotate-3;
+  }
+  
+  .image-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-[#1a1f2e] 
+      to-transparent opacity-0 group-hover:opacity-100 transition-opacity;
+  }
+  
+  .card-content {
+    @apply p-6;
+  }
+  
+  .card-header {
+    @apply flex justify-between items-start mb-4;
+  }
+  
+  .game-title {
+    @apply text-xl font-bold text-white group-hover:text-blue-400 
+      transition-colors line-clamp-1;
+  }
+  
+  .rating {
+    @apply flex items-center gap-1;
+  }
+  
+  .star-icon {
+    @apply w-5 h-5 text-yellow-400 fill-current;
+  }
+  
+  .tags-container {
+    @apply flex flex-wrap gap-2 mb-4;
+  }
+  
+  .tag {
+    @apply px-2 py-1 text-sm rounded-full bg-[#2a475e]/50 
+      text-gray-300;
+  }
+  
+  .card-footer {
+    @apply flex items-end justify-between;
+  }
+  
+  .price-container {
+    @apply space-y-1;
+  }
+  
+  .original-price {
+    @apply text-gray-400 line-through text-sm;
+  }
+  
+  .discounted-price {
+    @apply text-green-400 text-xl font-bold;
+  }
+  
+  .regular-price {
+    @apply text-white text-xl font-bold;
+  }
+  
+  .actions {
+    @apply flex gap-2;
+  }
+  
+  .wishlist-btn {
+    @apply p-2 rounded-full bg-white/5 hover:bg-white/10;
+  }
+  
+  .heart-icon {
+    @apply w-5 h-5 text-gray-300;
+  }
+  
+  .buy-btn {
+    @apply px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500
+      hover:from-blue-600 hover:to-purple-600 text-white rounded-lg
+      font-medium transform transition-all duration-300;
+  }

@@ -1,0 +1,55 @@
+/* 全局背景色设置 */
+body {
+  @apply bg-[#0a0f16];
+}
+
+.homepage {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.background-gradient {
+  @apply fixed inset-0;
+  background: linear-gradient(180deg,
+    rgba(10, 15, 22, 0.95) 0%,
+    rgba(10, 15, 22, 0.5) 100%
+  );
+}
+
+footer {
+  flex-shrink: 0;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.main-content {
+  flex: 1 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.games-showcase {
+  @apply py-20;
+  /* 移除之前的背景色，保持全局背景色 */
+}
+
+.game-section {
+  @apply container mx-auto px-4 space-y-20;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-out forwards;
+}

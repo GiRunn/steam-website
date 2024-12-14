@@ -1,0 +1,92 @@
+.features-section {
+  @apply py-20 relative overflow-hidden;
+}
+
+.background-effects {
+  @apply absolute inset-0;
+}
+
+.bg-overlay {
+  @apply absolute inset-0 bg-[#1b2838]/90;
+}
+
+.bg-particles {
+  @apply absolute w-full h-full;
+}
+
+.particle {
+  @apply absolute w-96 h-96 rounded-full filter blur-[100px];
+}
+
+.particle.blue {
+  @apply top-0 left-1/4 bg-blue-500/10;
+}
+
+.particle.purple {
+  @apply bottom-0 right-1/4 bg-purple-500/10;
+}
+
+.bg-blur {
+  @apply absolute inset-0 backdrop-blur-sm;
+}
+
+.content-container {
+  @apply relative container mx-auto px-4;
+}
+
+.features-content {
+  @apply max-w-7xl mx-auto;
+}
+
+.section-header {
+  @apply text-center mb-16 space-y-4;
+}
+
+.title {
+  @apply text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 inline-block;
+}
+
+.subtitle {
+  @apply text-xl text-gray-300 max-w-3xl mx-auto;
+}
+
+.title-underline {
+  @apply h-1 w-20 mx-auto bg-gradient-to-r from-blue-500 to-purple-500 rounded-full;
+}
+
+.main-feature {
+  @apply mb-20;
+}
+
+.feature-image-container {
+  @apply relative rounded-xl overflow-hidden;
+  aspect-ratio: 21/9;
+}
+
+.feature-image {
+  @apply w-full h-full object-cover transform transition-transform duration-700;
+}
+
+.feature-description {
+  @apply absolute bottom-0 left-0 right-0 p-8 transform transition-transform duration-500;
+}
+
+.features-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8;
+}
+
+.feature-card {
+  @apply bg-[#1e2837] p-6 rounded-xl hover:bg-[#2a475e] transition-all duration-300;
+}
+
+.feature-icon {
+  @apply text-4xl mb-4;
+}
+
+.feature-name {
+  @apply text-xl font-bold text-white mb-2;
+}
+
+.feature-desc {
+  @apply text-gray-300;
+}

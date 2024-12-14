@@ -1,0 +1,37 @@
+/* src/pages/store/activity-detail/components/Registration/styles.module.css */
+.ticketOption {
+    border: 2px solid transparent;
+    border-radius: 0.5rem;
+    background: #252a31;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .ticketOption:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ticketOption.active {
+    border-color: #2563eb;
+    background: #252a31;
+  }
+  
+  /* 输入框焦点样式 */
+  input:focus, select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+  }
+  
+  /* 复选框自定义样式 */
+  .form-checkbox {
+    @apply h-4 w-4 text-blue-600 border-gray-600 rounded;
+  }
+  
+  /* 响应式调整 */
+  @media (max-width: 768px) {
+    .ticketOption {
+      width: 100%;
+    }
+  }

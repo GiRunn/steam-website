@@ -1,0 +1,82 @@
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+
+.statusBadge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.upcoming {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.active {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.ended {
+  background-color: #fafafa;
+  color: #757575;
+}
+
+.activityCard {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.activityCard:hover {
+  transform: translateY(-2px);
+}
+
+.discountCard {
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.codeContainer {
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.copyButton {
+  transition: all 0.2s ease;
+}
+
+.copyButton:hover {
+  opacity: 0.9;
+}
+
+.tag {
+  transition: all 0.2s ease;
+}
+
+/* 自定义滚动条 */
+.customScroll {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.customScroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.customScroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.customScroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+}

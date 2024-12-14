@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+body {
+  @apply bg-[#1b2838] text-white;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-[#171a21];
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-[#66c0f4] rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-[#417a9b];
+}
+
+/* Steam-specific styles */
+.steam-button {
+  @apply bg-gradient-to-r from-[#75b022] to-[#588a1b] 
+    hover:from-[#8ed629] hover:to-[#6aa621]
+    text-white font-medium px-4 py-2 rounded
+    transition-all duration-300;
+}
+
+.steam-card {
+  @apply bg-[#16202d] rounded-lg overflow-hidden
+    hover:transform hover:scale-105 
+    transition-all duration-300;
+}
+
+.steam-input {
+  @apply bg-[#316282] text-white placeholder-gray-400
+    focus:outline-none focus:ring-1 focus:ring-[#66c0f4]
+    rounded px-4 py-2;
+}

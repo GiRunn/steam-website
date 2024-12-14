@@ -1,0 +1,58 @@
+.hero-slider {
+    @apply relative h-[600px] overflow-hidden group;
+  }
+  
+  .slider-track {
+    @apply flex h-full transition-transform duration-700 ease-in-out;
+  }
+  
+  .slide {
+    @apply min-w-full h-full relative transform transition-transform duration-700;
+  }
+  
+  .slide.active {
+    @apply scale-100;
+  }
+  
+  .slide:not(.active) {
+    @apply scale-95;
+  }
+  
+  .slide-image {
+    @apply w-full h-full object-cover;
+  }
+  
+  .slide-content {
+    @apply absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-8
+      transform transition-all duration-700;
+  }
+  
+  .slide-content.active {
+    @apply translate-y-0 opacity-100;
+  }
+  
+  .slide-content:not(.active) {
+    @apply translate-y-10 opacity-0;
+  }
+  
+  .slide-title {
+    @apply text-4xl font-bold text-white;
+  }
+  
+  .slider-indicators {
+    @apply absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2;
+  }
+  
+  .indicator {
+    @apply w-3 h-3 rounded-full transition-all duration-300 bg-white/50 hover:bg-white/70;
+  }
+  
+  .indicator.active {
+    @apply bg-white w-8;
+  }
+  
+  .slider-control {
+    @apply absolute top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full 
+      text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300
+      hover:bg-black/70;
+  }

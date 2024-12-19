@@ -1,0 +1,16 @@
+.notifications-container {
+  position: fixed;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  .notifications-container {
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+  }
+} 

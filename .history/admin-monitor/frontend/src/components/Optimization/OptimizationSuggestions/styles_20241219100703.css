@@ -1,0 +1,115 @@
+.optimization-suggestions {
+  padding: var(--spacing-lg);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  margin-top: var(--spacing-xl);
+}
+
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.suggestion-card {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.suggestion-card.high {
+  border-left: 4px solid var(--danger);
+}
+
+.suggestion-card.medium {
+  border-left: 4px solid var(--warning);
+}
+
+.suggestion-card.low {
+  border-left: 4px solid var(--success);
+}
+
+.suggestion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.impact-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.impact-badge.high {
+  background: rgba(255, 85, 85, 0.1);
+  color: var(--danger);
+}
+
+.impact-badge.medium {
+  background: rgba(255, 215, 0, 0.1);
+  color: var(--warning);
+}
+
+.impact-badge.low {
+  background: rgba(100, 255, 218, 0.1);
+  color: var(--success);
+}
+
+.suggestion-type {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.suggestion-description {
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.5;
+}
+
+.suggestion-recommendation {
+  background: rgba(0, 0, 0, 0.2);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.suggestion-recommendation h4 {
+  color: var(--accent-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+  font-size: 0.9rem;
+}
+
+.suggestion-recommendation p {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.action-button {
+  background: transparent;
+  border: 1px solid var(--accent-primary);
+  color: var(--accent-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.action-button:hover {
+  background: rgba(100, 255, 218, 0.1);
+}
+
+@media (max-width: 768px) {
+  .suggestions-grid {
+    grid-template-columns: 1fr;
+  }
+} 

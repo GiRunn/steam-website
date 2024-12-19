@@ -1,0 +1,46 @@
+.system-monitor {
+  padding: var(--spacing-lg);
+}
+
+.monitor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.monitor-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.analysis-section,
+.optimization-section {
+  margin-bottom: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .system-monitor {
+    padding: var(--spacing-md);
+  }
+
+  .monitor-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .monitor-header h1 {
+    font-size: 1.5rem;
+  }
+} 

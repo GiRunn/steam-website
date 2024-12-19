@@ -1,0 +1,23 @@
+.resource-metrics {
+    padding: 24px;
+    border-radius: 8px;
+}
+
+.metrics-list {
+    margin-top: 16px;
+}
+
+.metric-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.metric-name {
+    color: var(--text-secondary);
+}
+
+.metric-value {
+    color: var(--text-primary);
+} 

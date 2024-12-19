@@ -1,0 +1,23 @@
+.system-monitor {
+    padding: 24px;
+}
+
+.metrics-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.charts-container {
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 768px) {
+    .metrics-container,
+    .charts-container {
+        grid-template-columns: 1fr;
+    }
+} 

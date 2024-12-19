@@ -1,0 +1,12 @@
+.system-monitor {
+    padding: 20px;
+}
+
+.metrics-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.system-metrics, .database-metrics {
+    width: 48%;
+} 

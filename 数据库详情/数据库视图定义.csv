@@ -1,0 +1,15 @@
+"schema_name","view_name","view_definition"
+"public","v_database_stats"," SELECT schemaname,
+    relname,
+    n_live_tup AS row_count,
+    pg_size_pretty(pg_total_relation_size((relid)::regclass)) AS total_size
+   FROM pg_stat_user_tables;"
+"public","game_overview_view"," SELECT g.game_id,
+    g.description,
+    g.rating,
+    rs.positive_rate,
+    rs.avg_playtime_hours,
+    rs.total_reviews
+   FROM (games g
+     LEFT JOIN review_system.review_summary rs ON ((g.game_id = rs.game_id)))
+  WHERE (g.deleted_at IS NULL);"

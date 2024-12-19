@@ -1,0 +1,38 @@
+.header {
+  background: rgba(16, 32, 64, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerLeft h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #64ffda 0%, #4fc3f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.subtitle {
+  color: rgba(230, 241, 255, 0.7);
+  font-size: 1.1rem;
+  margin-top: 8px;
+}
+
+.controls {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+/* ... 其他样式 ... */ 

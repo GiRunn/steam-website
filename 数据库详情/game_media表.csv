@@ -1,0 +1,4 @@
+"media_id","game_id","type","url","thumbnail_url","title","description","order","created_at","updated_at","deleted_at"
+"1","1001","image","https://cdn.example.com/cp2077/screenshot1.jpg","https://cdn.example.com/cp2077/thumb1.jpg","夜之城全景","展示夜之城城繁华的夜景和霓虹灯光",1,"2023-12-01 10:00:00+08","2024-12-06 14:51:40.747814+08",NULL
+"2","1001","video","https://cdn.example.com/cp2077/gameplay1.mp4","https://cdn.example.com/cp2077/video-thumb1.jpg","游戏玩法预告片","展示主要游戏玩法特性和战斗系统",2,"2023-12-01 10:01:00+08","2024-12-06 14:51:40.747814+08",NULL
+"3","1001","image","https://cdn.example.com/cp2077/screenshot2.jpg","https://cdn.example.com/cp2077/thumb2.jpg","角色定制界面","详细的角色定制和改造系统展示",3,"2023-12-01 10:02:00+08","2024-12-06 14:51:40.747814+08",NULL

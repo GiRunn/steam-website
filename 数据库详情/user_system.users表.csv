@@ -1,0 +1,6 @@
+"user_id","username","email","password_hash","nickname","avatar_url","locale","timezone","account_status","last_login_at","last_login_ip","role","created_at","updated_at","deleted_at"
+"1","john_doe","john.doe@email.com","$2a$12$LQv3c1yq","John","https://avatar.com/john.jpg","en-US","UTC","active",NULL,NULL,"user","2024-12-07 09:53:07.492686+08","2024-12-07 09:53:07.492686+08",NULL
+"2","alice_smith","alice.s@email.com","$2a$12$KQj3c1yq","Alice","https://avatar.com/alice.jpg","en-GB","Europe/London","active",NULL,NULL,"admin","2024-12-07 09:53:07.492686+08","2024-12-07 09:53:07.492686+08",NULL
+"3","zhang_wei","wei.zhang@email.com","$2a$12$NQj3c1yq","张伟","https://avatar.com/wei.jpg","zh-CN","Asia/Shanghai","active",NULL,NULL,"user","2024-12-07 09:53:07.492686+08","2024-12-07 09:53:07.492686+08",NULL
+"4","maria_garcia","maria.g@email.com","$2a$12$PQj3c1yq","María","https://avatar.com/maria.jpg","es-ES","Europe/Madrid","active",NULL,NULL,"user","2024-12-07 09:53:07.492686+08","2024-12-07 09:53:07.492686+08",NULL
+"5","sato_yuki","yuki.s@email.com","$2a$12$RQj3c1yq","佐藤雪","https://avatar.com/yuki.jpg","ja-JP","Asia/Tokyo","active",NULL,NULL,"moderator","2024-12-07 09:53:07.492686+08","2024-12-07 09:53:07.492686+08",NULL

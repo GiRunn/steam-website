@@ -1,0 +1,125 @@
+数据库监控快照 - 2024-12-18 16:42:38.726905
+================================================================================
+
+
+=== 基础性能 ===
+
+数据库大小 (MB):
+  值: 122.01
+  阈值: 10000.00
+  状态: 正常
+  详细信息:
+    总大小: 122 MB
+    增长率: 计算中
+    表数量: 38
+
+=== 连接状态 ===
+
+活动连接数:
+  值: 2.00
+  阈值: 50.00
+  状态: 正常
+  详细信息:
+    空闲连接: 0
+    活动连接: 2
+    等待连接: 5
+
+=== 性能指标 ===
+
+缓存命中率 (%):
+  值: 99.89
+  阈值: 90.00
+  状态: 正常
+  详细信息:
+    缓存命中: 2484011
+    临时空间: 0 bytes
+    临时文件: 0
+    磁盘读取: 2780
+
+=== 事务统计 ===
+
+事务提交率 (%):
+  值: 95.60
+  阈值: 95.00
+  状态: 正常
+  详细信息:
+    提交数: 87
+    冲突数: 0
+    死锁数: 0
+    回滚数: 4
+
+=== 查询性能 ===
+
+长时间运行查询:
+  值: 0.00
+  阈值: 5.00
+  状态: 正常
+  详细信息:
+    long_running_queries: None
+
+=== review_details ===
+
+Total Reviews:
+  值: 10006.00
+  阈值: 0.00
+  状态: info
+  详细信息:
+    活动评论: 10006
+    已删除评论: 1
+
+Rating Distribution:
+  值: 2.51
+  阈值: 0.00
+  状态: info
+  详细信息:
+    一星评价: 2894
+    二星评价: 2109
+    三星评价: 2018
+    四星评价: 2013
+    五星评价: 972
+
+Platform Distribution:
+  值: 10006.00
+  阈值: 0.00
+  状态: info
+  详细信息:
+    PC平台: 2476
+    PS5平台: 5033
+    XBOX平台: 2497
+
+Language Distribution:
+  值: 10006.00
+  阈值: 0.00
+  状态: info
+  详细信息:
+    英文: 2558
+    日文: 2560
+    中文: 1240
+    其他语言: 3648
+
+Reply Statistics:
+  值: 3.00
+  阈值: 0.00
+  状态: info
+  详细信息:
+    total_replies: 3
+    active_replies: 3
+    avg_replies_per_review: 0.0
+
+Partition Statistics:
+  值: 149.00
+  阈值: 0.00
+  状态: info
+  详细信息:
+    total_partitions: 149
+    size_distribution: {'replies_y2024m12': '128 kB', 'replies_y2025m01': '64 kB', 'replies_y2025m02': '64 kB', 'replies_y2025m03': '64 kB', 'replies_y2025m04': '64 kB', 'replies_y2025m05': '64 kB', 'replies_y2025m06': '64 kB', 'reviews_y2024m12': '80 MB', 'reviews_y2025m01': '128 kB', 'reviews_y2025m02': '64 kB', 'reviews_y2025m03': '64 kB', 'reviews_y2025m04': '64 kB', 'reviews_y2025m05': '64 kB', 'reviews_y2025m06': '64 kB', 'summary_y2024m12': '10 MB', 'summary_y2025m01': '40 kB', 'summary_y2025m02': '40 kB', 'summary_y2025m03': '40 kB', 'summary_y2025m04': '40 kB', 'summary_y2025m05': '40 kB', 'summary_y2025m06': '40 kB', 'replies_y2024m12_pkey': '16 kB', 'replies_y2025m01_pkey': '8192 bytes', 'replies_y2025m02_pkey': '8192 bytes', 'replies_y2025m03_pkey': '8192 bytes', 'replies_y2025m04_pkey': '8192 bytes', 'replies_y2025m05_pkey': '8192 bytes', 'replies_y2025m06_pkey': '8192 bytes', 'reviews_y2024m12_pkey': '1768 kB', 'reviews_y2025m01_pkey': '16 kB', 'reviews_y2025m02_pkey': '8192 bytes', 'reviews_y2025m03_pkey': '8192 bytes', 'reviews_y2025m04_pkey': '8192 bytes', 'reviews_y2025m05_pkey': '8192 bytes', 'reviews_y2025m06_pkey': '8192 bytes', 'summary_y2024m12_pkey': '624 kB', 'summary_y2025m01_pkey': '8192 bytes', 'summary_y2025m02_pkey': '8192 bytes', 'summary_y2025m03_pkey': '8192 bytes', 'summary_y2025m04_pkey': '8192 bytes', 'summary_y2025m05_pkey': '8192 bytes', 'summary_y2025m06_pkey': '8192 bytes', 'reviews_y2024m12_rating_idx': '1656 kB', 'reviews_y2025m01_rating_idx': '16 kB', 'reviews_y2025m02_rating_idx': '8192 bytes', 'reviews_y2025m03_rating_idx': '8192 bytes', 'reviews_y2025m04_rating_idx': '8192 bytes', 'reviews_y2025m05_rating_idx': '8192 bytes', 'reviews_y2025m06_rating_idx': '8192 bytes', 'replies_y2024m12_user_id_idx': '16 kB', 'replies_y2025m01_user_id_idx': '8192 bytes', 'replies_y2025m02_user_id_idx': '8192 bytes', 'replies_y2025m03_user_id_idx': '8192 bytes', 'replies_y2025m04_user_id_idx': '8192 bytes', 'replies_y2025m05_user_id_idx': '8192 bytes', 'replies_y2025m06_user_id_idx': '8192 bytes', 'reviews_y2024m12_game_id_idx': '568 kB', 'reviews_y2024m12_user_id_idx': '528 kB', 'reviews_y2025m01_game_id_idx': '16 kB', 'reviews_y2025m01_user_id_idx': '16 kB', 'reviews_y2025m02_game_id_idx': '8192 bytes', 'reviews_y2025m02_user_id_idx': '8192 bytes', 'reviews_y2025m03_game_id_idx': '8192 bytes', 'reviews_y2025m03_user_id_idx': '8192 bytes', 'reviews_y2025m04_game_id_idx': '8192 bytes', 'reviews_y2025m04_user_id_idx': '8192 bytes', 'reviews_y2025m05_game_id_idx': '8192 bytes', 'reviews_y2025m05_user_id_idx': '8192 bytes', 'reviews_y2025m06_game_id_idx': '8192 bytes', 'reviews_y2025m06_user_id_idx': '8192 bytes', 'replies_y2024m12_parent_id_idx': '16 kB', 'replies_y2024m12_review_id_idx': '16 kB', 'replies_y2025m01_parent_id_idx': '8192 bytes', 'replies_y2025m01_review_id_idx': '8192 bytes', 'replies_y2025m02_parent_id_idx': '8192 bytes', 'replies_y2025m02_review_id_idx': '8192 bytes', 'replies_y2025m03_parent_id_idx': '8192 bytes', 'replies_y2025m03_review_id_idx': '8192 bytes', 'replies_y2025m04_parent_id_idx': '8192 bytes', 'replies_y2025m04_review_id_idx': '8192 bytes', 'replies_y2025m05_parent_id_idx': '8192 bytes', 'replies_y2025m05_review_id_idx': '8192 bytes', 'replies_y2025m06_parent_id_idx': '8192 bytes', 'replies_y2025m06_review_id_idx': '8192 bytes', 'replies_y2024m12_created_at_idx': '16 kB', 'replies_y2025m01_created_at_idx': '8192 bytes', 'replies_y2025m02_created_at_idx': '8192 bytes', 'replies_y2025m03_created_at_idx': '8192 bytes', 'replies_y2025m04_created_at_idx': '8192 bytes', 'replies_y2025m05_created_at_idx': '8192 bytes', 'replies_y2025m06_created_at_idx': '8192 bytes', 'reviews_y2024m12_created_at_idx': '384 kB', 'reviews_y2025m01_created_at_idx': '16 kB', 'reviews_y2025m02_created_at_idx': '8192 bytes', 'reviews_y2025m03_created_at_idx': '8192 bytes', 'reviews_y2025m04_created_at_idx': '8192 bytes', 'reviews_y2025m05_created_at_idx': '8192 bytes', 'reviews_y2025m06_created_at_idx': '8192 bytes', 'reviews_partitioned_new_y2024m12': '64 kB', 'reviews_partitioned_new_y2025m01': '32 kB', 'reviews_partitioned_new_y2025m02': '32 kB', 'reviews_partitioned_new_y2025m03': '32 kB', 'replies_y2024m12_reply_status_idx': '16 kB', 'replies_y2025m01_reply_status_idx': '8192 bytes', 'replies_y2025m02_reply_status_idx': '8192 bytes', 'replies_y2025m03_reply_status_idx': '8192 bytes', 'replies_y2025m04_reply_status_idx': '8192 bytes', 'replies_y2025m05_reply_status_idx': '8192 bytes', 'replies_y2025m06_reply_status_idx': '8192 bytes', 'reviews_y2024m12_review_status_idx': '376 kB', 'reviews_y2025m01_review_status_idx': '16 kB', 'reviews_y2025m02_review_status_idx': '8192 bytes', 'reviews_y2025m03_review_status_idx': '8192 bytes', 'reviews_y2025m04_review_status_idx': '8192 bytes', 'reviews_y2025m05_review_status_idx': '8192 bytes', 'reviews_y2025m06_review_status_idx': '8192 bytes', 'summary_y2024m12_average_rating_idx': '1360 kB', 'summary_y2025m01_average_rating_idx': '8192 bytes', 'summary_y2025m02_average_rating_idx': '8192 bytes', 'summary_y2025m03_average_rating_idx': '8192 bytes', 'summary_y2025m04_average_rating_idx': '8192 bytes', 'summary_y2025m05_average_rating_idx': '8192 bytes', 'summary_y2025m06_average_rating_idx': '8192 bytes', 'reviews_partitioned_new_y2024m12_pkey': '16 kB', 'reviews_partitioned_new_y2025m01_pkey': '8192 bytes', 'reviews_partitioned_new_y2025m02_pkey': '8192 bytes', 'reviews_partitioned_new_y2025m03_pkey': '8192 bytes', 'summary_y2024m12_game_id_last_updated_idx': '568 kB', 'summary_y2024m12_game_id_last_updated_key': '560 kB', 'summary_y2025m01_game_id_last_updated_idx': '8192 bytes', 'summary_y2025m01_game_id_last_updated_key': '8192 bytes', 'summary_y2025m02_game_id_last_updated_idx': '8192 bytes', 'summary_y2025m02_game_id_last_updated_key': '8192 bytes', 'summary_y2025m03_game_id_last_updated_idx': '8192 bytes', 'summary_y2025m03_game_id_last_updated_key': '8192 bytes', 'summary_y2025m04_game_id_last_updated_idx': '8192 bytes', 'summary_y2025m04_game_id_last_updated_key': '8192 bytes', 'summary_y2025m05_game_id_last_updated_idx': '8192 bytes', 'summary_y2025m05_game_id_last_updated_key': '8192 bytes', 'summary_y2025m06_game_id_last_updated_idx': '8192 bytes', 'summary_y2025m06_game_id_last_updated_key': '8192 bytes', 'reviews_partitioned_new_y2024m12_game_id_idx': '16 kB', 'reviews_partitioned_new_y2025m01_game_id_idx': '8192 bytes', 'reviews_partitioned_new_y2025m02_game_id_idx': '8192 bytes', 'reviews_partitioned_new_y2025m03_game_id_idx': '8192 bytes', 'reviews_partitioned_new_y2024m12_user_id_created_at_idx': '16 kB', 'reviews_partitioned_new_y2025m01_user_id_created_at_idx': '8192 bytes', 'reviews_partitioned_new_y2025m02_user_id_created_at_idx': '8192 bytes', 'reviews_partitioned_new_y2025m03_user_id_created_at_idx': '8192 bytes'}
+
+Storage Statistics:
+  值: 128134291.00
+  阈值: 0.00
+  状态: info
+  详细信息:
+    总大小: 122 MB
+    replies_size: 0 bytes
+    reviews_size: 0 bytes
+    summary_size: 0 bytes

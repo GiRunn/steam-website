@@ -1,0 +1,451 @@
+"schema_name","function_name","definition"
+"public","digest","CREATE OR REPLACE FUNCTION public.digest(text, text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_digest$function$
+"
+"public","hmac","CREATE OR REPLACE FUNCTION public.hmac(text, text, text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_hmac$function$
+"
+"public","digest","CREATE OR REPLACE FUNCTION public.digest(bytea, text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_digest$function$
+"
+"public","hmac","CREATE OR REPLACE FUNCTION public.hmac(bytea, bytea, text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_hmac$function$
+"
+"public","crypt","CREATE OR REPLACE FUNCTION public.crypt(text, text)
+ RETURNS text
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_crypt$function$
+"
+"public","gen_salt","CREATE OR REPLACE FUNCTION public.gen_salt(text)
+ RETURNS text
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_gen_salt$function$
+"
+"public","gen_salt","CREATE OR REPLACE FUNCTION public.gen_salt(text, integer)
+ RETURNS text
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_gen_salt_rounds$function$
+"
+"public","encrypt","CREATE OR REPLACE FUNCTION public.encrypt(bytea, bytea, text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_encrypt$function$
+"
+"public","decrypt","CREATE OR REPLACE FUNCTION public.decrypt(bytea, bytea, text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_decrypt$function$
+"
+"public","encrypt_iv","CREATE OR REPLACE FUNCTION public.encrypt_iv(bytea, bytea, bytea, text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_encrypt_iv$function$
+"
+"public","decrypt_iv","CREATE OR REPLACE FUNCTION public.decrypt_iv(bytea, bytea, bytea, text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_decrypt_iv$function$
+"
+"public","gen_random_bytes","CREATE OR REPLACE FUNCTION public.gen_random_bytes(integer)
+ RETURNS bytea
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_random_bytes$function$
+"
+"public","gen_random_uuid","CREATE OR REPLACE FUNCTION public.gen_random_uuid()
+ RETURNS uuid
+ LANGUAGE c
+ PARALLEL SAFE
+AS '$libdir/pgcrypto', $function$pg_random_uuid$function$
+"
+"public","pgp_sym_encrypt","CREATE OR REPLACE FUNCTION public.pgp_sym_encrypt(text, text)
+ RETURNS bytea
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_sym_encrypt_text$function$
+"
+"public","pgp_sym_encrypt_bytea","CREATE OR REPLACE FUNCTION public.pgp_sym_encrypt_bytea(bytea, text)
+ RETURNS bytea
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_sym_encrypt_bytea$function$
+"
+"public","pgp_sym_encrypt","CREATE OR REPLACE FUNCTION public.pgp_sym_encrypt(text, text, text)
+ RETURNS bytea
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_sym_encrypt_text$function$
+"
+"public","pgp_sym_encrypt_bytea","CREATE OR REPLACE FUNCTION public.pgp_sym_encrypt_bytea(bytea, text, text)
+ RETURNS bytea
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_sym_encrypt_bytea$function$
+"
+"public","pgp_sym_decrypt","CREATE OR REPLACE FUNCTION public.pgp_sym_decrypt(bytea, text)
+ RETURNS text
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_sym_decrypt_text$function$
+"
+"public","pgp_sym_decrypt_bytea","CREATE OR REPLACE FUNCTION public.pgp_sym_decrypt_bytea(bytea, text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_sym_decrypt_bytea$function$
+"
+"public","pgp_sym_decrypt","CREATE OR REPLACE FUNCTION public.pgp_sym_decrypt(bytea, text, text)
+ RETURNS text
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_sym_decrypt_text$function$
+"
+"public","pgp_sym_decrypt_bytea","CREATE OR REPLACE FUNCTION public.pgp_sym_decrypt_bytea(bytea, text, text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_sym_decrypt_bytea$function$
+"
+"public","pgp_pub_encrypt","CREATE OR REPLACE FUNCTION public.pgp_pub_encrypt(text, bytea)
+ RETURNS bytea
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_pub_encrypt_text$function$
+"
+"public","pgp_pub_encrypt_bytea","CREATE OR REPLACE FUNCTION public.pgp_pub_encrypt_bytea(bytea, bytea)
+ RETURNS bytea
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_pub_encrypt_bytea$function$
+"
+"public","pgp_pub_encrypt","CREATE OR REPLACE FUNCTION public.pgp_pub_encrypt(text, bytea, text)
+ RETURNS bytea
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_pub_encrypt_text$function$
+"
+"public","pgp_pub_encrypt_bytea","CREATE OR REPLACE FUNCTION public.pgp_pub_encrypt_bytea(bytea, bytea, text)
+ RETURNS bytea
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_pub_encrypt_bytea$function$
+"
+"public","pgp_pub_decrypt","CREATE OR REPLACE FUNCTION public.pgp_pub_decrypt(bytea, bytea)
+ RETURNS text
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_pub_decrypt_text$function$
+"
+"public","pgp_pub_decrypt_bytea","CREATE OR REPLACE FUNCTION public.pgp_pub_decrypt_bytea(bytea, bytea)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_pub_decrypt_bytea$function$
+"
+"public","pgp_pub_decrypt","CREATE OR REPLACE FUNCTION public.pgp_pub_decrypt(bytea, bytea, text)
+ RETURNS text
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_pub_decrypt_text$function$
+"
+"public","pgp_pub_decrypt_bytea","CREATE OR REPLACE FUNCTION public.pgp_pub_decrypt_bytea(bytea, bytea, text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_pub_decrypt_bytea$function$
+"
+"public","pgp_pub_decrypt","CREATE OR REPLACE FUNCTION public.pgp_pub_decrypt(bytea, bytea, text, text)
+ RETURNS text
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_pub_decrypt_text$function$
+"
+"public","pgp_pub_decrypt_bytea","CREATE OR REPLACE FUNCTION public.pgp_pub_decrypt_bytea(bytea, bytea, text, text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_pub_decrypt_bytea$function$
+"
+"public","pgp_key_id","CREATE OR REPLACE FUNCTION public.pgp_key_id(bytea)
+ RETURNS text
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_key_id_w$function$
+"
+"public","armor","CREATE OR REPLACE FUNCTION public.armor(bytea)
+ RETURNS text
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_armor$function$
+"
+"public","armor","CREATE OR REPLACE FUNCTION public.armor(bytea, text[], text[])
+ RETURNS text
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_armor$function$
+"
+"public","dearmor","CREATE OR REPLACE FUNCTION public.dearmor(text)
+ RETURNS bytea
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pg_dearmor$function$
+"
+"public","pgp_armor_headers","CREATE OR REPLACE FUNCTION public.pgp_armor_headers(text, OUT key text, OUT value text)
+ RETURNS SETOF record
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/pgcrypto', $function$pgp_armor_headers$function$
+"
+"public","create_backup","CREATE OR REPLACE FUNCTION public.create_backup()
+ RETURNS void
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    -- 备份逻辑
+END;
+$function$
+"
+"public","check_price_consistency","CREATE OR REPLACE FUNCTION public.check_price_consistency()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    IF NEW.current_price > NEW.base_price THEN
+        RAISE EXCEPTION '当前价格不能高于基础价格';
+    END IF;
+    RETURN NEW;
+END;
+$function$
+"
+"public","update_updated_at_column","CREATE OR REPLACE FUNCTION public.update_updated_at_column()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$function$
+"
+"public","update_review_summary","CREATE OR REPLACE FUNCTION public.update_review_summary()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    -- 更新或插入汇总数据
+    INSERT INTO review_system.review_summary (
+        game_id,
+        total_reviews,
+        average_rating,
+        total_playtime_hours,
+        total_likes,
+        total_replies,
+        replies_likes,
+        pc_count,
+        ps5_count,
+        xbox_count,
+        en_us_count,
+        en_gb_count,
+        zh_cn_count,
+        es_es_count,
+        ja_jp_count,
+        recommended_count
+    )
+    SELECT 
+        r.game_id,
+        COUNT(DISTINCT r.review_id) as total_reviews,
+        AVG(r.rating) as average_rating,
+        SUM(r.playtime_hours) as total_playtime_hours,
+        SUM(r.likes_count) as total_likes,
+        COUNT(DISTINCT rr.reply_id) as total_replies,
+        SUM(rr.likes_count) as replies_likes,
+        COUNT(CASE WHEN r.platform = 'PC' THEN 1 END) as pc_count,
+        COUNT(CASE WHEN r.platform = 'PS5' THEN 1 END) as ps5_count,
+        COUNT(CASE WHEN r.platform = 'XBOX' THEN 1 END) as xbox_count,
+        COUNT(CASE WHEN r.language = 'en-US' THEN 1 END) as en_us_count,
+        COUNT(CASE WHEN r.language = 'en-GB' THEN 1 END) as en_gb_count,
+        COUNT(CASE WHEN r.language = 'zh-CN' THEN 1 END) as zh_cn_count,
+        COUNT(CASE WHEN r.language = 'es-ES' THEN 1 END) as es_es_count,
+        COUNT(CASE WHEN r.language = 'ja-JP' THEN 1 END) as ja_jp_count,
+        COUNT(CASE WHEN r.is_recommended = true THEN 1 END) as recommended_count
+    FROM review_system.reviews r
+    LEFT JOIN review_system.review_replies rr ON r.review_id = rr.review_id
+    WHERE r.review_status = 'active'
+    AND (rr.reply_status IS NULL OR rr.reply_status = 'active')
+    GROUP BY r.game_id
+    ON CONFLICT (game_id) DO UPDATE
+    SET 
+        total_reviews = EXCLUDED.total_reviews,
+        average_rating = EXCLUDED.average_rating,
+        total_playtime_hours = EXCLUDED.total_playtime_hours,
+        total_likes = EXCLUDED.total_likes,
+        total_replies = EXCLUDED.total_replies,
+        replies_likes = EXCLUDED.replies_likes,
+        pc_count = EXCLUDED.pc_count,
+        ps5_count = EXCLUDED.ps5_count,
+        xbox_count = EXCLUDED.xbox_count,
+        en_us_count = EXCLUDED.en_us_count,
+        en_gb_count = EXCLUDED.en_gb_count,
+        zh_cn_count = EXCLUDED.zh_cn_count,
+        es_es_count = EXCLUDED.es_es_count,
+        ja_jp_count = EXCLUDED.ja_jp_count,
+        recommended_count = EXCLUDED.recommended_count,
+        last_updated = CURRENT_TIMESTAMP;
+    
+    RETURN NEW;
+END;
+$function$
+"
+"public","update_game_discount","CREATE OR REPLACE PROCEDURE public.update_game_discount()
+ LANGUAGE plpgsql
+AS $procedure$
+BEGIN
+    UPDATE games 
+    SET discount = 
+        CASE 
+            WHEN base_price = 0 THEN 0
+            ELSE 100 - CAST((current_price::numeric / base_price::numeric * 100) AS integer)
+        END
+    WHERE deleted_at IS NULL;
+END;
+$procedure$
+"
+"public","update_game_ratings","CREATE OR REPLACE PROCEDURE public.update_game_ratings()
+ LANGUAGE plpgsql
+AS $procedure$
+BEGIN
+    UPDATE games g
+    SET rating = rs.average_rating
+    FROM review_system.review_summary rs
+    WHERE g.game_id = rs.game_id
+    AND g.deleted_at IS NULL;
+    
+    -- 更新最后执行时间记录
+    -- 创建一个配置表来记录最后更新时间
+    CREATE TABLE IF NOT EXISTS system_config (
+        key VARCHAR(50) PRIMARY KEY,
+        value TIMESTAMP WITH TIME ZONE,
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    );
+    
+    INSERT INTO system_config (key, value, updated_at)
+    VALUES ('last_rating_update', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ON CONFLICT (key) 
+    DO UPDATE SET 
+        value = CURRENT_TIMESTAMP,
+        updated_at = CURRENT_TIMESTAMP;
+END;
+$procedure$
+"
+"public","should_update_ratings","CREATE OR REPLACE FUNCTION public.should_update_ratings()
+ RETURNS boolean
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+    last_update TIMESTAMP WITH TIME ZONE;
+BEGIN
+    SELECT value INTO last_update
+    FROM system_config
+    WHERE key = 'last_rating_update';
+    
+    RETURN (last_update IS NULL OR 
+            CURRENT_TIMESTAMP - last_update > INTERVAL '1 hour');
+END;
+$function$
+"
+"public","calculate_positive_rate","CREATE OR REPLACE FUNCTION public.calculate_positive_rate(p_recommended_count integer, p_total_reviews integer, p_average_rating numeric)
+ RETURNS numeric
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+    rating_weight NUMERIC;
+BEGIN
+    IF p_total_reviews = 0 THEN
+        RETURN 0;
+    END IF;
+    
+    -- 根据评分计算权重
+    rating_weight := CASE 
+        WHEN p_average_rating >= 4.5 THEN 0.40  -- 优秀评分给予更高权重
+        WHEN p_average_rating >= 4.0 THEN 0.35
+        WHEN p_average_rating >= 3.5 THEN 0.30
+        WHEN p_average_rating >= 3.0 THEN 0.25
+        ELSE 0.20
+    END;
+    
+    -- 动态权重计算
+    RETURN (
+        (p_recommended_count::float / p_total_reviews) * (1 - rating_weight) + 
+        (p_average_rating / 5) * rating_weight
+    ) * 100;
+END;
+$function$
+"
+"public","refresh_game_ratings_summary","CREATE OR REPLACE FUNCTION public.refresh_game_ratings_summary()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    REFRESH MATERIALIZED VIEW CONCURRENTLY game_ratings_summary;
+    RETURN NULL;
+END;
+$function$
+"
+"public","calculate_positive_rate","CREATE OR REPLACE FUNCTION public.calculate_positive_rate(p_average_rating numeric)
+ RETURNS numeric
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    -- 直接将5分制转换为百分比
+    RETURN (p_average_rating / 5) * 100;
+END;
+$function$
+"
+"review_system","update_positive_rate","CREATE OR REPLACE FUNCTION review_system.update_positive_rate()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    NEW.positive_rate = (NEW.average_rating / 5) * 100;
+    RETURN NEW;
+END;
+$function$
+"
+"review_system","update_review_stats","CREATE OR REPLACE FUNCTION review_system.update_review_stats()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    -- 计算好评率
+    NEW.positive_rate = (NEW.average_rating / 5) * 100;
+    
+    -- 计算平均游戏时长
+    NEW.avg_playtime_hours = 
+        CASE 
+            WHEN NEW.total_reviews > 0 THEN NEW.total_playtime_hours::numeric / NEW.total_reviews
+            ELSE 0
+        END;
+    
+    RETURN NEW;
+END;
+$function$
+"

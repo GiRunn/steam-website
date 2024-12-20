@@ -1,0 +1,42 @@
+.partition-monitor {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.partition-monitor h2 {
+  margin-bottom: 20px;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.loading, .error {
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.error {
+  color: #ff4d4f;
+}
+
+.query-cell {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 添加表格的响应式样式 */
+@media (max-width: 1200px) {
+  .query-cell {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .query-cell {
+    max-width: 150px;
+  }
+} 

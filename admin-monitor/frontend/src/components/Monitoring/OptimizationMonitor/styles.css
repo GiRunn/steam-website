@@ -1,0 +1,83 @@
+.optimization-monitor {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.optimization-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.optimization-header h2 {
+  color: #fff;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.last-updated {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.suggestions-container {
+  display: grid;
+  gap: 20px;
+}
+
+.suggestion-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.suggestion-section h3 {
+  color: #fff;
+  margin: 0 0 16px 0;
+  font-size: 1.2rem;
+}
+
+.table-name {
+  color: #1890ff;
+  font-family: monospace;
+}
+
+.error-message {
+  color: #ff4d4f;
+  text-align: center;
+  padding: 20px;
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+  .suggestions-container {
+    grid-template-columns: 1fr;
+  }
+} 
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.loading-container .progress {
+  width: 100%;
+}
+
+.loading-text {
+  color: #fff;
+  margin-top: 16px;
+  font-size: 14px;
+  opacity: 0.8;
+} 

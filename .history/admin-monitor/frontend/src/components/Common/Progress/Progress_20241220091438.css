@@ -1,0 +1,25 @@
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.progress-outer {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-inner {
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.progress-info {
+  min-width: 3rem;
+  text-align: right;
+  font-size: 0.875rem;
+  font-weight: 500;
+} 

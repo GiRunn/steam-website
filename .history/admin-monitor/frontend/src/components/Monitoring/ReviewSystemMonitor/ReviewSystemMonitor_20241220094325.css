@@ -1,0 +1,35 @@
+.review-system-monitor {
+  padding: 24px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.metric-value {
+  font-size: 24px;
+  font-weight: 500;
+  color: #1890ff;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.charts-section {
+  margin-bottom: 24px;
+}
+
+.details-section {
+  margin-bottom: 24px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.45);
+} 

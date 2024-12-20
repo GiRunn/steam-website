@@ -1,0 +1,137 @@
+.review-system-monitor {
+  width: 100%;
+}
+
+.metrics-section {
+  margin-bottom: 2rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.metric-item {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.metric-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.metric-item h3 {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  color: #8c8c8c;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1890ff;
+}
+
+.anomalies-section {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.anomalies-section h3 {
+  margin: 0 0 1rem;
+  color: #ffffff;
+}
+
+.anomalies-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.anomaly-item {
+  padding: 1rem;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.anomaly-item.severity-low {
+  border-left: 4px solid #52c41a;
+}
+
+.anomaly-item.severity-medium {
+  border-left: 4px solid #faad14;
+}
+
+.anomaly-item.severity-high {
+  border-left: 4px solid #f5222d;
+}
+
+.anomaly-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.anomaly-type {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.anomaly-severity {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.severity-low .anomaly-severity {
+  background: #237804;
+  color: white;
+}
+
+.severity-medium .anomaly-severity {
+  background: #ad6800;
+  color: white;
+}
+
+.severity-high .anomaly-severity {
+  background: #a8071a;
+  color: white;
+}
+
+.anomaly-description {
+  margin: 0.5rem 0;
+  color: #d9d9d9;
+  font-size: 0.875rem;
+}
+
+.anomaly-time {
+  display: block;
+  color: #8c8c8c;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.review-loading,
+.review-error {
+  padding: 2rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.review-error {
+  color: #ff4d4f;
+}
+
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+} 

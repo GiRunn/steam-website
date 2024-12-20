@@ -1,0 +1,149 @@
+.partition-monitor {
+  width: 100%;
+}
+
+.partitions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.partition-card {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.partition-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.partition-card.selected {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.partition-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.partition-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.partition-status {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.partition-info {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-label {
+  color: #8c8c8c;
+  font-size: 0.875rem;
+}
+
+.info-value {
+  color: #ffffff;
+  font-size: 0.875rem;
+}
+
+.usage-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.usage-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.usage-text {
+  display: block;
+  text-align: right;
+  font-size: 0.75rem;
+  color: #8c8c8c;
+  margin-top: 0.25rem;
+}
+
+.io-stats {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.io-stats h4 {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  color: #ffffff;
+}
+
+.io-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.io-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.io-label {
+  color: #8c8c8c;
+  font-size: 0.75rem;
+}
+
+.io-value {
+  color: #1890ff;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.partition-loading,
+.partition-error {
+  padding: 2rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.partition-error {
+  color: #ff4d4f;
+}
+
+@media (max-width: 768px) {
+  .partitions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .io-grid {
+    grid-template-columns: 1fr;
+  }
+} 

@@ -1,0 +1,84 @@
+.alert {
+  position: relative;
+  padding: 12px 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.alert-content {
+  flex: 1;
+  margin: 0 8px;
+}
+
+.alert-message {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.alert-description {
+  font-size: 12px;
+  margin-top: 4px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.alert-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.alert-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.alert-close:hover {
+  opacity: 1;
+}
+
+/* Alert Types */
+.alert-success {
+  background-color: #f6ffed;
+  border: 1px solid #b7eb8f;
+}
+
+.alert-info {
+  background-color: #e6f7ff;
+  border: 1px solid #91d5ff;
+}
+
+.alert-warning {
+  background-color: #fffbe6;
+  border: 1px solid #ffe58f;
+}
+
+.alert-error {
+  background-color: #fff2f0;
+  border: 1px solid #ffccc7;
+}
+
+/* Icon Colors */
+.alert-icon-success {
+  color: #52c41a;
+}
+
+.alert-icon-info {
+  color: #1890ff;
+}
+
+.alert-icon-warning {
+  color: #faad14;
+}
+
+.alert-icon-error {
+  color: #ff4d4f;
+} 

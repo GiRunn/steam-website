@@ -1,0 +1,48 @@
+.statistic {
+  display: inline-block;
+  margin-right: 32px;
+  padding: 16px;
+}
+
+.statistic-title {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.45);
+  margin-bottom: 4px;
+}
+
+.statistic-content {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.statistic-prefix,
+.statistic-suffix {
+  margin: 0 4px;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.statistic-loading {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 16px;
+  font-weight: normal;
+}
+
+/* Dark Theme */
+.dark-theme .statistic-title {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.dark-theme .statistic-content {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dark-theme .statistic-prefix,
+.dark-theme .statistic-suffix {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.dark-theme .statistic-loading {
+  color: rgba(255, 255, 255, 0.45);
+} 

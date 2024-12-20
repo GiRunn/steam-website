@@ -1,0 +1,55 @@
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress-outer {
+  flex: 1;
+  background-color: #f5f5f5;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress-inner {
+  height: 100%;
+  transition: width 0.3s ease-in-out;
+}
+
+.progress-normal {
+  background-color: #1890ff;
+}
+
+.progress-success {
+  background-color: #52c41a;
+}
+
+.progress-warning {
+  background-color: #faad14;
+}
+
+.progress-error {
+  background-color: #ff4d4f;
+}
+
+.progress-info {
+  min-width: 35px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.progress-info.progress-normal {
+  color: #1890ff;
+}
+
+.progress-info.progress-success {
+  color: #52c41a;
+}
+
+.progress-info.progress-warning {
+  color: #faad14;
+}
+
+.progress-info.progress-error {
+  color: #ff4d4f;
+} 

@@ -1,0 +1,51 @@
+/* 使用新的 forced-colors 媒体查询替代 -ms-high-contrast */
+@media (forced-colors: active) {
+  /* 基础样式 */
+  :root {
+    --background-color: Canvas;
+    --text-color: CanvasText;
+    --border-color: CanvasText;
+  }
+
+  /* 表格样式 */
+  .table {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    border: 1px solid CanvasText;
+  }
+
+  .table th,
+  .table td {
+    border-color: CanvasText;
+  }
+
+  /* 卡片样式 */
+  .card {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    border: 1px solid CanvasText;
+  }
+
+  /* 图表样式 */
+  .chart-wrapper {
+    forced-color-adjust: none;
+  }
+
+  /* 按钮样式 */
+  .button {
+    forced-color-adjust: none;
+    background-color: ButtonFace;
+    color: ButtonText;
+    border: 1px solid ButtonText;
+  }
+
+  /* 链接样式 */
+  a {
+    color: LinkText;
+  }
+
+  /* 禁用状态 */
+  [disabled] {
+    color: GrayText;
+  }
+} 

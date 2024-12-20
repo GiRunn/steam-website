@@ -1,0 +1,11 @@
+.connection-monitor {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.connection-monitor h2 {
+  margin-bottom: 20px;
+  color: #fff;
+} 

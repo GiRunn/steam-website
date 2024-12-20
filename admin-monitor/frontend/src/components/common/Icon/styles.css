@@ -1,0 +1,55 @@
+.icon {
+  display: inline-block;
+  font-style: normal;
+  line-height: 0;
+  text-align: center;
+  text-transform: none;
+  vertical-align: -0.125em;
+  text-rendering: optimizeLegibility;
+}
+
+.icon-size-small {
+  font-size: 14px;
+}
+
+.icon-size-default {
+  font-size: 16px;
+}
+
+.icon-size-large {
+  font-size: 20px;
+}
+
+.icon-spin {
+  animation: icon-spin 1s infinite linear;
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 图标类型 */
+.icon-success::before {
+  content: "✓";
+  color: #52c41a;
+}
+
+.icon-error::before {
+  content: "✕";
+  color: #ff4d4f;
+}
+
+.icon-warning::before {
+  content: "⚠";
+  color: #faad14;
+}
+
+.icon-info::before {
+  content: "ℹ";
+  color: #1890ff;
+} 

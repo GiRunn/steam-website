@@ -1,0 +1,16 @@
+.chart-wrapper {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.chart-title {
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.chart-container {
+  width: 100%;
+  height: 300px;
+} 

@@ -1,0 +1,63 @@
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  vertical-align: -0.125em;
+  font-size: 16px;
+}
+
+.icon-comment::before {
+  content: "💬";
+}
+
+.icon-rise::before {
+  content: "📈";
+}
+
+.icon-star::before {
+  content: "⭐";
+}
+
+.icon-warning::before {
+  content: "⚠️";
+}
+
+.icon-success::before {
+  content: "✅";
+}
+
+.icon-error::before {
+  content: "❌";
+}
+
+.icon-info::before {
+  content: "ℹ️";
+}
+
+/* 动画效果 */
+.icon-spin {
+  animation: icon-spin 2s infinite linear;
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 大小变体 */
+.icon-sm {
+  font-size: 12px;
+}
+
+.icon-lg {
+  font-size: 20px;
+}
+
+.icon-xl {
+  font-size: 24px;
+} 

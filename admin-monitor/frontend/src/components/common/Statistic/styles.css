@@ -1,0 +1,32 @@
+.statistic {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.statistic-title {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.statistic-content {
+  display: flex;
+  align-items: baseline;
+}
+
+.statistic-value {
+  font-size: 24px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.statistic-prefix,
+.statistic-suffix {
+  margin: 0 4px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.statistic-loading {
+  color: rgba(255, 255, 255, 0.6);
+} 

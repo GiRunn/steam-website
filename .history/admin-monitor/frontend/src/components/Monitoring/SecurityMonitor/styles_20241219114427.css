@@ -1,0 +1,15 @@
+.security-monitor {
+  padding: 20px;
+}
+
+.security-alerts {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.security-monitor h2 {
+  margin-bottom: 20px;
+  color: #fff;
+} 

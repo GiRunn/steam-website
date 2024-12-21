@@ -1,0 +1,2 @@
+backup_id,backup_type,backup_status,compression_type,retention_days,start_time,end_time,file_path,file_size,error_message,created_by,compression_level,encryption_enabled,backup_size_before_compression
+1,FULL,COMPLETED,GZIP,30,2024-12-21 10:15:25.185945+08,,backup_20241221_101525,,,postgres,6,f,1024

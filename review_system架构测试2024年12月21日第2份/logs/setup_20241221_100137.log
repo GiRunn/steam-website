@@ -1,0 +1,17 @@
+2024-12-21 10:01:37,779 - INFO - 开始设置测试环境...
+2024-12-21 10:01:37,782 - INFO - pip已安装
+2024-12-21 10:01:37,783 - INFO - 正在安装依赖包...
+2024-12-21 10:01:39,901 - INFO - 执行drop_review_tables.sql成功
+2024-12-21 10:01:39,915 - INFO - 执行create_review_tables.sql成功
+2024-12-21 10:01:39,929 - INFO - 执行create_monitoring_tables.sql成功
+2024-12-21 10:01:39,935 - INFO - 执行create_partition_maintenance.sql成功
+2024-12-21 10:01:39,937 - INFO - 执行create_partition_functions.sql成功
+2024-12-21 10:01:39,976 - INFO - 执行create_security_features.sql成功
+2024-12-21 10:01:39,977 - INFO - 执行create_performance_config.sql成功
+2024-12-21 10:01:39,979 - INFO - 执行create_triggers.sql成功
+2024-12-21 10:01:39,985 - INFO - 执行create_indexes.sql成功
+2024-12-21 10:01:40,156 - INFO - 执行create_initial_partitions.sql成功
+2024-12-21 10:01:40,156 - INFO - 数据库初始化完成
+2024-12-21 10:01:40,259 - INFO - 数据库结构验证通过
+2024-12-21 10:01:40,260 - INFO - 环境设置完成!
+2024-12-21 10:01:40,260 - INFO - 开始运行测试...

@@ -1,0 +1,1393 @@
+{
+  "test_summary": {
+    "total_tests": 15,
+    "passed_tests": 15,
+    "failed_tests": 0,
+    "total_duration": 1.9190585613250732
+  },
+  "test_results": [
+    {
+      "test_type": "安全测试",
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "duration": 0.02992105484008789,
+      "details": [
+        {
+          "name": "访问控制测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.02秒",
+          "details": {
+            "access_control_tests": [
+              {
+                "role": "review_readonly",
+                "operations": [
+                  {
+                    "operation": "SELECT",
+                    "status": "需要检查",
+                    "message": "review_readonly 可以执行 SELECT 操作"
+                  },
+                  {
+                    "operation": "INSERT",
+                    "status": "需要检查",
+                    "message": "review_readonly 可以执行 INSERT 操作"
+                  },
+                  {
+                    "operation": "UPDATE",
+                    "status": "需要检查",
+                    "message": "review_readonly 可以执行 UPDATE 操作"
+                  },
+                  {
+                    "operation": "DELETE",
+                    "status": "需要检查",
+                    "message": "review_readonly 可以执行 DELETE 操作"
+                  }
+                ]
+              },
+              {
+                "role": "review_writer",
+                "operations": [
+                  {
+                    "operation": "SELECT",
+                    "status": "需要检查",
+                    "message": "review_writer 可以执行 SELECT 操作"
+                  },
+                  {
+                    "operation": "INSERT",
+                    "status": "需要检查",
+                    "message": "review_writer 可以执行 INSERT 操作"
+                  },
+                  {
+                    "operation": "UPDATE",
+                    "status": "需要检查",
+                    "message": "review_writer 可以执行 UPDATE 操作"
+                  },
+                  {
+                    "operation": "DELETE",
+                    "status": "需要检查",
+                    "message": "review_writer 可以执行 DELETE 操作"
+                  }
+                ]
+              }
+            ],
+            "summary": {
+              "total_roles": 2,
+              "total_operations": 8
+            }
+          }
+        },
+        {
+          "name": "数据加密测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.01秒",
+          "details": {
+            "encryption_tests": [
+              {
+                "data": "测试数据1",
+                "status": "通过",
+                "message": "加密解密成功"
+              },
+              {
+                "data": "sensitive_info_123",
+                "status": "通过",
+                "message": "加密解密成功"
+              },
+              {
+                "data": "机密信息",
+                "status": "通过",
+                "message": "加密解密成功"
+              }
+            ],
+            "summary": {
+              "total_tests": 3,
+              "successful_tests": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test_type": "性能测试",
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "duration": 0.024935007095336914,
+      "details": [
+        {
+          "name": "查询性能测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.01秒",
+          "details": {
+            "performance_tests": [
+              {
+                "query_name": "简单查询",
+                "execution_time": 0.065,
+                "execution_plan": [
+                  "Limit  (cost=0.14..32.67 rows=4 width=288) (actual time=0.041..0.042 rows=0 loops=1)",
+                  "  ->  Append  (cost=0.14..32.67 rows=4 width=288) (actual time=0.040..0.040 rows=0 loops=1)",
+                  "        ->  Index Scan using reviews_y2024m12_game_id_created_at_rating_review_status_li_idx on reviews_y2024m12 reviews_partitioned_1  (cost=0.14..8.16 rows=1 width=288) (actual time=0.028..0.028 rows=0 loops=1)",
+                  "              Index Cond: (game_id = 1)",
+                  "        ->  Index Scan using reviews_y2025m01_game_id_created_at_rating_review_status_li_idx on reviews_y2025m01 reviews_partitioned_2  (cost=0.14..8.16 rows=1 width=288) (actual time=0.004..0.004 rows=0 loops=1)",
+                  "              Index Cond: (game_id = 1)",
+                  "        ->  Index Scan using reviews_y2025m02_game_id_created_at_rating_review_status_li_idx on reviews_y2025m02 reviews_partitioned_3  (cost=0.14..8.16 rows=1 width=288) (actual time=0.003..0.004 rows=0 loops=1)",
+                  "              Index Cond: (game_id = 1)",
+                  "        ->  Index Scan using reviews_y2025m03_game_id_created_at_rating_review_status_li_idx on reviews_y2025m03 reviews_partitioned_4  (cost=0.14..8.16 rows=1 width=288) (actual time=0.003..0.003 rows=0 loops=1)",
+                  "              Index Cond: (game_id = 1)",
+                  "Planning Time: 4.650 ms",
+                  "Execution Time: 0.065 ms"
+                ],
+                "status": "通过"
+              },
+              {
+                "query_name": "聚合查询",
+                "execution_time": 0.06,
+                "execution_plan": [
+                  "Limit  (cost=69.32..69.35 rows=10 width=48) (actual time=0.025..0.025 rows=0 loops=1)",
+                  "  ->  Sort  (cost=69.32..69.82 rows=200 width=48) (actual time=0.024..0.025 rows=0 loops=1)",
+                  "        Sort Key: (count(*)) DESC",
+                  "        Sort Method: quicksort  Memory: 25kB",
+                  "        ->  HashAggregate  (cost=62.50..65.00 rows=200 width=48) (actual time=0.016..0.016 rows=0 loops=1)",
+                  "              Group Key: reviews_partitioned.game_id",
+                  "              Batches: 1  Memory Usage: 40kB",
+                  "              ->  Append  (cost=0.00..55.00 rows=1000 width=20) (actual time=0.014..0.014 rows=0 loops=1)",
+                  "                    ->  Seq Scan on reviews_y2024m12 reviews_partitioned_1  (cost=0.00..12.50 rows=250 width=20) (actual time=0.006..0.006 rows=0 loops=1)",
+                  "                    ->  Seq Scan on reviews_y2025m01 reviews_partitioned_2  (cost=0.00..12.50 rows=250 width=20) (actual time=0.003..0.003 rows=0 loops=1)",
+                  "                    ->  Seq Scan on reviews_y2025m02 reviews_partitioned_3  (cost=0.00..12.50 rows=250 width=20) (actual time=0.003..0.003 rows=0 loops=1)",
+                  "                    ->  Seq Scan on reviews_y2025m03 reviews_partitioned_4  (cost=0.00..12.50 rows=250 width=20) (actual time=0.003..0.003 rows=0 loops=1)",
+                  "Planning Time: 0.282 ms",
+                  "Execution Time: 0.060 ms"
+                ],
+                "status": "通过"
+              },
+              {
+                "query_name": "复杂连接查询",
+                "execution_time": 0.064,
+                "execution_plan": [
+                  "Limit  (cost=914.48..914.51 rows=10 width=24) (actual time=0.028..0.029 rows=0 loops=1)",
+                  "  ->  Sort  (cost=914.48..914.65 rows=67 width=24) (actual time=0.027..0.028 rows=0 loops=1)",
+                  "        Sort Key: (count(DISTINCT r.user_id)) DESC",
+                  "        Sort Method: quicksort  Memory: 25kB",
+                  "        ->  GroupAggregate  (cost=836.53..913.03 rows=67 width=24) (actual time=0.025..0.026 rows=0 loops=1)",
+                  "              Group Key: r.game_id",
+                  "              Filter: (count(DISTINCT r.user_id) > 5)",
+                  "              ->  Sort  (cost=836.53..855.03 rows=7400 width=24) (actual time=0.025..0.025 rows=0 loops=1)",
+                  "                    Sort Key: r.game_id, r.user_id",
+                  "                    Sort Method: quicksort  Memory: 25kB",
+                  "                    ->  Merge Left Join  (cost=244.96..360.96 rows=7400 width=24) (actual time=0.021..0.021 rows=0 loops=1)",
+                  "                          Merge Cond: (r.review_id = rr.review_id)",
+                  "                          ->  Sort  (cost=104.83..107.33 rows=1000 width=24) (actual time=0.020..0.021 rows=0 loops=1)",
+                  "                                Sort Key: r.review_id",
+                  "                                Sort Method: quicksort  Memory: 25kB",
+                  "                                ->  Append  (cost=0.00..55.00 rows=1000 width=24) (actual time=0.016..0.017 rows=0 loops=1)",
+                  "                                      ->  Seq Scan on reviews_y2024m12 r_1  (cost=0.00..12.50 rows=250 width=24) (actual time=0.008..0.008 rows=0 loops=1)",
+                  "                                      ->  Seq Scan on reviews_y2025m01 r_2  (cost=0.00..12.50 rows=250 width=24) (actual time=0.003..0.003 rows=0 loops=1)",
+                  "                                      ->  Seq Scan on reviews_y2025m02 r_3  (cost=0.00..12.50 rows=250 width=24) (actual time=0.003..0.003 rows=0 loops=1)",
+                  "                                      ->  Seq Scan on reviews_y2025m03 r_4  (cost=0.00..12.50 rows=250 width=24) (actual time=0.003..0.003 rows=0 loops=1)",
+                  "                          ->  Sort  (cost=140.13..143.83 rows=1480 width=16) (never executed)",
+                  "                                Sort Key: rr.review_id",
+                  "                                ->  Append  (cost=0.00..62.20 rows=1480 width=16) (never executed)",
+                  "                                      ->  Seq Scan on replies_y2024m12 rr_1  (cost=0.00..13.70 rows=370 width=16) (never executed)",
+                  "                                      ->  Seq Scan on replies_y2025m01 rr_2  (cost=0.00..13.70 rows=370 width=16) (never executed)",
+                  "                                      ->  Seq Scan on replies_y2025m02 rr_3  (cost=0.00..13.70 rows=370 width=16) (never executed)",
+                  "                                      ->  Seq Scan on replies_y2025m03 rr_4  (cost=0.00..13.70 rows=370 width=16) (never executed)",
+                  "Planning Time: 3.243 ms",
+                  "Execution Time: 0.064 ms"
+                ],
+                "status": "通过"
+              }
+            ],
+            "summary": {
+              "total_queries": 3,
+              "optimized_queries": 3,
+              "average_execution_time": 0.063
+            }
+          }
+        },
+        {
+          "name": "索引效果测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.01秒",
+          "details": {
+            "index_tests": [
+              {
+                "test_name": "游戏ID索引",
+                "uses_index": false,
+                "requires_seqscan": false,
+                "status": "需要优化",
+                "plan": [
+                  {
+                    "Plan": {
+                      "Node Type": "Append",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 0.14,
+                      "Total Cost": 32.67,
+                      "Plan Rows": 4,
+                      "Plan Width": 288,
+                      "Subplans Removed": 0,
+                      "Plans": [
+                        {
+                          "Node Type": "Index Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Scan Direction": "Forward",
+                          "Index Name": "reviews_y2024m12_game_id_created_at_rating_review_status_li_idx",
+                          "Relation Name": "reviews_y2024m12",
+                          "Alias": "reviews_partitioned_1",
+                          "Startup Cost": 0.14,
+                          "Total Cost": 8.16,
+                          "Plan Rows": 1,
+                          "Plan Width": 288,
+                          "Index Cond": "(game_id = 1)"
+                        },
+                        {
+                          "Node Type": "Index Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Scan Direction": "Forward",
+                          "Index Name": "reviews_y2025m01_game_id_created_at_rating_review_status_li_idx",
+                          "Relation Name": "reviews_y2025m01",
+                          "Alias": "reviews_partitioned_2",
+                          "Startup Cost": 0.14,
+                          "Total Cost": 8.16,
+                          "Plan Rows": 1,
+                          "Plan Width": 288,
+                          "Index Cond": "(game_id = 1)"
+                        },
+                        {
+                          "Node Type": "Index Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Scan Direction": "Forward",
+                          "Index Name": "reviews_y2025m02_game_id_created_at_rating_review_status_li_idx",
+                          "Relation Name": "reviews_y2025m02",
+                          "Alias": "reviews_partitioned_3",
+                          "Startup Cost": 0.14,
+                          "Total Cost": 8.16,
+                          "Plan Rows": 1,
+                          "Plan Width": 288,
+                          "Index Cond": "(game_id = 1)"
+                        },
+                        {
+                          "Node Type": "Index Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Scan Direction": "Forward",
+                          "Index Name": "reviews_y2025m03_game_id_created_at_rating_review_status_li_idx",
+                          "Relation Name": "reviews_y2025m03",
+                          "Alias": "reviews_partitioned_4",
+                          "Startup Cost": 0.14,
+                          "Total Cost": 8.16,
+                          "Plan Rows": 1,
+                          "Plan Width": 288,
+                          "Index Cond": "(game_id = 1)"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "test_name": "用户ID索引",
+                "uses_index": false,
+                "requires_seqscan": false,
+                "status": "需要优化",
+                "plan": [
+                  {
+                    "Plan": {
+                      "Node Type": "Append",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 0.14,
+                      "Total Cost": 32.67,
+                      "Plan Rows": 4,
+                      "Plan Width": 288,
+                      "Subplans Removed": 0,
+                      "Plans": [
+                        {
+                          "Node Type": "Index Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Scan Direction": "Forward",
+                          "Index Name": "reviews_y2024m12_user_id_idx",
+                          "Relation Name": "reviews_y2024m12",
+                          "Alias": "reviews_partitioned_1",
+                          "Startup Cost": 0.14,
+                          "Total Cost": 8.16,
+                          "Plan Rows": 1,
+                          "Plan Width": 288,
+                          "Index Cond": "(user_id = 1)"
+                        },
+                        {
+                          "Node Type": "Index Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Scan Direction": "Forward",
+                          "Index Name": "reviews_y2025m01_user_id_idx",
+                          "Relation Name": "reviews_y2025m01",
+                          "Alias": "reviews_partitioned_2",
+                          "Startup Cost": 0.14,
+                          "Total Cost": 8.16,
+                          "Plan Rows": 1,
+                          "Plan Width": 288,
+                          "Index Cond": "(user_id = 1)"
+                        },
+                        {
+                          "Node Type": "Index Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Scan Direction": "Forward",
+                          "Index Name": "reviews_y2025m02_user_id_idx",
+                          "Relation Name": "reviews_y2025m02",
+                          "Alias": "reviews_partitioned_3",
+                          "Startup Cost": 0.14,
+                          "Total Cost": 8.16,
+                          "Plan Rows": 1,
+                          "Plan Width": 288,
+                          "Index Cond": "(user_id = 1)"
+                        },
+                        {
+                          "Node Type": "Index Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Scan Direction": "Forward",
+                          "Index Name": "reviews_y2025m03_user_id_idx",
+                          "Relation Name": "reviews_y2025m03",
+                          "Alias": "reviews_partitioned_4",
+                          "Startup Cost": 0.14,
+                          "Total Cost": 8.16,
+                          "Plan Rows": 1,
+                          "Plan Width": 288,
+                          "Index Cond": "(user_id = 1)"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "test_name": "创建时间索引",
+                "uses_index": false,
+                "requires_seqscan": false,
+                "status": "需要优化",
+                "plan": [
+                  {
+                    "Plan": {
+                      "Node Type": "Append",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 0.0,
+                      "Total Cost": 59.16,
+                      "Plan Rows": 332,
+                      "Plan Width": 288,
+                      "Subplans Removed": 0,
+                      "Plans": [
+                        {
+                          "Node Type": "Seq Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Relation Name": "reviews_y2024m12",
+                          "Alias": "reviews_partitioned_1",
+                          "Startup Cost": 0.0,
+                          "Total Cost": 14.38,
+                          "Plan Rows": 83,
+                          "Plan Width": 288,
+                          "Filter": "(created_at >= (CURRENT_DATE - '7 days'::interval))"
+                        },
+                        {
+                          "Node Type": "Seq Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Relation Name": "reviews_y2025m01",
+                          "Alias": "reviews_partitioned_2",
+                          "Startup Cost": 0.0,
+                          "Total Cost": 14.38,
+                          "Plan Rows": 83,
+                          "Plan Width": 288,
+                          "Filter": "(created_at >= (CURRENT_DATE - '7 days'::interval))"
+                        },
+                        {
+                          "Node Type": "Seq Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Relation Name": "reviews_y2025m02",
+                          "Alias": "reviews_partitioned_3",
+                          "Startup Cost": 0.0,
+                          "Total Cost": 14.38,
+                          "Plan Rows": 83,
+                          "Plan Width": 288,
+                          "Filter": "(created_at >= (CURRENT_DATE - '7 days'::interval))"
+                        },
+                        {
+                          "Node Type": "Seq Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Relation Name": "reviews_y2025m03",
+                          "Alias": "reviews_partitioned_4",
+                          "Startup Cost": 0.0,
+                          "Total Cost": 14.38,
+                          "Plan Rows": 83,
+                          "Plan Width": 288,
+                          "Filter": "(created_at >= (CURRENT_DATE - '7 days'::interval))"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "test_name": "复合索引",
+                "uses_index": false,
+                "requires_seqscan": false,
+                "status": "需要优化",
+                "plan": [
+                  {
+                    "Plan": {
+                      "Node Type": "Append",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 0.14,
+                      "Total Cost": 32.68,
+                      "Plan Rows": 4,
+                      "Plan Width": 288,
+                      "Subplans Removed": 0,
+                      "Plans": [
+                        {
+                          "Node Type": "Index Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Scan Direction": "Forward",
+                          "Index Name": "reviews_y2024m12_game_id_created_at_rating_review_status_li_idx",
+                          "Relation Name": "reviews_y2024m12",
+                          "Alias": "reviews_partitioned_1",
+                          "Startup Cost": 0.14,
+                          "Total Cost": 8.16,
+                          "Plan Rows": 1,
+                          "Plan Width": 288,
+                          "Index Cond": "((game_id = 1) AND (rating >= '4'::numeric))"
+                        },
+                        {
+                          "Node Type": "Index Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Scan Direction": "Forward",
+                          "Index Name": "reviews_y2025m01_game_id_created_at_rating_review_status_li_idx",
+                          "Relation Name": "reviews_y2025m01",
+                          "Alias": "reviews_partitioned_2",
+                          "Startup Cost": 0.14,
+                          "Total Cost": 8.16,
+                          "Plan Rows": 1,
+                          "Plan Width": 288,
+                          "Index Cond": "((game_id = 1) AND (rating >= '4'::numeric))"
+                        },
+                        {
+                          "Node Type": "Index Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Scan Direction": "Forward",
+                          "Index Name": "reviews_y2025m02_game_id_created_at_rating_review_status_li_idx",
+                          "Relation Name": "reviews_y2025m02",
+                          "Alias": "reviews_partitioned_3",
+                          "Startup Cost": 0.14,
+                          "Total Cost": 8.16,
+                          "Plan Rows": 1,
+                          "Plan Width": 288,
+                          "Index Cond": "((game_id = 1) AND (rating >= '4'::numeric))"
+                        },
+                        {
+                          "Node Type": "Index Scan",
+                          "Parent Relationship": "Member",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Scan Direction": "Forward",
+                          "Index Name": "reviews_y2025m03_game_id_created_at_rating_review_status_li_idx",
+                          "Relation Name": "reviews_y2025m03",
+                          "Alias": "reviews_partitioned_4",
+                          "Startup Cost": 0.14,
+                          "Total Cost": 8.16,
+                          "Plan Rows": 1,
+                          "Plan Width": 288,
+                          "Index Cond": "((game_id = 1) AND (rating >= '4'::numeric))"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "summary": {
+              "total_tests": 4,
+              "optimized_queries": 0
+            }
+          }
+        },
+        {
+          "name": "分区性能测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.01秒",
+          "details": {
+            "partition_tests": [
+              {
+                "test_name": "当前月份分区查询",
+                "execution_time": 0.05,
+                "partitions_scanned": 0,
+                "status": "优化",
+                "plan": [
+                  {
+                    "Plan": {
+                      "Node Type": "Aggregate",
+                      "Strategy": "Plain",
+                      "Partial Mode": "Simple",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 62.49,
+                      "Total Cost": 62.5,
+                      "Plan Rows": 1,
+                      "Plan Width": 8,
+                      "Actual Startup Time": 0.02,
+                      "Actual Total Time": 0.021,
+                      "Actual Rows": 1,
+                      "Actual Loops": 1,
+                      "Plans": [
+                        {
+                          "Node Type": "Append",
+                          "Parent Relationship": "Outer",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Startup Cost": 0.0,
+                          "Total Cost": 61.66,
+                          "Plan Rows": 332,
+                          "Plan Width": 0,
+                          "Actual Startup Time": 0.018,
+                          "Actual Total Time": 0.018,
+                          "Actual Rows": 0,
+                          "Actual Loops": 1,
+                          "Subplans Removed": 0,
+                          "Plans": [
+                            {
+                              "Node Type": "Seq Scan",
+                              "Parent Relationship": "Member",
+                              "Parallel Aware": false,
+                              "Async Capable": false,
+                              "Relation Name": "reviews_y2024m12",
+                              "Alias": "reviews_partitioned_1",
+                              "Startup Cost": 0.0,
+                              "Total Cost": 15.0,
+                              "Plan Rows": 83,
+                              "Plan Width": 0,
+                              "Actual Startup Time": 0.008,
+                              "Actual Total Time": 0.008,
+                              "Actual Rows": 0,
+                              "Actual Loops": 1,
+                              "Filter": "(created_at >= date_trunc('month'::text, (CURRENT_DATE)::timestamp with time zone))",
+                              "Rows Removed by Filter": 0
+                            },
+                            {
+                              "Node Type": "Seq Scan",
+                              "Parent Relationship": "Member",
+                              "Parallel Aware": false,
+                              "Async Capable": false,
+                              "Relation Name": "reviews_y2025m01",
+                              "Alias": "reviews_partitioned_2",
+                              "Startup Cost": 0.0,
+                              "Total Cost": 15.0,
+                              "Plan Rows": 83,
+                              "Plan Width": 0,
+                              "Actual Startup Time": 0.003,
+                              "Actual Total Time": 0.003,
+                              "Actual Rows": 0,
+                              "Actual Loops": 1,
+                              "Filter": "(created_at >= date_trunc('month'::text, (CURRENT_DATE)::timestamp with time zone))",
+                              "Rows Removed by Filter": 0
+                            },
+                            {
+                              "Node Type": "Seq Scan",
+                              "Parent Relationship": "Member",
+                              "Parallel Aware": false,
+                              "Async Capable": false,
+                              "Relation Name": "reviews_y2025m02",
+                              "Alias": "reviews_partitioned_3",
+                              "Startup Cost": 0.0,
+                              "Total Cost": 15.0,
+                              "Plan Rows": 83,
+                              "Plan Width": 0,
+                              "Actual Startup Time": 0.003,
+                              "Actual Total Time": 0.003,
+                              "Actual Rows": 0,
+                              "Actual Loops": 1,
+                              "Filter": "(created_at >= date_trunc('month'::text, (CURRENT_DATE)::timestamp with time zone))",
+                              "Rows Removed by Filter": 0
+                            },
+                            {
+                              "Node Type": "Seq Scan",
+                              "Parent Relationship": "Member",
+                              "Parallel Aware": false,
+                              "Async Capable": false,
+                              "Relation Name": "reviews_y2025m03",
+                              "Alias": "reviews_partitioned_4",
+                              "Startup Cost": 0.0,
+                              "Total Cost": 15.0,
+                              "Plan Rows": 83,
+                              "Plan Width": 0,
+                              "Actual Startup Time": 0.003,
+                              "Actual Total Time": 0.003,
+                              "Actual Rows": 0,
+                              "Actual Loops": 1,
+                              "Filter": "(created_at >= date_trunc('month'::text, (CURRENT_DATE)::timestamp with time zone))",
+                              "Rows Removed by Filter": 0
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "Planning Time": 4.362,
+                    "Triggers": [],
+                    "Execution Time": 0.05
+                  }
+                ]
+              },
+              {
+                "test_name": "跨分区查询",
+                "execution_time": 0.031,
+                "partitions_scanned": 0,
+                "status": "优化",
+                "plan": [
+                  {
+                    "Plan": {
+                      "Node Type": "Aggregate",
+                      "Strategy": "Plain",
+                      "Partial Mode": "Simple",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 59.99,
+                      "Total Cost": 60.0,
+                      "Plan Rows": 1,
+                      "Plan Width": 8,
+                      "Actual Startup Time": 0.012,
+                      "Actual Total Time": 0.013,
+                      "Actual Rows": 1,
+                      "Actual Loops": 1,
+                      "Plans": [
+                        {
+                          "Node Type": "Append",
+                          "Parent Relationship": "Outer",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Startup Cost": 0.0,
+                          "Total Cost": 59.16,
+                          "Plan Rows": 332,
+                          "Plan Width": 0,
+                          "Actual Startup Time": 0.012,
+                          "Actual Total Time": 0.012,
+                          "Actual Rows": 0,
+                          "Actual Loops": 1,
+                          "Subplans Removed": 0,
+                          "Plans": [
+                            {
+                              "Node Type": "Seq Scan",
+                              "Parent Relationship": "Member",
+                              "Parallel Aware": false,
+                              "Async Capable": false,
+                              "Relation Name": "reviews_y2024m12",
+                              "Alias": "reviews_partitioned_1",
+                              "Startup Cost": 0.0,
+                              "Total Cost": 14.38,
+                              "Plan Rows": 83,
+                              "Plan Width": 0,
+                              "Actual Startup Time": 0.005,
+                              "Actual Total Time": 0.005,
+                              "Actual Rows": 0,
+                              "Actual Loops": 1,
+                              "Filter": "(created_at >= (CURRENT_DATE - '3 mons'::interval))",
+                              "Rows Removed by Filter": 0
+                            },
+                            {
+                              "Node Type": "Seq Scan",
+                              "Parent Relationship": "Member",
+                              "Parallel Aware": false,
+                              "Async Capable": false,
+                              "Relation Name": "reviews_y2025m01",
+                              "Alias": "reviews_partitioned_2",
+                              "Startup Cost": 0.0,
+                              "Total Cost": 14.38,
+                              "Plan Rows": 83,
+                              "Plan Width": 0,
+                              "Actual Startup Time": 0.002,
+                              "Actual Total Time": 0.002,
+                              "Actual Rows": 0,
+                              "Actual Loops": 1,
+                              "Filter": "(created_at >= (CURRENT_DATE - '3 mons'::interval))",
+                              "Rows Removed by Filter": 0
+                            },
+                            {
+                              "Node Type": "Seq Scan",
+                              "Parent Relationship": "Member",
+                              "Parallel Aware": false,
+                              "Async Capable": false,
+                              "Relation Name": "reviews_y2025m02",
+                              "Alias": "reviews_partitioned_3",
+                              "Startup Cost": 0.0,
+                              "Total Cost": 14.38,
+                              "Plan Rows": 83,
+                              "Plan Width": 0,
+                              "Actual Startup Time": 0.002,
+                              "Actual Total Time": 0.002,
+                              "Actual Rows": 0,
+                              "Actual Loops": 1,
+                              "Filter": "(created_at >= (CURRENT_DATE - '3 mons'::interval))",
+                              "Rows Removed by Filter": 0
+                            },
+                            {
+                              "Node Type": "Seq Scan",
+                              "Parent Relationship": "Member",
+                              "Parallel Aware": false,
+                              "Async Capable": false,
+                              "Relation Name": "reviews_y2025m03",
+                              "Alias": "reviews_partitioned_4",
+                              "Startup Cost": 0.0,
+                              "Total Cost": 14.38,
+                              "Plan Rows": 83,
+                              "Plan Width": 0,
+                              "Actual Startup Time": 0.003,
+                              "Actual Total Time": 0.003,
+                              "Actual Rows": 0,
+                              "Actual Loops": 1,
+                              "Filter": "(created_at >= (CURRENT_DATE - '3 mons'::interval))",
+                              "Rows Removed by Filter": 0
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "Planning Time": 0.262,
+                    "Triggers": [],
+                    "Execution Time": 0.031
+                  }
+                ]
+              },
+              {
+                "test_name": "分区剪测试",
+                "execution_time": 0.007,
+                "partitions_scanned": 0,
+                "status": "优化",
+                "plan": [
+                  {
+                    "Plan": {
+                      "Node Type": "Aggregate",
+                      "Strategy": "Plain",
+                      "Partial Mode": "Simple",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 0.0,
+                      "Total Cost": 0.01,
+                      "Plan Rows": 1,
+                      "Plan Width": 8,
+                      "Actual Startup Time": 0.001,
+                      "Actual Total Time": 0.001,
+                      "Actual Rows": 1,
+                      "Actual Loops": 1,
+                      "Plans": [
+                        {
+                          "Node Type": "Result",
+                          "Parent Relationship": "Outer",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Startup Cost": 0.0,
+                          "Total Cost": 0.0,
+                          "Plan Rows": 0,
+                          "Plan Width": 0,
+                          "Actual Startup Time": 0.0,
+                          "Actual Total Time": 0.0,
+                          "Actual Rows": 0,
+                          "Actual Loops": 1,
+                          "One-Time Filter": "false"
+                        }
+                      ]
+                    },
+                    "Planning Time": 0.027,
+                    "Triggers": [],
+                    "Execution Time": 0.007
+                  }
+                ]
+              }
+            ],
+            "summary": {
+              "total_tests": 3,
+              "optimized_queries": 3,
+              "average_execution_time": 0.029333333333333336
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test_type": "业务测试",
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "duration": 0.037895917892456055,
+      "details": [
+        {
+          "name": "评论CRUD测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.02秒",
+          "details": {
+            "crud_tests": [
+              {
+                "operation": "CREATE",
+                "status": "通过",
+                "message": "成功创建评论 ID: 3"
+              }
+            ],
+            "summary": {
+              "total_operations": 1,
+              "successful_operations": 1
+            }
+          }
+        },
+        {
+          "name": "评论汇总更新测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.02秒",
+          "details": {
+            "summary_tests": [
+              {
+                "test": "评论总数",
+                "status": "通过",
+                "expected": 3,
+                "actual": 3
+              },
+              {
+                "test": "平均评分",
+                "status": "通过",
+                "expected": 4.333333,
+                "actual": 4.33
+              },
+              {
+                "test": "总游戏时间",
+                "status": "通过",
+                "expected": 30,
+                "actual": 30
+              }
+            ],
+            "summary": {
+              "total_tests": 3,
+              "passed_tests": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test_type": "压力测试",
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "duration": 0.4678380489349365,
+      "details": [
+        {
+          "name": "高负载测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.46秒",
+          "details": {
+            "stress_tests": [
+              {
+                "test": "批量插入",
+                "records": 1000,
+                "time": 0.42794370651245117,
+                "records_per_second": 2336.755944256198,
+                "status": "通过"
+              },
+              {
+                "test": "并发查询",
+                "queries": 100,
+                "time": 0.030916452407836914,
+                "queries_per_second": 3234.5237636208,
+                "status": "通过"
+              },
+              {
+                "test": "系统状态",
+                "active_connections": 4,
+                "status": "通过"
+              }
+            ],
+            "summary": {
+              "total_tests": 3,
+              "passed_tests": 3
+            }
+          }
+        },
+        {
+          "name": "资源限制测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.01秒",
+          "details": {
+            "resource_tests": [
+              {
+                "test": "大数据排序",
+                "time": 0.0059814453125,
+                "status": "通过"
+              },
+              {
+                "test": "内存配置",
+                "work_mem": "16MB",
+                "shared_buffers": "1GB",
+                "status": "信息"
+              },
+              {
+                "test": "临时空间使用",
+                "temp_files": 0,
+                "temp_bytes": 0,
+                "status": "通过"
+              }
+            ],
+            "summary": {
+              "total_tests": 3,
+              "passed_tests": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test_type": "备份恢复测试",
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "duration": 0.016956090927124023,
+      "details": [
+        {
+          "name": "备份创建测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.00秒",
+          "details": {
+            "backup_tests": [
+              {
+                "test": "备份创建",
+                "backup_id": 1,
+                "status": "通过",
+                "message": "成功创建备份: backup_20241221_093948"
+              }
+            ],
+            "summary": {
+              "total_tests": 1,
+              "successful_backups": 1
+            }
+          }
+        },
+        {
+          "name": "备份恢复测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.01秒",
+          "details": {
+            "restore_tests": [
+              {
+                "test": "数据恢复",
+                "backup_id": 1,
+                "restored_records": 2005,
+                "original_records": 2005,
+                "status": "通过",
+                "message": "恢复的记录数与原始数据匹配"
+              }
+            ],
+            "summary": {
+              "total_tests": 1,
+              "successful_restores": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test_type": "分区测试",
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "duration": 0.734616756439209,
+      "details": [
+        {
+          "name": "分区创建测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.72秒",
+          "details": {
+            "partition_creation_tests": [
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2027m12",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2027m12"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2027m11",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2027m11"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2027m10",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2027m10"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2027m09",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2027m09"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2027m08",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2027m08"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2027m07",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2027m07"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2027m06",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2027m06"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2027m05",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2027m05"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2027m04",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2027m04"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2027m03",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2027m03"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2027m02",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2027m02"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2027m01",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2027m01"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2026m12",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2026m12"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2026m11",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2026m11"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2026m10",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2026m10"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2026m09",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2026m09"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2026m08",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2026m08"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2026m07",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2026m07"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2026m06",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2026m06"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2026m05",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2026m05"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2026m04",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2026m04"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2026m03",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2026m03"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2026m02",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2026m02"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2026m01",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2026m01"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2025m12",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2025m12"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2025m11",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2025m11"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2025m10",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2025m10"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2025m09",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2025m09"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2025m08",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2025m08"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2025m07",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2025m07"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2025m06",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2025m06"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2025m05",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2025m05"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2025m04",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2025m04"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2025m03",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2025m03"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2025m02",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2025m02"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2025m01",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2025m01"
+              },
+              {
+                "test": "未来分区创建",
+                "partition": "review_system.reviews_y2024m12",
+                "status": "通过",
+                "message": "成功创建分区: review_system.reviews_y2024m12"
+              }
+            ],
+            "summary": {
+              "total_tests": 37,
+              "successful_tests": 37
+            }
+          }
+        },
+        {
+          "name": "分区维护测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.01秒",
+          "details": {
+            "partition_maintenance_tests": [
+              {
+                "partition": "review_system.reviews_y2027m12",
+                "size": "0 bytes",
+                "live_tuples": 0,
+                "dead_tuples": 0,
+                "last_vacuum": null,
+                "last_analyze": null,
+                "status": "正常",
+                "message": "分区状态良好"
+              },
+              {
+                "partition": "review_system.reviews_y2027m11",
+                "size": "0 bytes",
+                "live_tuples": 0,
+                "dead_tuples": 0,
+                "last_vacuum": null,
+                "last_analyze": null,
+                "status": "正常",
+                "message": "分区状态良好"
+              },
+              {
+                "partition": "review_system.reviews_y2027m10",
+                "size": "0 bytes",
+                "live_tuples": 0,
+                "dead_tuples": 0,
+                "last_vacuum": null,
+                "last_analyze": null,
+                "status": "正常",
+                "message": "分区状态良好"
+              },
+              {
+                "partition": "review_system.reviews_y2027m09",
+                "size": "0 bytes",
+                "live_tuples": 0,
+                "dead_tuples": 0,
+                "last_vacuum": null,
+                "last_analyze": null,
+                "status": "正常",
+                "message": "分区状态良好"
+              },
+              {
+                "partition": "review_system.reviews_y2027m08",
+                "size": "0 bytes",
+                "live_tuples": 0,
+                "dead_tuples": 0,
+                "last_vacuum": null,
+                "last_analyze": null,
+                "status": "正常",
+                "message": "分区状态良好"
+              }
+            ],
+            "summary": {
+              "total_tests": 5,
+              "healthy_partitions": 5,
+              "partitions_needing_maintenance": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test_type": "并发测试",
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "duration": 0.6068956851959229,
+      "details": [
+        {
+          "name": "并发写入测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.13秒",
+          "details": {
+            "concurrent_write_tests": [
+              {
+                "test": "并发写入",
+                "threads": 10,
+                "operations_per_thread": 100,
+                "completed_operations": 1000,
+                "total_time": 0.12466073036193848,
+                "operations_per_second": 8021.772350415499,
+                "errors": [],
+                "status": "通过"
+              }
+            ],
+            "summary": {
+              "total_tests": 1,
+              "passed_tests": 1
+            }
+          }
+        },
+        {
+          "name": "死锁预防测试",
+          "status": "通过",
+          "message": "测试通过",
+          "duration": "0.48秒",
+          "details": {
+            "deadlock_tests": [
+              {
+                "test": "死锁预防",
+                "threads": 5,
+                "deadlocks": 0,
+                "successful_transactions": 5,
+                "total_time": 0.4802579879760742,
+                "status": "通过"
+              }
+            ],
+            "summary": {
+              "total_tests": 1,
+              "passed_tests": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

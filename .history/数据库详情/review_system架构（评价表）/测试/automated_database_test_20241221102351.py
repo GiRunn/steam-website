@@ -265,12 +265,32 @@ class DatabaseTestFramework:
         os.makedirs(data_dir, exist_ok=True)
         
         try:
-            # 设置搜索路径
-            cursor.execute("SET search_path TO review_system, public;")
+            # 检查分区是否存在
+            current_month = datetime.now().strftime("%Y_%m")
+            cursor.execute(f"""
+                SELECT EXISTS (
+                    SELECT 1 
+                    FROM information_schema.tables 
+                    WHERE table_schema = 'review_system' 
+                    AND table_name = 'reviews_y{current_month}'
+                );
+            """)
+            partition_exists = cursor.fetchone()[0]
             
+            if not partition_exists:
+                # 如果分区不存在，创建它
+                cursor.execute(f"""
+                    CREATE TABLE IF NOT EXISTS review_system.reviews_y{current_month} 
+                    PARTITION OF review_system.reviews_partitioned
+                    FOR VALUES FROM ('{datetime.now().strftime("%Y-%m-01")}') 
+                    TO ('{(datetime.now() + timedelta(days=32)).strftime("%Y-%m-01")}');
+                """)
+                conn.commit()
+                self.logger.info(f"创建了缺失的分区表: reviews_y{current_month}")
+                
             # 保存reviews表数据
             cursor.execute("""
-                SELECT * FROM reviews_partitioned 
+                SELECT * FROM review_system.reviews_partitioned 
                 ORDER BY created_at DESC LIMIT 1000
             """)
             reviews = cursor.fetchall()
@@ -297,13 +317,12 @@ class DatabaseTestFramework:
             # 保存分区信息
             cursor.execute("""
                 SELECT 
-                    t.schemaname || '.' || t.tablename as partition_name,
-                    pg_size_pretty(pg_relation_size(t.schemaname || '.' || t.tablename)) as size,
-                    s.n_live_tup as live_tuples
-                FROM pg_tables t
-                LEFT JOIN pg_stat_user_tables s ON t.tablename = s.relname
-                WHERE t.schemaname = 'review_system'
-                AND t.tablename LIKE 'reviews_y%'
+                    schemaname || '.' || tablename as partition_name,
+                    pg_size_pretty(pg_relation_size(schemaname || '.' || tablename)) as size,
+                    pg_stat_get_live_tuples(tablename::regclass) as live_tuples
+                FROM pg_tables
+                WHERE schemaname = 'review_system'
+                AND tablename LIKE 'reviews_y%'
             """)
             partitions = cursor.fetchall()
             
@@ -317,10 +336,10 @@ class DatabaseTestFramework:
             cursor.execute("""
                 SELECT 
                     current_timestamp as snapshot_time,
-                    (SELECT count(*) FROM reviews_partitioned) as total_reviews,
-                    (SELECT avg(rating) FROM reviews_partitioned) as avg_rating,
-                    (SELECT count(*) FROM review_replies_partitioned) as total_replies,
-                    (SELECT count(DISTINCT user_id) FROM reviews_partitioned) as unique_users
+                    (SELECT count(*) FROM review_system.reviews_partitioned) as total_reviews,
+                    (SELECT avg(rating) FROM review_system.reviews_partitioned) as avg_rating,
+                    (SELECT count(*) FROM review_system.review_replies_partitioned) as total_replies,
+                    (SELECT count(DISTINCT user_id) FROM review_system.reviews_partitioned) as unique_users
             """)
             metrics = cursor.fetchone()
             
@@ -338,8 +357,6 @@ class DatabaseTestFramework:
             
         except Exception as e:
             self.logger.error(f"保存测试数据失败: {str(e)}")
-            # 记录更详细的错误信息
-            self.logger.error("错误详情:", exc_info=True)
 
 class SecurityTester:
     """安全测试类"""
@@ -1873,7 +1890,16 @@ def init_database_objects(conn: psycopg2.extensions.connection) -> bool:
         # 创建初始分区
         logger.info("创建初始分区...")
         try:
-            # 直接使用create_future_partitions函数创建分区
+            # 修改这里：先创建当前月份的分区
+            current_month = datetime.now().strftime("%Y_%m")
+            cursor.execute(f"""
+                CREATE TABLE IF NOT EXISTS review_system.reviews_y{current_month} 
+                PARTITION OF review_system.reviews_partitioned
+                FOR VALUES FROM ('{datetime.now().strftime("%Y-%m-01")}') 
+                TO ('{(datetime.now() + timedelta(days=32)).strftime("%Y-%m-01")}');
+            """)
+            
+            # 然后再创建未来分区
             cursor.execute("SELECT review_system.create_future_partitions(3)")
             conn.commit()
             logger.info("✓ 成功创建初始分区")

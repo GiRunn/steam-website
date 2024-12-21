@@ -1873,7 +1873,16 @@ def init_database_objects(conn: psycopg2.extensions.connection) -> bool:
         # 创建初始分区
         logger.info("创建初始分区...")
         try:
-            # 直接使用create_future_partitions函数创建分区
+            # 修改这里：先创建当前月份的分区
+            current_month = datetime.now().strftime("%Y_%m")
+            cursor.execute(f"""
+                CREATE TABLE IF NOT EXISTS review_system.reviews_y{current_month} 
+                PARTITION OF review_system.reviews_partitioned
+                FOR VALUES FROM ('{datetime.now().strftime("%Y-%m-01")}') 
+                TO ('{(datetime.now() + timedelta(days=32)).strftime("%Y-%m-01")}');
+            """)
+            
+            # 然后再创建未来分区
             cursor.execute("SELECT review_system.create_future_partitions(3)")
             conn.commit()
             logger.info("✓ 成功创建初始分区")

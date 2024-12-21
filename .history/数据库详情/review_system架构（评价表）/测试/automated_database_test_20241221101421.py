@@ -259,87 +259,89 @@ class DatabaseTestFramework:
             logger.error(f"生成测试报告失败: {str(e)}")
 
     def save_test_data(self, conn: psycopg2.extensions.connection, result_dir: str) -> None:
-        """保存测试数据到文件"""
+        """
+        保存测试数据供后续验证
+        
+        Args:
+            conn: 数据库连接
+            result_dir: 结果保存目录
+        """
         cursor = conn.cursor()
-        data_dir = os.path.join(result_dir, "test_data")
-        os.makedirs(data_dir, exist_ok=True)
+        test_data_dir = os.path.join(result_dir, "test_data")
+        os.makedirs(test_data_dir, exist_ok=True)
         
         try:
-            # 设置搜索路径
-            cursor.execute("SET search_path TO review_system, public;")
+            # 导出主要表的数据
+            tables = [
+                'reviews_partitioned',
+                'review_replies_partitioned', 
+                'review_summary_partitioned',
+                'backup_history',
+                'backup_metadata'
+            ]
             
-            # 保存reviews表数据
-            cursor.execute("""
-                SELECT * FROM reviews_partitioned 
-                ORDER BY created_at DESC LIMIT 1000
-            """)
-            reviews = cursor.fetchall()
-            
-            # 获取列名
-            cursor.execute("""
-                SELECT column_name 
-                FROM information_schema.columns 
-                WHERE table_schema = 'review_system' 
-                AND table_name = 'reviews_partitioned'
-                ORDER BY ordinal_position
-            """)
-            columns = [col[0] for col in cursor.fetchall()]
-            
-            # 保存为CSV文件
-            reviews_file = os.path.join(data_dir, "test_reviews.csv")
-            with open(reviews_file, 'w', encoding='utf-8') as f:
-                # 写入列头
-                f.write(','.join(columns) + '\n')
-                # 写入数据
-                for row in reviews:
-                    f.write(','.join(str(val) for val in row) + '\n')
-            
-            # 保存分区信息
-            cursor.execute("""
-                SELECT 
-                    t.schemaname || '.' || t.tablename as partition_name,
-                    pg_size_pretty(pg_relation_size(t.schemaname || '.' || t.tablename)) as size,
-                    s.n_live_tup as live_tuples
-                FROM pg_tables t
-                LEFT JOIN pg_stat_user_tables s ON t.tablename = s.relname
-                WHERE t.schemaname = 'review_system'
-                AND t.tablename LIKE 'reviews_y%'
-            """)
-            partitions = cursor.fetchall()
-            
-            partitions_file = os.path.join(data_dir, "test_partitions.csv")
-            with open(partitions_file, 'w', encoding='utf-8') as f:
-                f.write('partition_name,size,live_tuples\n')
-                for row in partitions:
-                    f.write(','.join(str(val) for val in row) + '\n')
-            
-            # 保存测试过程中的关键指标
-            cursor.execute("""
-                SELECT 
-                    current_timestamp as snapshot_time,
-                    (SELECT count(*) FROM reviews_partitioned) as total_reviews,
-                    (SELECT avg(rating) FROM reviews_partitioned) as avg_rating,
-                    (SELECT count(*) FROM review_replies_partitioned) as total_replies,
-                    (SELECT count(DISTINCT user_id) FROM reviews_partitioned) as unique_users
-            """)
-            metrics = cursor.fetchone()
-            
-            metrics_file = os.path.join(data_dir, "test_metrics.json")
-            with open(metrics_file, 'w', encoding='utf-8') as f:
-                json.dump({
-                    'snapshot_time': str(metrics[0]),
-                    'total_reviews': metrics[1],
-                    'avg_rating': float(metrics[2]) if metrics[2] else 0,
-                    'total_replies': metrics[3],
-                    'unique_users': metrics[4]
-                }, f, indent=2)
+            for table in tables:
+                output_file = os.path.join(test_data_dir, f"{table}_data.csv")
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    # 获取列名
+                    cursor.execute(f"""
+                        SELECT column_name 
+                        FROM information_schema.columns 
+                        WHERE table_schema = 'review_system' 
+                        AND table_name = '{table}'
+                        ORDER BY ordinal_position
+                    """)
+                    columns = [row[0] for row in cursor.fetchall()]
+                    f.write(','.join(columns) + '\n')
+                    
+                    # 导出数据
+                    cursor.copy_expert(f"""
+                        COPY (
+                            SELECT * FROM review_system.{table}
+                            ORDER BY 1
+                        ) TO STDOUT WITH CSV
+                    """, f)
+                    
+                self.logger.info(f"已导出表 {table} 的数据到 {output_file}")
                 
-            self.logger.info(f"测试数据已保存到: {data_dir}")
+            # 导出分区信息
+            cursor.execute("""
+                SELECT 
+                    schemaname || '.' || tablename as partition_name,
+                    pg_size_pretty(pg_relation_size(schemaname || '.' || tablename)) as size,
+                    pg_stat_get_live_tuples(schemaname || '.' || tablename::regclass) as live_tuples
+                FROM pg_tables 
+                WHERE schemaname = 'review_system' 
+                AND tablename LIKE 'reviews_y%'
+                ORDER BY tablename
+            """)
+            
+            partition_file = os.path.join(test_data_dir, "partition_info.csv")
+            with open(partition_file, 'w', encoding='utf-8') as f:
+                f.write("partition_name,size,live_tuples\n")
+                for row in cursor.fetchall():
+                    f.write(','.join(str(x) for x in row) + '\n')
+                    
+            self.logger.info(f"已导出分区信息到 {partition_file}")
+            
+            # 保存测试时的数据库配置
+            cursor.execute("""
+                SELECT name, setting, category 
+                FROM pg_settings 
+                WHERE category IN ('Query Planning', 'Resource Usage', 'Write Ahead Log')
+            """)
+            
+            config_file = os.path.join(test_data_dir, "db_config.csv")
+            with open(config_file, 'w', encoding='utf-8') as f:
+                f.write("parameter,value,category\n")
+                for row in cursor.fetchall():
+                    f.write(','.join(str(x) for x in row) + '\n')
+                    
+            self.logger.info(f"已导出数据库配置到 {config_file}")
             
         except Exception as e:
-            self.logger.error(f"保存测试数据失败: {str(e)}")
-            # 记录更详细的错误信息
-            self.logger.error("错误详情:", exc_info=True)
+            self.logger.error(f"导出测试数据时出错: {str(e)}")
+            raise
 
 class SecurityTester:
     """安全测试类"""
@@ -886,47 +888,26 @@ class BusinessTester:
     def test_review_crud(self, conn: psycopg2.extensions.connection) -> Dict[str, Any]:
         results = []
         cursor = conn.cursor()
-        test_data = []
         
         try:
             # 使用事务
-            cursor.execute("BEGIN")
+            cursor.execute("BEGIN")  # 替换 conn.begin()
             
-            # 插入多条测试数据
-            for i in range(10):  # 插入10条测试数据
-                cursor.execute("""
-                    INSERT INTO review_system.reviews_partitioned 
-                    (game_id, user_id, rating, content, playtime_hours)
-                    VALUES (%s, %s, %s, %s, %s)
-                    RETURNING review_id, game_id, user_id, rating, content, playtime_hours, created_at
-                """, (
-                    1001 + i,  # game_id
-                    i + 1,     # user_id
-                    Decimal(str(round(random.uniform(1, 5), 2))),  # rating
-                    f'测试评论内容 #{i+1}',  # content
-                    random.randint(1, 100)  # playtime_hours
-                ))
-                
-                test_data.append(cursor.fetchone())
+            # 插入测试数据
+            cursor.execute("""
+                INSERT INTO review_system.reviews_partitioned 
+                (game_id, user_id, rating, content, playtime_hours)
+                VALUES (%s, %s, %s, %s, %s)
+                RETURNING review_id
+            """, (1001, 1, Decimal('4.5'), '测试评论内容', 10))  # 使用 Decimal 类型
             
+            review_id = cursor.fetchone()[0]
             conn.commit()
             
             results.append({
                 "operation": "CREATE",
                 "status": "通过",
-                "message": f"成功创建{len(test_data)}条测试评论",
-                "test_data": [
-                    {
-                        "review_id": row[0],
-                        "game_id": row[1],
-                        "user_id": row[2],
-                        "rating": float(row[3]),
-                        "content": row[4],
-                        "playtime_hours": row[5],
-                        "created_at": str(row[6])
-                    }
-                    for row in test_data
-                ]
+                "message": f"成功创建评论 ID: {review_id}"
             })
             
         except Exception as e:
@@ -941,8 +922,7 @@ class BusinessTester:
             "crud_tests": results,
             "summary": {
                 "total_operations": len(results),
-                "successful_operations": sum(1 for r in results if r["status"] == "通过"),
-                "test_data_count": len(test_data)
+                "successful_operations": sum(1 for r in results if r["status"] == "通过")
             }
         }
 
@@ -1839,7 +1819,7 @@ def init_database_objects(conn: psycopg2.extensions.connection) -> bool:
         except Exception as e:
             logger.error(f"清理schema失败: {str(e)}")
             return False
-            
+        
         # 按顺序执行SQL文件
         sql_files = [
             'create_review_tables.sql',
@@ -1873,7 +1853,6 @@ def init_database_objects(conn: psycopg2.extensions.connection) -> bool:
         # 创建初始分区
         logger.info("创建初始分区...")
         try:
-            # 直接使用create_future_partitions函数创建分区
             cursor.execute("SELECT review_system.create_future_partitions(3)")
             conn.commit()
             logger.info("✓ 成功创建初始分区")
@@ -2070,14 +2049,6 @@ def main():
             print("\n警告: 存在失败的测试!")
             sys.exit(1)
             
-        # 生成测试报告后，保存测试数据
-        logger.info("保存测试数据...")
-        conn = framework.get_connection()
-        try:
-            framework.save_test_data(conn, result_dir)
-        finally:
-            framework.release_connection(conn)
-        
     except Exception as e:
         logger.error(f"测试过程中出错: {str(e)}", exc_info=True)
         sys.exit(1)

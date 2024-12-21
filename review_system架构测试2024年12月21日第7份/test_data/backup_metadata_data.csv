@@ -1,0 +1,2 @@
+metadata_id,backup_id,table_name,record_count,last_updated,checksum,partition_info,created_at
+1,1,reviews_partitioned,2005,,,,2024-12-21 10:15:25.185945+08

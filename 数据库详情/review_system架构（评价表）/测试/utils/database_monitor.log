@@ -1,8 +1,0 @@
-2024-12-18 16:52:09,834 - ERROR - 数据库指标获取失败: 错误:  关系 "pg_stat_statements" 不存在
-LINE 6: ...   (SELECT round(avg(total_time / calls), 2) FROM pg_stat_st...
-                                                             ^
-
-2024-12-18 16:52:14,924 - ERROR - 数据库指标获取失败: 错误:  关系 "pg_stat_statements" 不存在
-LINE 6: ...   (SELECT round(avg(total_time / calls), 2) FROM pg_stat_st...
-                                                             ^
-

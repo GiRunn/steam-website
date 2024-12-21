@@ -77,7 +77,6 @@ class DatabaseTestFramework:
         self.connection_pool = queue.Queue(maxsize=10)
         self.max_retries = 3
         self.retry_delay = 1  # 秒
-        self.active_connections = []  # 添加活动连接跟踪
         
         # 测试数据库连接并初始化环境
         try:
@@ -110,14 +109,10 @@ class DatabaseTestFramework:
 
     def get_connection(self) -> psycopg2.extensions.connection:
         """从连接池获取连接"""
-        conn = self.connection_pool.get()
-        self.active_connections.append(conn)  # 跟踪活动连接
-        return conn
+        return self.connection_pool.get()
 
     def release_connection(self, conn: psycopg2.extensions.connection):
         """释放连接回连接池"""
-        if conn in self.active_connections:
-            self.active_connections.remove(conn)  # 移除活动连接跟踪
         if not conn.closed:
             self.connection_pool.put(conn)
 
@@ -663,7 +658,7 @@ class DatabaseTestFramework:
                 """, (
                     random.randint(1, 100),
                     random.randint(1, 1000),
-                    Decimal(str(round(random.uniform(1, 5), 2))),  # rating
+                    Decimal(str(round(random.uniform(1, 5), 2))),
                     '压力测试内容',
                     random.randint(1, 1000)
                 ))
@@ -711,29 +706,6 @@ class DatabaseTestFramework:
                 "success": False,
                 "error": str(e)
             }
-
-    def cleanup_connections(self):
-        """清理所有数据库连接"""
-        # 清理连接池中的连接
-        while not self.connection_pool.empty():
-            try:
-                conn = self.connection_pool.get_nowait()
-                if conn and not conn.closed:
-                    conn.close()
-            except queue.Empty:
-                break
-
-        # 清理活动连接
-        for conn in self.active_connections:
-            try:
-                if conn and not conn.closed:
-                    conn.close()
-            except:
-                pass
-        self.active_connections.clear()
-
-        # 重新初始化连接池
-        self._init_connection_pool()
 
 class SecurityTester:
     """安全测试类"""
@@ -1163,7 +1135,7 @@ class PerformanceTester:
                 cursor.execute(f"EXPLAIN (FORMAT JSON) {test['query']}")
                 plan = cursor.fetchone()[0]
 
-                # 检查是���使用了索引
+                # 检查是否使用了索引
                 index_scan = False
                 seq_scan = False
                 for node in str(plan):
@@ -1595,7 +1567,7 @@ class StressTester:
             conn: 数据库连接
             
         Returns:
-            Dict: �����试结果详情
+            Dict: 测试结果详情
         """
         results = []
         cursor = conn.cursor()
@@ -2298,89 +2270,58 @@ def init_database_objects(conn: psycopg2.extensions.connection) -> bool:
 
 def main():
     """主函数:运行所有测试并生成报告"""
-    try:
-        # 从环境变量获取测试结果目录
-        result_dir = os.environ.get('TEST_RESULT_DIR')
-        if not result_dir:
-            # 如果没有传入目录，则创建新的
-            current_date = datetime.now().strftime("%Y年%m月%d日")
-            test_dir = f"review_system架构测试{current_date}"
-            test_count = 1
-            
-            while os.path.exists(test_dir + f"第{test_count}份"):
-                test_count += 1
-            
-            result_dir = test_dir + f"第{test_count}份"
-            os.makedirs(result_dir, exist_ok=True)
+    
+    # 从环境变量获取测试结果目录
+    result_dir = os.environ.get('TEST_RESULT_DIR')
+    if not result_dir:
+        # 如果没有传入目录，则创建新的
+        current_date = datetime.now().strftime("%Y年%m月%d日")
+        test_dir = f"review_system架构测试{current_date}"
+        test_count = 1
         
-        # 创建日志目录
-        log_dir = os.path.join(result_dir, "logs")
-        os.makedirs(log_dir, exist_ok=True)
+        while os.path.exists(test_dir + f"第{test_count}份"):
+            test_count += 1
         
-        # 修改日志和报告文件的保存路径
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler(os.path.join(log_dir, f'test_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'), encoding='utf-8'),
-                logging.StreamHandler()
-            ]
-        )
-        
-        # 设置setup日志文件路径
-        setup_log_file = os.path.join(log_dir, f'setup_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
-        setup_logger = logging.getLogger('setup')
-        setup_logger.setLevel(logging.INFO)
-        setup_handler = logging.FileHandler(setup_log_file, encoding='utf-8')
-        setup_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-        setup_logger.addHandler(setup_handler)
-        
-        # 数据库配置
-        db_config = {
-            'dbname': 'postgres',
-            'user': 'postgres',
-            'password': '123qweasdzxc..a',
-            'host': 'localhost',
-            'port': '5432'
-        }
+        result_dir = test_dir + f"第{test_count}份"
+        os.makedirs(result_dir, exist_ok=True)
+    
+    # 创建日志目录
+    log_dir = os.path.join(result_dir, "logs")
+    os.makedirs(log_dir, exist_ok=True)
+    
+    # 修改日志和报告文件的保存路径
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler(os.path.join(log_dir, f'test_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'), encoding='utf-8'),
+            logging.StreamHandler()
+        ]
+    )
+    
+    # 设置setup日志文件路径
+    setup_log_file = os.path.join(log_dir, f'setup_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
+    setup_logger = logging.getLogger('setup')
+    setup_logger.setLevel(logging.INFO)
+    setup_handler = logging.FileHandler(setup_log_file, encoding='utf-8')
+    setup_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    setup_logger.addHandler(setup_handler)
+    
+    # 数据库配置
+    db_config = {
+        'dbname': 'postgres',
+        'user': 'postgres',
+        'password': '123qweasdzxc..a',
+        'host': 'localhost',
+        'port': '5432'
+    }
 
-        # 修改测试执行顺序和资源管理
+    try:
+        # 初始化测试框架
         framework = DatabaseTestFramework(db_config)
+        # 使用全局logger，不需要重新创建
         logger.info("开始数据库自动化测试...")
 
-        # 1. 首先执行分区创建
-        logger.info("创建初始分区结构...")
-        conn = framework.get_connection()
-        try:
-            if not init_database_objects(conn):
-                raise Exception("数据库初始化失败")
-        finally:
-            framework.release_connection(conn)
-
-        # 2. 等待分区创建完成
-        time.sleep(2)  # 给予数据库一些恢复时间
-
-        # 3. 清理连接池
-        framework.cleanup_connections()
-
-        # 4. 然后再执行恶劣环境测试
-        logger.info("创建恶劣测试环境...")
-        conn = framework.get_connection()
-        try:
-            adverse_results = framework.create_adverse_conditions(conn)
-            # 保存恶劣环境测试结果
-            if adverse_results:
-                framework.save_report(
-                    adverse_results, 
-                    os.path.join(result_dir, "adverse_test_report.json")
-                )
-        finally:
-            framework.release_connection(conn)
-
-        # 5. 再次清理连接池
-        framework.cleanup_connections()
-
-        # 6. 执行其他测试...
         # 初始化所有测试类
         security_tester = SecurityTester(framework)
         performance_tester = PerformanceTester(framework)
@@ -2389,6 +2330,14 @@ def main():
         concurrency_tester = ConcurrencyTester(framework)
         backup_tester = BackupTester(framework)
         partition_tester = PartitionTester(framework)
+
+        # 创建恶劣测试环境
+        logger.info("创建恶劣测试环境...")
+        conn = framework.get_connection()
+        try:
+            framework.create_adverse_conditions(conn)
+        finally:
+            framework.release_connection(conn)
 
         # 运行安全测试
         logger.info("执行安全测试...")

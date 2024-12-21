@@ -77,7 +77,6 @@ class DatabaseTestFramework:
         self.connection_pool = queue.Queue(maxsize=10)
         self.max_retries = 3
         self.retry_delay = 1  # 秒
-        self.active_connections = []  # 添加活动连接跟踪
         
         # 测试数据库连接并初始化环境
         try:
@@ -110,14 +109,10 @@ class DatabaseTestFramework:
 
     def get_connection(self) -> psycopg2.extensions.connection:
         """从连接池获取连接"""
-        conn = self.connection_pool.get()
-        self.active_connections.append(conn)  # 跟踪活动连接
-        return conn
+        return self.connection_pool.get()
 
     def release_connection(self, conn: psycopg2.extensions.connection):
         """释放连接回连接池"""
-        if conn in self.active_connections:
-            self.active_connections.remove(conn)  # 移除活动连接跟踪
         if not conn.closed:
             self.connection_pool.put(conn)
 
@@ -231,7 +226,7 @@ class DatabaseTestFramework:
             # 清理报告数据
             cleaned_report = json.loads(
                 json.dumps(report, default=clean_for_json)
-            )  # 这里添加了缺失的右括号
+            )
 
             with open(filename, 'w', encoding='utf-8') as f:
                 json.dump(cleaned_report, f, ensure_ascii=False, indent=2)
@@ -346,66 +341,22 @@ class DatabaseTestFramework:
             # 记录更详细的错误信息
             self.logger.error("错误详情:", exc_info=True)
 
-    def create_adverse_conditions(self, conn: psycopg2.extensions.connection) -> Dict[str, Any]:
-        """创建恶劣的测试环境并返回测试结果"""
+    def create_adverse_conditions(self, conn: psycopg2.extensions.connection) -> None:
+        """创建恶劣的测试环境"""
         cursor = conn.cursor()
-        results = []
-        dummy_connections = []
-        
-        # 修改测试数据保存路径到当前测试结果目录
-        current_date = datetime.now().strftime("%Y年%m月%d日")
-        test_dir = f"review_system架构测试{current_date}"
-        test_count = 1
-        while os.path.exists(test_dir + f"第{test_count}份"):
-            test_count += 1
-        result_dir = test_dir + f"第{test_count}份"
-        test_data_dir = os.path.join(result_dir, "adverse_test_data")
-        os.makedirs(test_data_dir, exist_ok=True)
-        
         try:
-            # 1. 连接池压力测试
-            self.logger.info("进行连接池压力测试...")
-            successful_connections = 0
-            connection_errors = []
-            for _ in range(50):
+            # 1. 创建大量无效连接占用连接池
+            self.logger.info("创建大量无效连接...")
+            dummy_connections = []
+            for _ in range(50):  # 创建50个无效连接
                 try:
                     dummy_conn = psycopg2.connect(**self.db_config)
                     dummy_connections.append(dummy_conn)
-                    successful_connections += 1
-                except Exception as e:
-                    connection_errors.append(str(e))
-            
-            results.append({
-                "test": "连接池压力测试",
-                "status": "通过" if successful_connections > 40 else "失败",
-                "details": {
-                    "测试说明": "模拟大量并发连接对连接池的压力测试",
-                    "测试步骤": [
-                        "1. 尝试创建50个并发数据库连接",
-                        "2. 记录成功和失败的连接数",
-                        "3. 分析连接池的处理能力"
-                    ],
-                    "测试数据": {
-                        "尝试连接数": 50,
-                        "成功连接数": successful_connections,
-                        "失败连接数": 50 - successful_connections,
-                        "连接成功率": f"{(successful_connections/50)*100:.1f}%"
-                    },
-                    "错误信息": connection_errors if connection_errors else "无错误",
-                    "性能指标": {
-                        "连接池利用率": f"{(successful_connections/50)*100:.1f}%",
-                        "连接池饱和度": "高" if successful_connections > 45 else "中等"
-                    },
-                    "安全风险": {
-                        "连接泄露风险": "低" if successful_connections < 45 else "高",
-                        "资源耗尽风险": "存在" if successful_connections == 50 else "可控"
-                    }
-                }
-            })
-
-            # 2. 数�����库高负载测试
-            self.logger.info("进行数据库高负载测试...")
-            start_time = time.time()
+                except:
+                    pass
+                
+            # 2. 模拟数据库高负载
+            self.logger.info("模拟数据库高负载...")
             cursor.execute("""
                 WITH RECURSIVE heavy_query AS (
                     SELECT 1 as n
@@ -414,230 +365,47 @@ class DatabaseTestFramework:
                 )
                 SELECT count(*) FROM heavy_query;
             """)
-            load_time = time.time() - start_time
             
-            # 获取系统负载指标
-            cursor.execute("""
-                SELECT * FROM pg_stat_database 
-                WHERE datname = current_database()
-            """)
-            db_stats = cursor.fetchone()
-            
-            results.append({
-                "test": "高负载测试",
-                "status": "通过" if load_time < 5 else "需优化",
-                "details": {
-                    "测试说明": "模拟数据库高负载情况下的性能表现",
-                    "测试步骤": [
-                        "1. 执行大规模递归查询",
-                        "2. 监控数据库性能指标",
-                        "3. 分析响应时间和资源使用情况"
-                    ],
-                    "测试数据": {
-                        "查询类型": "递归查询",
-                        "数据量": "1,000,000行",
-                        "执行时间": f"{load_time:.2f}秒",
-                        "每秒处理记录数": f"{1000000/load_time:.0f}条/秒"
-                    },
-                    "系统状态": {
-                        "CPU使用率": f"{db_stats[5]/100:.1f}%",
-                        "内存使用": f"{db_stats[8]/1024/1024:.1f}MB",
-                        "磁盘IO": f"{db_stats[9]}次/秒"
-                    },
-                    "性能指标": {
-                        "查询响应时间": "正常" if load_time < 1 else "需优化",
-                        "系统负载": "正常" if db_stats[5] < 80 else "过高",
-                        "资源使用率": "合理" if db_stats[8] < 1024*1024*1024 else "过高"
-                    },
-                    "潜在问题": {
-                        "性能瓶颈": load_time > 5,
-                        "资源不足": db_stats[5] > 80,
-                        "优化建议": [
-                            "增加work_mem" if load_time > 5 else "无需优化",
-                            "调整shared_buffers" if db_stats[8] > 1024*1024*1024 else "配置合理"
-                        ]
-                    }
-                }
-            })
-
-            # 3. 测试大量数据写入
+            # 3. 插入大量测试数据制造数据压力
             self.logger.info("插入大量测试数据...")
             test_data = []
-            start_time = time.time()
-            for i in range(10000):
-                # 修改内容生成方式，避免触发SQL注入检测
-                content = f"压力测试数据 #{i} - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+            for i in range(10000):  # 插入1万条测试数据
                 test_data.append((
-                    random.randint(1, 100),
-                    random.randint(1, 1000),
+                    random.randint(1, 100),  # game_id
+                    random.randint(1, 1000), # user_id
                     Decimal(str(round(random.uniform(1, 5), 2))),  # rating
-                    content,  # 使用安全的内容格式
-                    random.randint(1, 1000),
-                    random.choice(['PC', 'PS5', 'XBOX']),
-                    random.choice(['zh-CN', 'en-US', 'ja-JP'])
+                    ''.join(random.choices(string.ascii_letters + string.digits, k=1000)),  # 1KB的随机内容
+                    random.randint(1, 1000),  # playtime_hours
+                    random.choice(['PC', 'PS5', 'XBOX']),  # platform
+                    random.choice(['zh-CN', 'en-US', 'ja-JP'])  # language
                 ))
             
-            # 分批插入数据，避免单次插入过多
-            batch_size = 1000
-            for i in range(0, len(test_data), batch_size):
-                batch = test_data[i:i + batch_size]
-                cursor.executemany("""
-                    INSERT INTO review_system.reviews_partitioned 
-                    (game_id, user_id, rating, content, playtime_hours, platform, language)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s)
-                """, batch)
-                conn.commit()  # 每批次提交一次
-
-            insert_time = time.time() - start_time
+            cursor.executemany("""
+                INSERT INTO review_system.reviews_partitioned 
+                (game_id, user_id, rating, content, playtime_hours, platform, language)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """, test_data)
             
-            results.append({
-                "test": "大量数据写入测试",
-                "status": "通过" if insert_time < 30 else "需优化",
-                "details": {
-                    "records_inserted": len(test_data),
-                    "execution_time": f"{insert_time:.2f}秒",
-                    "insertion_rate": f"{len(test_data)/insert_time:.1f}条/秒"
-                }
-            })
-
-            # 4. 测试网络延迟
+            # 4. 模拟网络延迟和丢包
             self.logger.info("模拟网络问题...")
-            network_tests = []
-            for i in range(10):
-                start_time = time.time()
-                time.sleep(random.uniform(0.1, 0.5))
-                cursor.execute("SELECT 1")
-                latency = time.time() - start_time
-                network_tests.append(latency)
+            time.sleep(random.uniform(0.1, 0.5))  # 随机延迟
+            if random.random() < 0.1:  # 10%概率模拟连接中断
+                raise psycopg2.OperationalError("模拟网络中断")
             
-            avg_latency = sum(network_tests) / len(network_tests)
-            results.append({
-                "test": "网络延迟测试",
-                "status": "通过" if avg_latency < 0.3 else "需优化",
-                "details": {
-                    "average_latency": f"{avg_latency:.3f}秒",
-                    "max_latency": f"{max(network_tests):.3f}秒",
-                    "min_latency": f"{min(network_tests):.3f}秒",
-                    "test_count": len(network_tests)
-                }
-            })
-
-            # 5. 测试并发写入
+            # 5. 创建并发写入压力
             self.logger.info("创建并发写入压力...")
-            concurrent_results = []
             with ThreadPoolExecutor(max_workers=20) as executor:
                 futures = []
                 for _ in range(100):
                     futures.append(executor.submit(self._concurrent_stress_write, conn))
-                
-                for future in concurrent.futures.as_completed(futures):
-                    try:
-                        result = future.result()
-                        concurrent_results.append(result)
-                    except Exception as e:
-                        concurrent_results.append({"success": False, "error": str(e)})
-
-            success_rate = sum(1 for r in concurrent_results if r.get("success", False)) / len(concurrent_results)
-            results.append({
-                "test": "并发写入测试",
-                "status": "通过" if success_rate >= 0.9 else "失败",
-                "details": {
-                    "total_operations": len(concurrent_results),
-                    "successful_operations": sum(1 for r in concurrent_results if r.get("success", False)),
-                    "success_rate": f"{success_rate*100:.1f}%",
-                    "errors": [r.get("error", "Unknown error") for r in concurrent_results 
-                              if not r.get("success", False) and r.get("error")]
-                }
-            })
-
+                concurrent.futures.wait(futures)
+            
             conn.commit()
-            self.logger.info("✓ 恶劣环境测试完成")
-            
-            # 保存测试数据到文件
-            self.logger.info("保存恶劣环境测试数据...")
-            
-            # 1. 保存连接池状态
-            with open(os.path.join(test_data_dir, "connection_pool_status.json"), 'w', encoding='utf-8') as f:
-                json.dump(results[0]["details"], f, indent=2)
-            
-            # 2. 保存负载测试结果
-            with open(os.path.join(test_data_dir, "load_test_results.json"), 'w', encoding='utf-8') as f:
-                json.dump(results[1]["details"], f, indent=2)
-            
-            # 3. 保存写入测试数据样本
-            cursor.execute("""
-                SELECT * FROM review_system.reviews_partitioned 
-                WHERE content LIKE '压力测试数据%'
-                ORDER BY created_at DESC LIMIT 1000
-            """)
-            test_samples = cursor.fetchall()
-            
-            # 获取列名
-            cursor.execute("""
-                SELECT column_name 
-                FROM information_schema.columns 
-                WHERE table_schema = 'review_system' 
-                AND table_name = 'reviews_partitioned'
-                ORDER BY ordinal_position
-            """)
-            columns = [col[0] for col in cursor.fetchall()]
-            
-            # 保存为CSV
-            with open(os.path.join(test_data_dir, "adverse_test_samples.csv"), 'w', encoding='utf-8') as f:
-                f.write(','.join(columns) + '\n')
-                for row in test_samples:
-                    f.write(','.join(str(val) for val in row) + '\n')
-                
-            # 4. 保存网络测试结果
-            with open(os.path.join(test_data_dir, "network_test_results.json"), 'w', encoding='utf-8') as f:
-                json.dump(results[3]["details"], f, indent=2)
-            
-            # 5. 保存并发测试结果
-            with open(os.path.join(test_data_dir, "concurrent_test_results.json"), 'w', encoding='utf-8') as f:
-                json.dump(results[4]["details"], f, indent=2)
-            
-            # 6. 保存数据库状态指标
-            cursor.execute("""
-                SELECT * FROM pg_stat_database 
-                WHERE datname = current_database()
-            """)
-            db_stats = cursor.fetchone()
-            with open(os.path.join(test_data_dir, "database_stats.json"), 'w', encoding='utf-8') as f:
-                json.dump({
-                    "tup_inserted": db_stats[4],
-                    "tup_updated": db_stats[5],
-                    "tup_deleted": db_stats[6],
-                    "conflicts": db_stats[7],
-                    "temp_files": db_stats[8],
-                    "temp_bytes": db_stats[9],
-                    "deadlocks": db_stats[10],
-                    "checksum_failures": db_stats[11],
-                    "timestamp": str(datetime.now())
-                }, f, indent=2)
-                
-            self.logger.info(f"恶劣环境测试数据已保存到: {test_data_dir}")
-            
-            return {
-                "adverse_condition_tests": results,
-                "summary": {
-                    "total_tests": len(results),
-                    "passed_tests": sum(1 for r in results if r["status"] == "通过"),
-                    "failed_tests": sum(1 for r in results if r["status"] == "失败"),
-                    "needs_optimization": sum(1 for r in results if r["status"] == "需优化"),
-                    "errors": sum(1 for r in results if r["status"] == "错误"),
-                    "test_data_location": test_data_dir
-                }
-            }
+            self.logger.info("✓ 恶劣环境创建完成")
             
         except Exception as e:
             self.logger.error(f"创建恶劣环境失败: {str(e)}")
-            self.logger.error("错误详情:", exc_info=True)
             conn.rollback()
-            results.append({
-                "test": "恶劣环境测试",
-                "status": "错误",
-                "error": str(e)
-            })
         finally:
             # 清理无效连接
             for dummy_conn in dummy_connections:
@@ -646,28 +414,24 @@ class DatabaseTestFramework:
                 except:
                     pass
 
-    def _concurrent_stress_write(self, conn: psycopg2.extensions.connection) -> Dict[str, Any]:
+    def _concurrent_stress_write(self, conn: psycopg2.extensions.connection) -> None:
         """并发压力写入"""
         cursor = conn.cursor()
         try:
             # 执行随机的写入操作
             op = random.choice(['insert', 'update', 'delete'])
-            start_time = time.time()
-            
             if op == 'insert':
                 cursor.execute("""
                     INSERT INTO review_system.reviews_partitioned 
                     (game_id, user_id, rating, content, playtime_hours)
                     VALUES (%s, %s, %s, %s, %s)
-                    RETURNING review_id
                 """, (
                     random.randint(1, 100),
                     random.randint(1, 1000),
-                    Decimal(str(round(random.uniform(1, 5), 2))),  # rating
+                    Decimal(str(round(random.uniform(1, 5), 2))),
                     '压力测试内容',
                     random.randint(1, 1000)
                 ))
-                review_id = cursor.fetchone()[0]
             elif op == 'update':
                 cursor.execute("""
                     UPDATE review_system.reviews_partitioned 
@@ -676,9 +440,7 @@ class DatabaseTestFramework:
                         SELECT review_id FROM review_system.reviews_partitioned 
                         ORDER BY random() LIMIT 1
                     )
-                    RETURNING review_id
                 """, (Decimal(str(round(random.uniform(1, 5), 2))),))
-                review_id = cursor.fetchone()[0] if cursor.rowcount > 0 else None
             else:  # delete
                 cursor.execute("""
                     DELETE FROM review_system.reviews_partitioned 
@@ -686,54 +448,16 @@ class DatabaseTestFramework:
                         SELECT review_id FROM review_system.reviews_partitioned 
                         ORDER BY random() LIMIT 1
                     )
-                    RETURNING review_id
                 """)
-                review_id = cursor.fetchone()[0] if cursor.rowcount > 0 else None
             
             # 随机提交或回滚
             if random.random() < 0.8:  # 80%概率提交
                 conn.commit()
-                success = True
             else:
                 conn.rollback()
-                success = False
-                
-            return {
-                "success": success,
-                "operation": op,
-                "review_id": review_id,
-                "execution_time": time.time() - start_time
-            }
-                
+            
         except Exception as e:
             conn.rollback()
-            return {
-                "success": False,
-                "error": str(e)
-            }
-
-    def cleanup_connections(self):
-        """清理所有数据库连接"""
-        # 清理连接池中的连接
-        while not self.connection_pool.empty():
-            try:
-                conn = self.connection_pool.get_nowait()
-                if conn and not conn.closed:
-                    conn.close()
-            except queue.Empty:
-                break
-
-        # 清理活动连接
-        for conn in self.active_connections:
-            try:
-                if conn and not conn.closed:
-                    conn.close()
-            except:
-                pass
-        self.active_connections.clear()
-
-        # 重新初始化连接池
-        self._init_connection_pool()
 
 class SecurityTester:
     """安全测试类"""
@@ -789,7 +513,7 @@ class SecurityTester:
                         "error": str(e)
                     })
 
-                # 测��直接字符串拼接（不安全）
+                # 测试直接字符串拼接（不安全）
                 try:
                     cursor.execute(unsafe_query)
                     results.append({
@@ -1163,7 +887,7 @@ class PerformanceTester:
                 cursor.execute(f"EXPLAIN (FORMAT JSON) {test['query']}")
                 plan = cursor.fetchone()[0]
 
-                # 检查是���使用了索引
+                # 检查是否使用了索引
                 index_scan = False
                 seq_scan = False
                 for node in str(plan):
@@ -1404,7 +1128,7 @@ class BusinessTester:
                 (1001, 3, Decimal('5.0'), '测试评论3', 15)
             ]
             
-            # 插入测试据
+            # 插入测试数据
             cursor.executemany("""
                 INSERT INTO review_system.reviews_partitioned 
                 (game_id, user_id, rating, content, playtime_hours)
@@ -1528,7 +1252,7 @@ class StressTester:
                 "status": "通过" if insert_time < 60 else "需优化"  # 1分钟阈值
             })
             
-            # 并发查询测
+            # 并发查询测试
             start_time = time.time()
             with ThreadPoolExecutor(max_workers=10) as executor:
                 query_futures = []
@@ -1589,13 +1313,13 @@ class StressTester:
 
     def test_resource_limits(self, conn: psycopg2.extensions.connection) -> Dict[str, Any]:
         """
-        资源限制试
+        资源限制测试
         
         Args:
             conn: 数据库连接
             
         Returns:
-            Dict: �����试结果详情
+            Dict: 测试结果详情
         """
         results = []
         cursor = conn.cursor()
@@ -1780,7 +1504,15 @@ class ConcurrencyTester:
         return result
 
     def test_deadlock_prevention(self, conn: psycopg2.extensions.connection) -> Dict[str, Any]:
-        """死锁预防测试"""
+        """
+        死锁预防测试
+        
+        Args:
+            conn: 数据库连接
+            
+        Returns:
+            Dict: 测试结果详情
+        """
         results = []
         num_threads = 5
         
@@ -1809,7 +1541,7 @@ class ConcurrencyTester:
                         self._deadlock_test_task,
                         self.framework.get_connection(),
                         test_ids[i % len(test_ids)]
-                    )  # 添加右括号
+                    )
                     futures.append(future)
                 
                 # 收集结果
@@ -1842,17 +1574,6 @@ class ConcurrencyTester:
                 "status": "错误",
                 "error": str(e)
             })
-        finally:
-            # 清理测试数据
-            try:
-                cursor = conn.cursor()
-                cursor.execute("""
-                    DELETE FROM review_system.reviews_partitioned 
-                    WHERE content LIKE '死锁测试%'
-                """)
-                conn.commit()
-            except:
-                pass
 
         return {
             "deadlock_tests": results,
@@ -2178,28 +1899,17 @@ class PartitionTester:
                 }
             }
 
-def check_and_create_schema(conn: psycopg2.extensions.connection) -> bool:
+def check_and_create_schema(conn: psycopg2.extensions.connection):
     """检查并创建必要的schema"""
     try:
         cursor = conn.cursor()
-        cursor.execute("""
-            SELECT schema_name 
-            FROM information_schema.schemata 
-            WHERE schema_name = 'review_system'
-        """)
-        
-        if not cursor.fetchone():
-            cursor.execute("CREATE SCHEMA review_system")
-            conn.commit()
-            logger.info("✓ 创建schema: review_system")
-        else:
-            logger.info("✓ schema已存在: review_system")
-            
+        cursor.execute("CREATE SCHEMA IF NOT EXISTS review_system")
+        conn.commit()
+        cursor.close()
+        logger.info("✓ Schema检查/创建成功")
         return True
-        
     except Exception as e:
         logger.error(f"Schema检查/创建失败: {str(e)}")
-        conn.rollback()
         return False
 
 def check_and_install_dependencies():
@@ -2298,89 +2008,58 @@ def init_database_objects(conn: psycopg2.extensions.connection) -> bool:
 
 def main():
     """主函数:运行所有测试并生成报告"""
-    try:
-        # 从环境变量获取测试结果目录
-        result_dir = os.environ.get('TEST_RESULT_DIR')
-        if not result_dir:
-            # 如果没有传入目录，则创建新的
-            current_date = datetime.now().strftime("%Y年%m月%d日")
-            test_dir = f"review_system架构测试{current_date}"
-            test_count = 1
-            
-            while os.path.exists(test_dir + f"第{test_count}份"):
-                test_count += 1
-            
-            result_dir = test_dir + f"第{test_count}份"
-            os.makedirs(result_dir, exist_ok=True)
+    
+    # 从环境变量获取测试结果目录
+    result_dir = os.environ.get('TEST_RESULT_DIR')
+    if not result_dir:
+        # 如果没有传入目录，则创建新的
+        current_date = datetime.now().strftime("%Y年%m月%d日")
+        test_dir = f"review_system架构测试{current_date}"
+        test_count = 1
         
-        # 创建日志目录
-        log_dir = os.path.join(result_dir, "logs")
-        os.makedirs(log_dir, exist_ok=True)
+        while os.path.exists(test_dir + f"第{test_count}份"):
+            test_count += 1
         
-        # 修改日志和报告文件的保存路径
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler(os.path.join(log_dir, f'test_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'), encoding='utf-8'),
-                logging.StreamHandler()
-            ]
-        )
-        
-        # 设置setup日志文件路径
-        setup_log_file = os.path.join(log_dir, f'setup_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
-        setup_logger = logging.getLogger('setup')
-        setup_logger.setLevel(logging.INFO)
-        setup_handler = logging.FileHandler(setup_log_file, encoding='utf-8')
-        setup_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-        setup_logger.addHandler(setup_handler)
-        
-        # 数据库配置
-        db_config = {
-            'dbname': 'postgres',
-            'user': 'postgres',
-            'password': '123qweasdzxc..a',
-            'host': 'localhost',
-            'port': '5432'
-        }
+        result_dir = test_dir + f"第{test_count}份"
+        os.makedirs(result_dir, exist_ok=True)
+    
+    # 创建日志目录
+    log_dir = os.path.join(result_dir, "logs")
+    os.makedirs(log_dir, exist_ok=True)
+    
+    # 修改日志和报告文件的保存路径
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler(os.path.join(log_dir, f'test_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'), encoding='utf-8'),
+            logging.StreamHandler()
+        ]
+    )
+    
+    # 设置setup日志文件路径
+    setup_log_file = os.path.join(log_dir, f'setup_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
+    setup_logger = logging.getLogger('setup')
+    setup_logger.setLevel(logging.INFO)
+    setup_handler = logging.FileHandler(setup_log_file, encoding='utf-8')
+    setup_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    setup_logger.addHandler(setup_handler)
+    
+    # 数据库配置
+    db_config = {
+        'dbname': 'postgres',
+        'user': 'postgres',
+        'password': '123qweasdzxc..a',
+        'host': 'localhost',
+        'port': '5432'
+    }
 
-        # 修改测试执行顺序和资源管理
+    try:
+        # 初始化测试框架
         framework = DatabaseTestFramework(db_config)
+        # 使用全局logger，不需要重新创建
         logger.info("开始数据库自动化测试...")
 
-        # 1. 首先执行分区创建
-        logger.info("创建初始分区结构...")
-        conn = framework.get_connection()
-        try:
-            if not init_database_objects(conn):
-                raise Exception("数据库初始化失败")
-        finally:
-            framework.release_connection(conn)
-
-        # 2. 等待分区创建完成
-        time.sleep(2)  # 给予数据库一些恢复时间
-
-        # 3. 清理连接池
-        framework.cleanup_connections()
-
-        # 4. 然后再执行恶劣环境测试
-        logger.info("创建恶劣测试环境...")
-        conn = framework.get_connection()
-        try:
-            adverse_results = framework.create_adverse_conditions(conn)
-            # 保存恶劣环境测试结果
-            if adverse_results:
-                framework.save_report(
-                    adverse_results, 
-                    os.path.join(result_dir, "adverse_test_report.json")
-                )
-        finally:
-            framework.release_connection(conn)
-
-        # 5. 再次清理连接池
-        framework.cleanup_connections()
-
-        # 6. 执行其他测试...
         # 初始化所有测试类
         security_tester = SecurityTester(framework)
         performance_tester = PerformanceTester(framework)

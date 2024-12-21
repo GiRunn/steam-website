@@ -77,7 +77,6 @@ class DatabaseTestFramework:
         self.connection_pool = queue.Queue(maxsize=10)
         self.max_retries = 3
         self.retry_delay = 1  # 秒
-        self.active_connections = []  # 添加活动连接跟踪
         
         # 测试数据库连接并初始化环境
         try:
@@ -110,14 +109,10 @@ class DatabaseTestFramework:
 
     def get_connection(self) -> psycopg2.extensions.connection:
         """从连接池获取连接"""
-        conn = self.connection_pool.get()
-        self.active_connections.append(conn)  # 跟踪活动连接
-        return conn
+        return self.connection_pool.get()
 
     def release_connection(self, conn: psycopg2.extensions.connection):
         """释放连接回连接池"""
-        if conn in self.active_connections:
-            self.active_connections.remove(conn)  # 移除活动连接跟踪
         if not conn.closed:
             self.connection_pool.put(conn)
 
@@ -713,27 +708,13 @@ class DatabaseTestFramework:
             }
 
     def cleanup_connections(self):
-        """清理所有数据库连接"""
-        # 清理连接池中的连接
+        """清理连接池"""
         while not self.connection_pool.empty():
             try:
-                conn = self.connection_pool.get_nowait()
-                if conn and not conn.closed:
-                    conn.close()
-            except queue.Empty:
-                break
-
-        # 清理活动连接
-        for conn in self.active_connections:
-            try:
-                if conn and not conn.closed:
-                    conn.close()
+                conn = self.connection_pool.get()
+                conn.close()
             except:
                 pass
-        self.active_connections.clear()
-
-        # 重新初始化连接池
-        self._init_connection_pool()
 
 class SecurityTester:
     """安全测试类"""
@@ -1163,7 +1144,7 @@ class PerformanceTester:
                 cursor.execute(f"EXPLAIN (FORMAT JSON) {test['query']}")
                 plan = cursor.fetchone()[0]
 
-                # 检查是���使用了索引
+                # 检查是��使用了索引
                 index_scan = False
                 seq_scan = False
                 for node in str(plan):
@@ -1595,7 +1576,7 @@ class StressTester:
             conn: 数据库连接
             
         Returns:
-            Dict: �����试结果详情
+            Dict: ���试结果详情
         """
         results = []
         cursor = conn.cursor()

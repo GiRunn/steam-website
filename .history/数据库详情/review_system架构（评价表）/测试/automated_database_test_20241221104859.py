@@ -713,27 +713,13 @@ class DatabaseTestFramework:
             }
 
     def cleanup_connections(self):
-        """清理所有数据库连接"""
-        # 清理连接池中的连接
+        """清理连接池"""
         while not self.connection_pool.empty():
             try:
-                conn = self.connection_pool.get_nowait()
-                if conn and not conn.closed:
-                    conn.close()
-            except queue.Empty:
-                break
-
-        # 清理活动连接
-        for conn in self.active_connections:
-            try:
-                if conn and not conn.closed:
-                    conn.close()
+                conn = self.connection_pool.get()
+                conn.close()
             except:
                 pass
-        self.active_connections.clear()
-
-        # 重新初始化连接池
-        self._init_connection_pool()
 
 class SecurityTester:
     """安全测试类"""
@@ -1163,7 +1149,7 @@ class PerformanceTester:
                 cursor.execute(f"EXPLAIN (FORMAT JSON) {test['query']}")
                 plan = cursor.fetchone()[0]
 
-                # 检查是���使用了索引
+                # 检查是��使用了索引
                 index_scan = False
                 seq_scan = False
                 for node in str(plan):
@@ -1595,7 +1581,7 @@ class StressTester:
             conn: 数据库连接
             
         Returns:
-            Dict: �����试结果详情
+            Dict: ���试结果详情
         """
         results = []
         cursor = conn.cursor()

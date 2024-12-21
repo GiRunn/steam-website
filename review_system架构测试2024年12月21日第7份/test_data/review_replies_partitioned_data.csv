@@ -1,2 +1,0 @@
-reply_id,review_id,user_id,parent_id,content,likes_count,reply_status,language,created_at,updated_at,deleted_at
-1,2007,729,,死锁测试回复,0,active,,2024-12-21 10:15:24.869166+08,2024-12-21 10:15:24.869166+08,

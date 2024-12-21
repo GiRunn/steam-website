@@ -77,7 +77,6 @@ class DatabaseTestFramework:
         self.connection_pool = queue.Queue(maxsize=10)
         self.max_retries = 3
         self.retry_delay = 1  # 秒
-        self.active_connections = []  # 添加活动连接跟踪
         
         # 测试数据库连接并初始化环境
         try:
@@ -110,14 +109,10 @@ class DatabaseTestFramework:
 
     def get_connection(self) -> psycopg2.extensions.connection:
         """从连接池获取连接"""
-        conn = self.connection_pool.get()
-        self.active_connections.append(conn)  # 跟踪活动连接
-        return conn
+        return self.connection_pool.get()
 
     def release_connection(self, conn: psycopg2.extensions.connection):
         """释放连接回连接池"""
-        if conn in self.active_connections:
-            self.active_connections.remove(conn)  # 移除活动连接跟踪
         if not conn.closed:
             self.connection_pool.put(conn)
 
@@ -351,60 +346,33 @@ class DatabaseTestFramework:
         cursor = conn.cursor()
         results = []
         dummy_connections = []
-        
-        # 修改测试数据保存路径到当前测试结果目录
-        current_date = datetime.now().strftime("%Y年%m月%d日")
-        test_dir = f"review_system架构测试{current_date}"
-        test_count = 1
-        while os.path.exists(test_dir + f"第{test_count}份"):
-            test_count += 1
-        result_dir = test_dir + f"第{test_count}份"
-        test_data_dir = os.path.join(result_dir, "adverse_test_data")
+        test_data_dir = os.path.join(os.getcwd(), "adverse_test_data")
         os.makedirs(test_data_dir, exist_ok=True)
         
         try:
-            # 1. 连接池压力测试
-            self.logger.info("进行连接池压力测试...")
+            # 1. 测试连接池压力
+            self.logger.info("创建大量无效连接...")
             successful_connections = 0
-            connection_errors = []
             for _ in range(50):
                 try:
                     dummy_conn = psycopg2.connect(**self.db_config)
                     dummy_connections.append(dummy_conn)
                     successful_connections += 1
-                except Exception as e:
-                    connection_errors.append(str(e))
+                except:
+                    pass
             
             results.append({
                 "test": "连接池压力测试",
                 "status": "通过" if successful_connections > 40 else "失败",
                 "details": {
-                    "测试说明": "模拟大量并发连接对连接池的压力测试",
-                    "测试步骤": [
-                        "1. 尝试创建50个并发数据库连接",
-                        "2. 记录成功和失败的连接数",
-                        "3. 分析连接池的处理能力"
-                    ],
-                    "测试数据": {
-                        "尝试连接数": 50,
-                        "成功连接数": successful_connections,
-                        "失败连接数": 50 - successful_connections,
-                        "连接成功率": f"{(successful_connections/50)*100:.1f}%"
-                    },
-                    "错误信息": connection_errors if connection_errors else "无错误",
-                    "性能指标": {
-                        "连接池利用率": f"{(successful_connections/50)*100:.1f}%",
-                        "连接池饱和度": "高" if successful_connections > 45 else "中等"
-                    },
-                    "安全风险": {
-                        "连接泄露风险": "低" if successful_connections < 45 else "高",
-                        "资源耗尽风险": "存在" if successful_connections == 50 else "可控"
-                    }
+                    "attempted_connections": 50,
+                    "successful_connections": successful_connections,
+                    "failure_rate": f"{((50-successful_connections)/50)*100:.1f}%"
                 }
             })
 
-            # 2. 数�����库高负载测试
-            self.logger.info("进行数据库高负载测试...")
+            # 2. 测试数据库高负载
+            self.logger.info("模拟数据库高负载...")
             start_time = time.time()
             cursor.execute("""
                 WITH RECURSIVE heavy_query AS (
@@ -416,47 +384,13 @@ class DatabaseTestFramework:
             """)
             load_time = time.time() - start_time
             
-            # 获取系统负载指标
-            cursor.execute("""
-                SELECT * FROM pg_stat_database 
-                WHERE datname = current_database()
-            """)
-            db_stats = cursor.fetchone()
-            
             results.append({
                 "test": "高负载测试",
                 "status": "通过" if load_time < 5 else "需优化",
                 "details": {
-                    "测试说明": "模拟数据库高负载情况下的性能表现",
-                    "测试步骤": [
-                        "1. 执行大规模递归查询",
-                        "2. 监控数据库性能指标",
-                        "3. 分析响应时间和资源使用情况"
-                    ],
-                    "测试数据": {
-                        "查询类型": "递归查询",
-                        "数据量": "1,000,000行",
-                        "执行时间": f"{load_time:.2f}秒",
-                        "每秒处理记录数": f"{1000000/load_time:.0f}条/秒"
-                    },
-                    "系统状态": {
-                        "CPU使用率": f"{db_stats[5]/100:.1f}%",
-                        "内存使用": f"{db_stats[8]/1024/1024:.1f}MB",
-                        "磁盘IO": f"{db_stats[9]}次/秒"
-                    },
-                    "性能指标": {
-                        "查询响应时间": "正常" if load_time < 1 else "需优化",
-                        "系统负载": "正常" if db_stats[5] < 80 else "过高",
-                        "资源使用率": "合理" if db_stats[8] < 1024*1024*1024 else "过高"
-                    },
-                    "潜在问题": {
-                        "性能瓶颈": load_time > 5,
-                        "资源不足": db_stats[5] > 80,
-                        "优化建议": [
-                            "增加work_mem" if load_time > 5 else "无需优化",
-                            "调整shared_buffers" if db_stats[8] > 1024*1024*1024 else "配置合理"
-                        ]
-                    }
+                    "execution_time": f"{load_time:.2f}秒",
+                    "query_type": "递归查询",
+                    "data_volume": "1,000,000行"
                 }
             })
 
@@ -470,7 +404,7 @@ class DatabaseTestFramework:
                 test_data.append((
                     random.randint(1, 100),
                     random.randint(1, 1000),
-                    Decimal(str(round(random.uniform(1, 5), 2))),  # rating
+                    Decimal(str(round(random.uniform(1, 5), 2))),
                     content,  # 使用安全的内容格式
                     random.randint(1, 1000),
                     random.choice(['PC', 'PS5', 'XBOX']),
@@ -663,7 +597,7 @@ class DatabaseTestFramework:
                 """, (
                     random.randint(1, 100),
                     random.randint(1, 1000),
-                    Decimal(str(round(random.uniform(1, 5), 2))),  # rating
+                    Decimal(str(round(random.uniform(1, 5), 2))),
                     '压力测试内容',
                     random.randint(1, 1000)
                 ))
@@ -711,29 +645,6 @@ class DatabaseTestFramework:
                 "success": False,
                 "error": str(e)
             }
-
-    def cleanup_connections(self):
-        """清理所有数据库连接"""
-        # 清理连接池中的连接
-        while not self.connection_pool.empty():
-            try:
-                conn = self.connection_pool.get_nowait()
-                if conn and not conn.closed:
-                    conn.close()
-            except queue.Empty:
-                break
-
-        # 清理活动连接
-        for conn in self.active_connections:
-            try:
-                if conn and not conn.closed:
-                    conn.close()
-            except:
-                pass
-        self.active_connections.clear()
-
-        # 重新初始化连接池
-        self._init_connection_pool()
 
 class SecurityTester:
     """安全测试类"""
@@ -789,7 +700,7 @@ class SecurityTester:
                         "error": str(e)
                     })
 
-                # 测��直接字符串拼接（不安全）
+                # 测试直接字符串拼接（不安全）
                 try:
                     cursor.execute(unsafe_query)
                     results.append({
@@ -1163,7 +1074,7 @@ class PerformanceTester:
                 cursor.execute(f"EXPLAIN (FORMAT JSON) {test['query']}")
                 plan = cursor.fetchone()[0]
 
-                # 检查是���使用了索引
+                # 检查是否使用了索引
                 index_scan = False
                 seq_scan = False
                 for node in str(plan):
@@ -1404,7 +1315,7 @@ class BusinessTester:
                 (1001, 3, Decimal('5.0'), '测试评论3', 15)
             ]
             
-            # 插入测试据
+            # 插入测试���据
             cursor.executemany("""
                 INSERT INTO review_system.reviews_partitioned 
                 (game_id, user_id, rating, content, playtime_hours)
@@ -1528,7 +1439,7 @@ class StressTester:
                 "status": "通过" if insert_time < 60 else "需优化"  # 1分钟阈值
             })
             
-            # 并发查询测
+            # 并发查询测��
             start_time = time.time()
             with ThreadPoolExecutor(max_workers=10) as executor:
                 query_futures = []
@@ -1595,7 +1506,7 @@ class StressTester:
             conn: 数据库连接
             
         Returns:
-            Dict: �����试结果详情
+            Dict: 测试结果详情
         """
         results = []
         cursor = conn.cursor()
@@ -1809,7 +1720,7 @@ class ConcurrencyTester:
                         self._deadlock_test_task,
                         self.framework.get_connection(),
                         test_ids[i % len(test_ids)]
-                    )  # 添加右括号
+                    )  # 修复括号未关闭的问题
                     futures.append(future)
                 
                 # 收集结果
@@ -2298,89 +2209,58 @@ def init_database_objects(conn: psycopg2.extensions.connection) -> bool:
 
 def main():
     """主函数:运行所有测试并生成报告"""
-    try:
-        # 从环境变量获取测试结果目录
-        result_dir = os.environ.get('TEST_RESULT_DIR')
-        if not result_dir:
-            # 如果没有传入目录，则创建新的
-            current_date = datetime.now().strftime("%Y年%m月%d日")
-            test_dir = f"review_system架构测试{current_date}"
-            test_count = 1
-            
-            while os.path.exists(test_dir + f"第{test_count}份"):
-                test_count += 1
-            
-            result_dir = test_dir + f"第{test_count}份"
-            os.makedirs(result_dir, exist_ok=True)
+    
+    # 从环境变量获取测试结果目录
+    result_dir = os.environ.get('TEST_RESULT_DIR')
+    if not result_dir:
+        # 如果没有传入目录，则创建新的
+        current_date = datetime.now().strftime("%Y年%m月%d日")
+        test_dir = f"review_system架构测试{current_date}"
+        test_count = 1
         
-        # 创建日志目录
-        log_dir = os.path.join(result_dir, "logs")
-        os.makedirs(log_dir, exist_ok=True)
+        while os.path.exists(test_dir + f"第{test_count}份"):
+            test_count += 1
         
-        # 修改日志和报告文件的保存路径
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler(os.path.join(log_dir, f'test_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'), encoding='utf-8'),
-                logging.StreamHandler()
-            ]
-        )
-        
-        # 设置setup日志文件路径
-        setup_log_file = os.path.join(log_dir, f'setup_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
-        setup_logger = logging.getLogger('setup')
-        setup_logger.setLevel(logging.INFO)
-        setup_handler = logging.FileHandler(setup_log_file, encoding='utf-8')
-        setup_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-        setup_logger.addHandler(setup_handler)
-        
-        # 数据库配置
-        db_config = {
-            'dbname': 'postgres',
-            'user': 'postgres',
-            'password': '123qweasdzxc..a',
-            'host': 'localhost',
-            'port': '5432'
-        }
+        result_dir = test_dir + f"第{test_count}份"
+        os.makedirs(result_dir, exist_ok=True)
+    
+    # 创建日志目录
+    log_dir = os.path.join(result_dir, "logs")
+    os.makedirs(log_dir, exist_ok=True)
+    
+    # 修改日志和报告文件的保存路径
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler(os.path.join(log_dir, f'test_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'), encoding='utf-8'),
+            logging.StreamHandler()
+        ]
+    )
+    
+    # 设置setup日志文件路径
+    setup_log_file = os.path.join(log_dir, f'setup_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
+    setup_logger = logging.getLogger('setup')
+    setup_logger.setLevel(logging.INFO)
+    setup_handler = logging.FileHandler(setup_log_file, encoding='utf-8')
+    setup_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    setup_logger.addHandler(setup_handler)
+    
+    # 数据库配置
+    db_config = {
+        'dbname': 'postgres',
+        'user': 'postgres',
+        'password': '123qweasdzxc..a',
+        'host': 'localhost',
+        'port': '5432'
+    }
 
-        # 修改测试执行顺序和资源管理
+    try:
+        # 初始化测试框架
         framework = DatabaseTestFramework(db_config)
+        # 使用全局logger，不需要重新创建
         logger.info("开始数据库自动化测试...")
 
-        # 1. 首先执行分区创建
-        logger.info("创建初始分区结构...")
-        conn = framework.get_connection()
-        try:
-            if not init_database_objects(conn):
-                raise Exception("数据库初始化失败")
-        finally:
-            framework.release_connection(conn)
-
-        # 2. 等待分区创建完成
-        time.sleep(2)  # 给予数据库一些恢复时间
-
-        # 3. 清理连接池
-        framework.cleanup_connections()
-
-        # 4. 然后再执行恶劣环境测试
-        logger.info("创建恶劣测试环境...")
-        conn = framework.get_connection()
-        try:
-            adverse_results = framework.create_adverse_conditions(conn)
-            # 保存恶劣环境测试结果
-            if adverse_results:
-                framework.save_report(
-                    adverse_results, 
-                    os.path.join(result_dir, "adverse_test_report.json")
-                )
-        finally:
-            framework.release_connection(conn)
-
-        # 5. 再次清理连接池
-        framework.cleanup_connections()
-
-        # 6. 执行其他测试...
         # 初始化所有测试类
         security_tester = SecurityTester(framework)
         performance_tester = PerformanceTester(framework)
@@ -2389,6 +2269,14 @@ def main():
         concurrency_tester = ConcurrencyTester(framework)
         backup_tester = BackupTester(framework)
         partition_tester = PartitionTester(framework)
+
+        # 创建恶劣测试环境
+        logger.info("创建恶劣测试环境...")
+        conn = framework.get_connection()
+        try:
+            framework.create_adverse_conditions(conn)
+        finally:
+            framework.release_connection(conn)
 
         # 运行安全测试
         logger.info("执行安全测试...")
